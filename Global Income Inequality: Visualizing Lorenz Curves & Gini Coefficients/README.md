@@ -27,7 +27,7 @@ This line chart illustrates Gini coefficient trajectories over time for countrie
 ### 2. **Global Inequality Map**
 A choropleth map of Gini coefficients using the most recent available year for each country. Darker red represents higher inequality.
 
-![Gini World Map](assets/gini_world_map.png)
+![Gini World Map](Image/gini_world_map.png)
 
 ---
 
