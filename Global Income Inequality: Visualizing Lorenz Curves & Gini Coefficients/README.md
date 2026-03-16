@@ -20,7 +20,7 @@ This line chart illustrates Gini coefficient trajectories over time for countrie
 - **China (CHN)** experienced a sharp rise in inequality during economic liberalization, followed by a recent decline
 - **Indonesia (IDN)** maintains moderate inequality but is still vulnerable
 
-![Gini Over Time](assets/gini_trend.png)
+![Gini Over Time](Image/Gini_trend.png)
 
 ---
 
@@ -36,7 +36,7 @@ This curve visualizes income distribution in Indonesia before any intervention.
 - Gini: **0.3728**
 - The bottom 20% of the population controls less than 5% of total income, while the top 10% controls a disproportionately large share.
 
-![Lorenz IDN](assets/lorenz_idn_2019.png)
+![Lorenz IDN](Image/lorenz_idn.png)
 
 ---
 
@@ -53,7 +53,7 @@ This curve visualizes income distribution in Indonesia before any intervention.
 ### 5. **Lorenz Curve Comparison: Before vs After Redistribution**
 The green line (after redistribution) shifts closer to the line of equality, reflecting a more equitable income distribution.
 
-![Lorenz Comparison](assets/lorenz_comparison.png)
+![Lorenz Comparison](Image/lorenz_comparison.png)
 
 ---
 
