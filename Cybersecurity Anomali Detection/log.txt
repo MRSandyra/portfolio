@@ -1,0 +1,7 @@
+Script started.
+Log file path: uploads/access.log
+Log conversion to CSV successful.
+CSV file created successfully.
+CSV loaded successfully.
+Feature extraction complete.
+Anomaly detection completed and results saved to result.txt.
