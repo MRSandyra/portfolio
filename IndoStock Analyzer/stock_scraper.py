@@ -1,8 +1,3 @@
-# stock_analyzer.py
-# Tools analisis saham pribadi - menggabungkan sentimen berita, fundamental, dan teknikal
-# Author: [Nama Anda]
-# Last updated: 25 April 2026
-
 import requests
 from bs4 import BeautifulSoup
 import re
