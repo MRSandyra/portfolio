@@ -1,0 +1,3 @@
+[submodule "lung-diagnosis"]
+	path = lung-diagnosis
+	url = https://github.com/MRSandyra/Lung-Diagnosis-Web
