@@ -1,3 +1,6 @@
 [submodule "lung-diagnosis"]
 	path = lung-diagnosis
 	url = https://github.com/MRSandyra/Lung-Diagnosis-Web
+[submodule "anime-recommender"]
+	path = anime-recommender
+	url = https://github.com/MRSandyra/anime-recommender.git
