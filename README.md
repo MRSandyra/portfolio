@@ -1,4 +1,4 @@
-# 🌟 Rizky's Data Science Portfolio
+# 🌟 Rizky's Portfolio
 
 [![GitHub license](https://img.shields.io/github/license/MRSandyra/portfolio)](LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/MRSandyra/portfolio)](https://github.com/MRSandyra/portfolio/commits/main)
