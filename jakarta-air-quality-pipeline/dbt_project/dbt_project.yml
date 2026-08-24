@@ -1,0 +1,20 @@
+name: 'jakarta_air_quality'
+version: '1.0.0'
+config-version: 2
+
+profile: 'jakarta_air_quality'
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  jakarta_air_quality:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts

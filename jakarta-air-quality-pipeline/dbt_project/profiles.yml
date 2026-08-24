@@ -1,0 +1,16 @@
+# Placed inside the project dir and referenced via --profiles-dir so the
+# whole pipeline is self-contained in the repo (fine for a local portfolio
+# project; in a real team setup this file normally lives outside git, in
+# ~/.dbt/profiles.yml, since env vars alone don't keep secrets out of history).
+jakarta_air_quality:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('WAREHOUSE_DB_HOST') }}"
+      user: "{{ env_var('WAREHOUSE_DB_USER') }}"
+      password: "{{ env_var('WAREHOUSE_DB_PASSWORD') }}"
+      port: 5432
+      dbname: "{{ env_var('WAREHOUSE_DB_NAME') }}"
+      schema: staging
+      threads: 4

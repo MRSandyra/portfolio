@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_air_quality
+    description: One row per station/parameter/measurement timestamp, deduplicated.
+    columns:
+      - name: location_id
+        tests: [not_null]
+      - name: parameter
+        tests: [not_null]
+      - name: value
+        tests:
+          - not_null
+
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 2000
+              config:
+                where: "parameter = 'pm25'"
+      - name: measured_at
+        tests: [not_null]
+
+  - name: stg_weather
+    description: One row per kelurahan/forecast timestamp, deduplicated.
+    columns:
+      - name: forecast_at
+        tests: [not_null]
+      - name: temperature_c
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 10
+              max_value: 45

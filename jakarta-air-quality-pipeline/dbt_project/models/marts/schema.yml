@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: mart_aqi_hourly
+    description: Hourly air quality readings joined with weather, with an AQI category flag.
+    columns:
+      - name: location_id
+        tests: [not_null]
+      - name: reading_hour
+        tests: [not_null]
+
+  - name: mart_aqi_daily_summary
+    description: Daily rollup per station/parameter for trend charts.
+    columns:
+      - name: reading_day
+        tests: [not_null]
