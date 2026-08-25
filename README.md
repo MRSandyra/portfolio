@@ -37,6 +37,7 @@ This repository collects my favourite projects in one place. Two of them (`lung-
 | [Cybersecurity Anomaly Detection](#-cybersecurity--anomaly-detection-system) | Security · Log Analysis | Python, PHP, MySQL |
 | [Global Income Inequality](#-global-income-inequality--lorenz-curves--gini-coefficients) | Data Viz · Clustering | Plotly, scikit-learn, NumPy |
 | [Capstone: Flight Sales Analysis](#-capstone--flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
+| [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Data Engineering · ELT · Orchestration | Airflow, dbt, PostgreSQL, Metabase |
 
 ---
 
@@ -151,6 +152,23 @@ An end-to-end analysis of flight ticket sales data (price, airline, route, stopo
 - Exploratory analysis revealing the **top 10 airlines** by sales, distribution trends, and correlation heatmaps
 
 **Tech:** Pandas · NumPy · Matplotlib · Seaborn · Google Colab
+
+---
+
+## 🔧 Data Engineering
+
+### 🌫️ Jakarta Air Quality Pipeline
+
+> [`/jakarta-air-quality-pipeline`](./jakarta-air-quality-pipeline)
+
+An hourly ELT pipeline that extracts air quality readings from OpenAQ and weather forecasts from BMKG, models them with **dbt** into a Postgres warehouse, and serves the result through a **Metabase** dashboard — orchestrated by **Airflow** and running entirely on Docker Compose, no cloud account required.
+
+- Bronze/silver/gold layering (`raw` → `staging` → `marts`), with **11 dbt tests blocking every run** so bad data never reaches the dashboard
+- Investigated why only 2 of 27 nearby OpenAQ stations report real data — surfacing dead sensors, `-999` sentinel values, and cross-vendor calibration drift between low-cost sensors
+- Found and fixed **10 distinct data-quality bugs** in production, including a silent dbt schema-naming quirk and a timezone bug that shifted every weather join by 7 hours undetected
+- One-time historical backfill script to seed 14 days of trend data without waiting on the hourly schedule
+
+**Tech:** Airflow · dbt · PostgreSQL · Metabase · Docker Compose · Python
 
 ---
 
