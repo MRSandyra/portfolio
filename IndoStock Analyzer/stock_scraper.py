@@ -79,7 +79,7 @@ class StockAnalyzer:
         
         stocks = [s for s in stocks if s not in common_words]
         
-        # Daftar kode saham yang dikenal (bisa ditambah sesuai kebutuhan)
+        # Daftar kode saham yang dikenal
         known_stocks = ['BMRI', 'ADHI', 'AUTO', 'TOBA', 'BAPA', 'COAL', 'ESSA',
                        'BBNI', 'BBRI', 'BBCA', 'TLKM', 'ASII', 'AVIA', 'GOOD',
                        'AKRA', 'ARTO', 'AMRT', 'MAPI', 'ACES', 'JPFA', 'BTPN',
