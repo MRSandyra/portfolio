@@ -7,3 +7,6 @@
 [submodule "fraud-pipeline"]
 	path = fraud-pipeline
 	url = https://github.com/MRSandyra/fraud-transaction-risk-pipeline.git
+[submodule "wikipedia-edit-stream-analytics"]
+	path = wikipedia-edit-stream-analytics
+	url = https://github.com/MRSandyra/wikipedia-edit-stream-analytics.git
