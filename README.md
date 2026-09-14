@@ -21,7 +21,7 @@ A collection of end-to-end data science, machine learning, and applied AI projec
 
 I build projects across the full data lifecycle: **data ingestion → cleaning & feature engineering → modelling → interpretation → deployment.** My work emphasises methodological rigor (data-leakage auditing, class balancing, robustness checks) as much as results, and several projects ship as working web applications rather than notebooks alone.
 
-This repository collects my favourite projects in one place. Two of them (`lung-diagnosis` and `anime-recommender`) live in their own repos and are included here as **Git submodules**.
+This repository collects my favourite projects in one place. Three of them (`lung-diagnosis`, `anime-recommender`, and `fraud-transaction-risk-pipeline`) live in their own repos and are included here as **Git submodules**.
 
 ---
 
@@ -37,6 +37,7 @@ This repository collects my favourite projects in one place. Two of them (`lung-
 | [Cybersecurity Anomaly Detection](#-cybersecurity--anomaly-detection-system) | Security · Log Analysis | Python, PHP, MySQL |
 | [Global Income Inequality](#-global-income-inequality--lorenz-curves--gini-coefficients) | Data Viz · Clustering | Plotly, scikit-learn, NumPy |
 | [Capstone: Flight Sales Analysis](#-capstone--flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
+| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Data Engineering · Streaming · Fraud Detection | Kafka, Spark, MinIO, ClickHouse, dbt, Airflow |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Data Engineering · ELT · Orchestration | Airflow, dbt, PostgreSQL, Metabase |
 
 ---
@@ -157,6 +158,21 @@ An end-to-end analysis of flight ticket sales data (price, airline, route, stopo
 
 ## 🔧 Data Engineering
 
+### 🚨 Fraud & Transaction Risk Monitoring Pipeline
+
+> [`/fraud-transaction-risk-pipeline`](https://github.com/MRSandyra/fraud-transaction-risk-pipeline)
+
+A streaming and batch data platform for payment fraud monitoring, replaying the **PaySim** dataset (6.36M transactions, 8,213 fraudulent, a 0.13% fraud rate) as a live event stream through a 12-container Docker stack: **Kafka → Spark Structured Streaming → a MinIO data lake (bronze/silver/gold) → ClickHouse → dbt → Superset**, with **Airflow** orchestrating the nightly batch rebuild.
+
+- Dual-path design: a Kafka producer replays PaySim in simulated-hour order, streamed straight into a live ClickHouse table, while a daily Airflow DAG runs the batch PySpark job through bronze → silver → gold in MinIO
+- ClickHouse reads the gold Parquet files directly through its S3 table engine; dbt builds staging → intermediate → marts on top, checked by 14 tests
+- Found and fixed real bugs along the way: a fraud-rate spike that turned out to be a legitimate-volume dip, not an attack; a NULL merchant bucket that topped the risk leaderboard; and a fresh-clone crash caused by ClickHouse trying to infer a table schema from an empty bucket
+- MinIO's own images quietly disappeared from Docker Hub mid-project; every image is now pinned to a specific tag (MinIO repinned to `quay.io`) so a fresh clone still builds
+
+**Tech:** Kafka · Apache Spark (Structured Streaming) · MinIO · ClickHouse · dbt · Apache Airflow · Superset · PostgreSQL · MongoDB · Docker Compose
+
+---
+
 ### 🌫️ Jakarta Air Quality Pipeline
 
 > [`/jakarta-air-quality-pipeline`](./jakarta-air-quality-pipeline)
@@ -201,9 +217,14 @@ An hourly ELT pipeline that extracts air quality readings from OpenAQ and weathe
 **Data Engineering & Orchestration**
 ![Airflow](https://img.shields.io/badge/Apache%20Airflow-017CEE?style=flat-square&logo=apacheairflow&logoColor=white)
 ![dbt](https://img.shields.io/badge/dbt-FF694B?style=flat-square&logo=dbt&logoColor=white)
+![Kafka](https://img.shields.io/badge/Apache%20Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white)
+![Spark](https://img.shields.io/badge/Apache%20Spark-E25A1C?style=flat-square&logo=apachespark&logoColor=white)
+![ClickHouse](https://img.shields.io/badge/ClickHouse-FFCC01?style=flat-square&logo=clickhouse&logoColor=black)
+![MinIO](https://img.shields.io/badge/MinIO-C72E49?style=flat-square&logo=minio&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![Metabase](https://img.shields.io/badge/Metabase-509EE3?style=flat-square&logo=metabase&logoColor=white)
+![Superset](https://img.shields.io/badge/Apache%20Superset-20A6C9?style=flat-square&logo=apachesuperset&logoColor=white)
 
 ---
 
