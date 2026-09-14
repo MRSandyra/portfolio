@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌟 Rizky's Data Science Portfolio
+# 🌟 Rizky's Portfolio
 
 [![License](https://img.shields.io/github/license/MRSandyra/portfolio?style=flat-square)](./LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/MRSandyra/portfolio?style=flat-square)](https://github.com/MRSandyra/portfolio/commits/main)
@@ -21,7 +21,7 @@ A collection of end-to-end data science, machine learning, and applied AI projec
 
 I build projects across the full data lifecycle: **data ingestion → cleaning & feature engineering → modelling → interpretation → deployment.** My work emphasises methodological rigor (data-leakage auditing, class balancing, robustness checks) as much as results, and several projects ship as working web applications rather than notebooks alone.
 
-This repository collects my favourite projects in one place. Three of them (`lung-diagnosis`, `anime-recommender`, and `fraud-transaction-risk-pipeline`) live in their own repos and are included here as **Git submodules**.
+This repository collects my favourite projects in one place. Four of them (`lung-diagnosis`, `anime-recommender`, `fraud-transaction-risk-pipeline`, and `wikipedia-edit-stream-analytics`) live in their own repos and are included here as **Git submodules**.
 
 ---
 
@@ -39,6 +39,7 @@ This repository collects my favourite projects in one place. Three of them (`lun
 | [Capstone: Flight Sales Analysis](#-capstone--flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Data Engineering · Streaming · Fraud Detection | Kafka, Spark, MinIO, ClickHouse, dbt, Airflow |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Data Engineering · ELT · Orchestration | Airflow, dbt, PostgreSQL, Metabase |
+| [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Data Engineering · Real-Time Streaming · Anomaly Detection | Redpanda, DuckDB, Streamlit, Pydantic |
 
 ---
 
@@ -188,6 +189,21 @@ An hourly ELT pipeline that extracts air quality readings from OpenAQ and weathe
 
 ---
 
+### 🌐 Wikipedia Edit Stream Analytics
+
+> [`/wikipedia-edit-stream-analytics`](https://github.com/MRSandyra/wikipedia-edit-stream-analytics)
+
+A real-time streaming pipeline that consumes Wikipedia's public global edit firehose and scores every edit for vandalism and suspicious activity with rule-based heuristics — running entirely on Docker Compose with no cloud account, no API keys, and no dataset to download: **Wikimedia EventStreams → Redpanda → Consumer → DuckDB (bronze/silver) → Aggregator (gold) → Streamlit dashboard.**
+
+- Six weighted heuristics score every edit 0–100 for vandalism risk (large content deletions, anonymous IP edits, empty comments on big changes, suspicious keywords, edit-warring), with bots excluded from scoring but tracked separately for a bot-vs-human ratio, all covered by a dedicated pytest suite
+- Aggregator pre-computes four gold tables every 60 seconds so the dashboard never scans the full silver table, alongside a retention job that prunes bronze Parquet files older than 3 days
+- Found and fixed real bugs along the way: an `httpx.Request` built by hand that silently dropped its `User-Agent` header, a schema written for a CloudEvents envelope the actual Wikimedia stream never uses, and a DuckDB single-writer lock that was quietly blocking the aggregator on every cycle
+- An early diagnosis wrongly concluded Wikimedia was blocking Docker containers outright — traced back to testing a never-closing SSE endpoint with a request method built for finite responses
+
+**Tech:** Python · Redpanda · DuckDB · Pydantic · APScheduler · Streamlit · Plotly · pytest · Docker Compose
+
+---
+
 ## 🧰 Tech Stack
 
 **Languages & Core**
@@ -218,11 +234,14 @@ An hourly ELT pipeline that extracts air quality readings from OpenAQ and weathe
 ![Airflow](https://img.shields.io/badge/Apache%20Airflow-017CEE?style=flat-square&logo=apacheairflow&logoColor=white)
 ![dbt](https://img.shields.io/badge/dbt-FF694B?style=flat-square&logo=dbt&logoColor=white)
 ![Kafka](https://img.shields.io/badge/Apache%20Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white)
+![Redpanda](https://img.shields.io/badge/Redpanda-E1361A?style=flat-square&logo=redpanda&logoColor=white)
 ![Spark](https://img.shields.io/badge/Apache%20Spark-E25A1C?style=flat-square&logo=apachespark&logoColor=white)
 ![ClickHouse](https://img.shields.io/badge/ClickHouse-FFCC01?style=flat-square&logo=clickhouse&logoColor=black)
+![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?style=flat-square&logo=duckdb&logoColor=black)
 ![MinIO](https://img.shields.io/badge/MinIO-C72E49?style=flat-square&logo=minio&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
 ![Metabase](https://img.shields.io/badge/Metabase-509EE3?style=flat-square&logo=metabase&logoColor=white)
 ![Superset](https://img.shields.io/badge/Apache%20Superset-20A6C9?style=flat-square&logo=apachesuperset&logoColor=white)
 
