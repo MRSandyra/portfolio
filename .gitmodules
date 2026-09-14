@@ -4,3 +4,6 @@
 [submodule "anime-recommender"]
 	path = anime-recommender
 	url = https://github.com/MRSandyra/anime-recommender.git
+[submodule "fraud-pipeline"]
+	path = fraud-pipeline
+	url = https://github.com/MRSandyra/fraud-transaction-risk-pipeline.git
