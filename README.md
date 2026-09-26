@@ -21,7 +21,7 @@ A collection of end-to-end data science, machine learning, and applied AI projec
 
 I build projects across the full data lifecycle: **data ingestion → cleaning & feature engineering → modelling → interpretation → deployment.** My work emphasises methodological rigor (data-leakage auditing, class balancing, robustness checks) as much as results, and several projects ship as working web applications rather than notebooks alone.
 
-This repository collects my favourite projects in one place. Four of them (`lung-diagnosis`, `anime-recommender`, `fraud-transaction-risk-pipeline`, and `wikipedia-edit-stream-analytics`) live in their own repos and are included here as **Git submodules**.
+This repository collects my favourite projects in one place. Five of them (`lung-diagnosis`, `anime-recommender`, `fraud-transaction-risk-pipeline`, `wikipedia-edit-stream-analytics`, and `panganwatch`) live in their own repos and are included here as **Git submodules**.
 
 ---
 
@@ -37,6 +37,7 @@ This repository collects my favourite projects in one place. Four of them (`lung
 | [Cybersecurity Anomaly Detection](#-cybersecurity--anomaly-detection-system) | Security · Log Analysis | Python, PHP, MySQL |
 | [Global Income Inequality](#-global-income-inequality--lorenz-curves--gini-coefficients) | Data Viz · Clustering | Plotly, scikit-learn, NumPy |
 | [Capstone: Flight Sales Analysis](#-capstone--flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
+| [PanganWatch](#-panganwatch--governed-food-price-intelligence) | Data Engineering · Data Governance · BI | Airflow, Kafka, dbt, PostgreSQL, MongoDB, Tableau |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Data Engineering · Streaming · Fraud Detection | Kafka, Spark, MinIO, ClickHouse, dbt, Airflow |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Data Engineering · ELT · Orchestration | Airflow, dbt, PostgreSQL, Metabase |
 | [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Data Engineering · Real-Time Streaming · Anomaly Detection | Redpanda, DuckDB, Streamlit, Pydantic |
@@ -159,6 +160,22 @@ An end-to-end analysis of flight ticket sales data (price, airline, route, stopo
 
 ## 🔧 Data Engineering
 
+### 🌾 PanganWatch — Governed Food Price Intelligence
+
+> [`/panganwatch`](https://github.com/MRSandyra/panganwatch)
+
+A governed data platform answering three questions about Indonesian food prices: which provinces drift furthest from the national median, whether heavy rainfall precedes shallot price rises, and how city inflation tracks food-price change. Three public APIs (WFP food prices via HDX, Open-Meteo, BPS WebAPI) land in **MongoDB** as raw payloads carrying record-level lineage, flow into **PostgreSQL** and **dbt** marts guarded by 134 tests, and reach users through **Tableau** — with **Airflow** running the batch side and a **Kafka** stream validating live weather against a Pydantic data contract, routing anything invalid to a dead-letter queue.
+
+- Governance built to **DAMA** practice rather than bolted on: 27 quality rules covering all six dimensions that quarantine bad records instead of dropping them, a business glossary and RACI ownership matrix stored as queryable seeds, lineage generated from dbt's `manifest.json`, and retention enforced in code (90-day TTL on bronze, 7-day Kafka topics)
+- Master and reference data reconciled to official **BPS** codes across sources: 513 regencies and cities, a 2,565-row crosswalk, and all 150 IHK inflation cities mapped to 38 provinces (123 by normalised name, 27 mapped manually with the reason recorded for review)
+- Found and fixed real bugs along the way: a missing field that sent **every** DQ rule into the exception handler and wrote fake failure results; a rule pointing at a column that never existed, quarantining 17,708 of 17,708 weather rows; a coverage rule passing vacuously because the engine counted rows instead of distinct provinces; a stale `airflow-webserver.pid` that killed the webserver on every container restart while the container still reported itself up; and a Kafka consumer holding a single Postgres connection for its whole lifetime with no reconnect
+- Honest about its gaps rather than hiding them: prices cover 34 of 38 provinces, January 2026 carries only 8, and chilli vanishes from the source after May 2024 — each one surfaced by the coverage rule, written into the findings, and flagged on the dashboard
+- Weather-to-price and inflation-to-price links are reported as correlations with sample sizes and p-values (Spearman ρ = 0.206, n = 354, p ≈ 9e-05), never as causation
+
+**Tech:** Apache Airflow · Kafka (KRaft) · dbt · PostgreSQL · MongoDB · Pydantic · Plotly · Tableau · Docker Compose · Python
+
+---
+
 ### 🚨 Fraud & Transaction Risk Monitoring Pipeline
 
 > [`/fraud-transaction-risk-pipeline`](https://github.com/MRSandyra/fraud-transaction-risk-pipeline)
@@ -240,7 +257,9 @@ A real-time streaming pipeline that consumes Wikipedia's public global edit fire
 ![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?style=flat-square&logo=duckdb&logoColor=black)
 ![MinIO](https://img.shields.io/badge/MinIO-C72E49?style=flat-square&logo=minio&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Tableau](https://img.shields.io/badge/Tableau-E97627?style=flat-square&logo=tableau&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
 ![Metabase](https://img.shields.io/badge/Metabase-509EE3?style=flat-square&logo=metabase&logoColor=white)
 ![Superset](https://img.shields.io/badge/Apache%20Superset-20A6C9?style=flat-square&logo=apachesuperset&logoColor=white)
