@@ -10,3 +10,6 @@
 [submodule "wikipedia-edit-stream-analytics"]
 	path = wikipedia-edit-stream-analytics
 	url = https://github.com/MRSandyra/wikipedia-edit-stream-analytics.git
+[submodule "PanganWatch"]
+	path = PanganWatch
+	url = https://github.com/MRSandyra/PanganWatch.git
