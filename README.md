@@ -9,7 +9,7 @@
 ![Made with Python](https://img.shields.io/badge/Made%20with-Python-1f425f?style=flat-square&logo=python&logoColor=white)
 
 **From raw data to deployed intelligence.**
-A collection of end-to-end data science, machine learning, and applied AI projects — spanning finance, gaming analytics, NLP, medical imaging, cybersecurity, and socio-economics.
+A collection of end-to-end data science, machine learning, and applied AI projects spanning finance, gaming analytics, NLP, medical imaging, cybersecurity, and socio-economics.
 
 🌐 **[mrsandyra.netlify.app](https://mrsandyra.netlify.app/)**
 
@@ -30,14 +30,14 @@ This repository collects my favourite projects in one place. Five of them (`lung
 | Project | Focus Area | Key Tech |
 |---|---|---|
 | [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | ML · Prediction · Interpretability | scikit-learn, XGBoost, SHAP, NetworkX |
-| [Lung Disease Detection](#-lung-disease-detection--deep-learning) | Deep Learning · Medical Imaging | TensorFlow/Keras, DenseNet-169, Laravel, Flask |
-| [Sentiment Analysis (Tokopedia)](#-sentiment-analysis--tokopedia-reviews) | NLP · Text Classification | scikit-learn, Naive Bayes, CountVectorizer |
+| [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Deep Learning · Medical Imaging | TensorFlow/Keras, DenseNet-169, Laravel, Flask |
+| [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | NLP · Text Classification | scikit-learn, Naive Bayes, CountVectorizer |
 | [Anime Recommender](#-anime-recommender) | Recommender Systems | Python |
-| [IndoStock Analyzer](#-indostock-analyzer--personal-stock-analysis-tool) | FinTech · Automation | Selenium, TextBlob, yfinance, Pandas |
-| [Cybersecurity Anomaly Detection](#-cybersecurity--anomaly-detection-system) | Security · Log Analysis | Python, PHP, MySQL |
-| [Global Income Inequality](#-global-income-inequality--lorenz-curves--gini-coefficients) | Data Viz · Clustering | Plotly, scikit-learn, NumPy |
-| [Capstone: Flight Sales Analysis](#-capstone--flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
-| [PanganWatch](#-panganwatch--governed-food-price-intelligence) | Data Engineering · Data Governance · BI | Airflow, Kafka, dbt, PostgreSQL, MongoDB, Tableau |
+| [IndoStock Analyzer](#-indostock-analyzer-personal-stock-analysis-tool) | FinTech · Automation | Selenium, TextBlob, yfinance, Pandas |
+| [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Security · Log Analysis | Python, PHP, MySQL |
+| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Data Viz · Clustering | Plotly, scikit-learn, NumPy |
+| [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
+| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Data Engineering · Data Governance · BI | Airflow, Kafka, dbt, PostgreSQL, MongoDB, Tableau |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Data Engineering · Streaming · Fraud Detection | Kafka, Spark, MinIO, ClickHouse, dbt, Airflow |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Data Engineering · ELT · Orchestration | Airflow, dbt, PostgreSQL, Metabase |
 | [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Data Engineering · Real-Time Streaming · Anomaly Detection | Redpanda, DuckDB, Streamlit, Pydantic |
@@ -61,7 +61,7 @@ An end-to-end study of **300 Challenger-tier matches (~311K in-game events)**, s
 
 ---
 
-### 🫁 Lung Disease Detection — Deep Learning
+### 🫁 Lung Disease Detection: Deep Learning
 
 > [`/lung-diagnosis`](https://github.com/MRSandyra/Lung-Diagnosis-Web)
 
@@ -75,7 +75,7 @@ A web-based diagnostic system that predicts lung conditions from **chest X-ray i
 
 ---
 
-### 💬 Sentiment Analysis — Tokopedia Reviews
+### 💬 Sentiment Analysis: Tokopedia Reviews
 
 > [`/Sentiment Analysis Tokopedia`](./Sentiment%20Analysis%20Tokopedia)
 
@@ -101,22 +101,22 @@ A recommendation system that suggests anime titles based on user preferences and
 
 ## 🛠️ Applied Systems & Tools
 
-### 📈 IndoStock Analyzer — Personal Stock Analysis Tool
+### 📈 IndoStock Analyzer: Personal Stock Analysis Tool
 
 > [`/IndoStock Analyzer`](./IndoStock%20Analyzer)
 
 An automated analysis tool for **IDX (Indonesia Stock Exchange)** equities that fuses three signals into a single, data-driven recommendation ranging from **Strong Buy to Strong Sell**.
 
-- **News sentiment** — scrapes IndoPremier headlines with Selenium, scores them with TextBlob
-- **Fundamentals** — evaluates PER, PBV, ROE, DER, and earnings growth via Yahoo Finance
-- **Technicals** — MA, RSI, MACD, support/resistance levels, and volume surges
+- **News sentiment**: scrapes IndoPremier headlines with Selenium, scores them with TextBlob
+- **Fundamentals**: evaluates PER, PBV, ROE, DER, and earnings growth via Yahoo Finance
+- **Technicals**: MA, RSI, MACD, support/resistance levels, and volume surges
 - Combines all three into a **weighted composite score** with JSON reporting
 
 **Tech:** Python · Selenium · TextBlob · yfinance · Pandas · NumPy
 
 ---
 
-### 🛡️ Cybersecurity — Anomaly Detection System
+### 🛡️ Cybersecurity: Anomaly Detection System
 
 > [`/Cybersecurity Anomali Detection`](./Cybersecurity%20Anomali%20Detection)
 
@@ -132,7 +132,7 @@ A hybrid **PHP + Python** web application that parses Apache/Nginx access logs t
 
 ## 📊 Data Analysis & Visualization
 
-### 🌍 Global Income Inequality — Lorenz Curves & Gini Coefficients
+### 🌍 Global Income Inequality: Lorenz Curves & Gini Coefficients
 
 > [`/Global Income Inequality`](./Global%20Income%20Inequality%20-%20Visualizing%20Lorenz%20Curves%20%26%20Gini%20Coefficients)
 
@@ -145,7 +145,7 @@ A cross-country study of income inequality over roughly two decades using World 
 
 ---
 
-### ✈️ Capstone — Flight Ticket Sales Analysis
+### ✈️ Capstone: Flight Ticket Sales Analysis
 
 > [`/Capstone Project - Analisis Data Penerbangan`](./Capstone%20Project%20-%20Analisis%20Data%20Penerbangan)
 
@@ -160,17 +160,17 @@ An end-to-end analysis of flight ticket sales data (price, airline, route, stopo
 
 ## 🔧 Data Engineering
 
-### 🌾 PanganWatch — Governed Food Price Intelligence
+### 🌾 PanganWatch: Governed Food Price Intelligence
 
-> [`/panganwatch`](https://github.com/MRSandyra/panganwatch)
+> [`/panganwatch`](https://github.com/MRSandyra/panganwatch) · [Live dashboards](PASTE_TABLEAU_PUBLIC_URL)
 
-A governed data platform answering three questions about Indonesian food prices: which provinces drift furthest from the national median, whether heavy rainfall precedes shallot price rises, and how city inflation tracks food-price change. Three public APIs (WFP food prices via HDX, Open-Meteo, BPS WebAPI) land in **MongoDB** as raw payloads carrying record-level lineage, flow into **PostgreSQL** and **dbt** marts guarded by 134 tests, and reach users through **Tableau** — with **Airflow** running the batch side and a **Kafka** stream validating live weather against a Pydantic data contract, routing anything invalid to a dead-letter queue.
+A governed data platform answering three questions about Indonesian food prices: which provinces drift furthest from the national median, whether heavy rainfall precedes shallot price rises, and how city inflation tracks food-price change. Three public APIs (WFP food prices via HDX, Open-Meteo, BPS WebAPI) land in **MongoDB** as raw payloads carrying record-level lineage, flow into **PostgreSQL** and **dbt** marts guarded by 134 tests, and reach users through **Tableau**. **Airflow** runs the batch side, while a **Kafka** stream validates live weather against a Pydantic data contract and routes anything invalid to a dead-letter queue.
 
 - Governance built to **DAMA** practice rather than bolted on: 27 quality rules covering all six dimensions that quarantine bad records instead of dropping them, a business glossary and RACI ownership matrix stored as queryable seeds, lineage generated from dbt's `manifest.json`, and retention enforced in code (90-day TTL on bronze, 7-day Kafka topics)
-- Master and reference data reconciled to official **BPS** codes across sources: 513 regencies and cities, a 2,565-row crosswalk, and all 150 IHK inflation cities mapped to 38 provinces (123 by normalised name, 27 mapped manually with the reason recorded for review)
-- Found and fixed real bugs along the way: a missing field that sent **every** DQ rule into the exception handler and wrote fake failure results; a rule pointing at a column that never existed, quarantining 17,708 of 17,708 weather rows; a coverage rule passing vacuously because the engine counted rows instead of distinct provinces; a stale `airflow-webserver.pid` that killed the webserver on every container restart while the container still reported itself up; and a Kafka consumer holding a single Postgres connection for its whole lifetime with no reconnect
-- Honest about its gaps rather than hiding them: prices cover 34 of 38 provinces, January 2026 carries only 8, and chilli vanishes from the source after May 2024 — each one surfaced by the coverage rule, written into the findings, and flagged on the dashboard
-- Weather-to-price and inflation-to-price links are reported as correlations with sample sizes and p-values (Spearman ρ = 0.206, n = 354, p ≈ 9e-05), never as causation
+- Master and reference data reconciled to official **BPS** codes across sources: 513 regencies and cities, a 2,565-row crosswalk, and all 150 CPI inflation cities mapped to 38 provinces (123 by normalised name, 27 mapped manually with the reason recorded for review)
+- Found and fixed real bugs along the way: a missing field that sent **every** quality rule into the exception handler and wrote fake failure results; a rule pointing at a column that never existed, quarantining 17,708 of 17,708 weather rows; a coverage rule passing vacuously because the engine counted rows instead of distinct provinces; a stale `airflow-webserver.pid` that killed the webserver on every container restart while the container still reported itself up; and a Kafka consumer holding a single Postgres connection for its whole lifetime with no reconnect
+- Honest about its gaps rather than hiding them: prices cover 34 of 38 provinces, January 2026 carries only 8, and chilli vanishes from the source after May 2024. Each gap was surfaced by the coverage rule, written into the findings, and flagged on the dashboard
+- Weather-to-price and inflation-to-price links are reported as correlations with sample sizes and p-values (Spearman rho = 0.206, n = 354, p = 9e-05), never as causation
 
 **Tech:** Apache Airflow · Kafka (KRaft) · dbt · PostgreSQL · MongoDB · Pydantic · Plotly · Tableau · Docker Compose · Python
 
@@ -195,10 +195,10 @@ A streaming and batch data platform for payment fraud monitoring, replaying the 
 
 > [`/jakarta-air-quality-pipeline`](./jakarta-air-quality-pipeline)
 
-An hourly ELT pipeline that extracts air quality readings from OpenAQ and weather forecasts from BMKG, models them with **dbt** into a Postgres warehouse, and serves the result through a **Metabase** dashboard — orchestrated by **Airflow** and running entirely on Docker Compose, no cloud account required.
+An hourly ELT pipeline that extracts air quality readings from OpenAQ and weather forecasts from BMKG, models them with **dbt** into a Postgres warehouse, and serves the result through a **Metabase** dashboard, orchestrated by **Airflow** and running entirely on Docker Compose with no cloud account required.
 
 - Bronze/silver/gold layering (`raw` → `staging` → `marts`), with **11 dbt tests blocking every run** so bad data never reaches the dashboard
-- Investigated why only 2 of 27 nearby OpenAQ stations report real data — surfacing dead sensors, `-999` sentinel values, and cross-vendor calibration drift between low-cost sensors
+- Investigated why only 2 of 27 nearby OpenAQ stations report real data, surfacing dead sensors, `-999` sentinel values, and cross-vendor calibration drift between low-cost sensors
 - Found and fixed **10 distinct data-quality bugs** in production, including a silent dbt schema-naming quirk and a timezone bug that shifted every weather join by 7 hours undetected
 - One-time historical backfill script to seed 14 days of trend data without waiting on the hourly schedule
 
@@ -210,12 +210,12 @@ An hourly ELT pipeline that extracts air quality readings from OpenAQ and weathe
 
 > [`/wikipedia-edit-stream-analytics`](https://github.com/MRSandyra/wikipedia-edit-stream-analytics)
 
-A real-time streaming pipeline that consumes Wikipedia's public global edit firehose and scores every edit for vandalism and suspicious activity with rule-based heuristics — running entirely on Docker Compose with no cloud account, no API keys, and no dataset to download: **Wikimedia EventStreams → Redpanda → Consumer → DuckDB (bronze/silver) → Aggregator (gold) → Streamlit dashboard.**
+A real-time streaming pipeline that consumes Wikipedia's public global edit firehose and scores every edit for vandalism and suspicious activity with rule-based heuristics. It runs entirely on Docker Compose with no cloud account, no API keys, and no dataset to download: **Wikimedia EventStreams → Redpanda → Consumer → DuckDB (bronze/silver) → Aggregator (gold) → Streamlit dashboard.**
 
 - Six weighted heuristics score every edit 0–100 for vandalism risk (large content deletions, anonymous IP edits, empty comments on big changes, suspicious keywords, edit-warring), with bots excluded from scoring but tracked separately for a bot-vs-human ratio, all covered by a dedicated pytest suite
 - Aggregator pre-computes four gold tables every 60 seconds so the dashboard never scans the full silver table, alongside a retention job that prunes bronze Parquet files older than 3 days
 - Found and fixed real bugs along the way: an `httpx.Request` built by hand that silently dropped its `User-Agent` header, a schema written for a CloudEvents envelope the actual Wikimedia stream never uses, and a DuckDB single-writer lock that was quietly blocking the aggregator on every cycle
-- An early diagnosis wrongly concluded Wikimedia was blocking Docker containers outright — traced back to testing a never-closing SSE endpoint with a request method built for finite responses
+- An early diagnosis wrongly concluded Wikimedia was blocking Docker containers outright, traced back to testing a never-closing SSE endpoint with a request method built for finite responses
 
 **Tech:** Python · Redpanda · DuckDB · Pydantic · APScheduler · Streamlit · Plotly · pytest · Docker Compose
 
