@@ -46,26 +46,10 @@ stock-analyzer/
 
 ---
 
-## 📦 Dependencies
-
-Create a `requirements.txt` file with the following:
-
-```
-requests
-beautifulsoup4
-numpy
-textblob
-selenium
-yfinance
-pandas
-```
-
----
-
 ## ▶️ Usage
 
 ```bash
-python stock_analyzer.py
+python stock_scraper.py
 ```
 
 The program runs through 4 stages automatically:
@@ -166,7 +150,7 @@ known_stocks = ['BMRI', 'BBCA', 'TLKM', ...]  # add more tickers here
 
 ```
 stock-analyzer/
-├── stock_analyzer.py       # Main script
+├── stock_scraper.py        # Main script
 ├── drivers/
 │   └── chromedriver.exe    # ChromeDriver (not included in repo)
 ├── requirements.txt        # Python dependencies

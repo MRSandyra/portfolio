@@ -164,6 +164,24 @@ What makes this more than a standard "train a classifier" notebook:
 
 ---
 
+## 📁 Repository Structure
+
+A single self-contained notebook plus this README — no separate scripts or data files; Part 1 writes its Parquet outputs into the Colab/local runtime, and Part 2 reads them back in the same session.
+
+```
+LoL Analytics.ipynb   # Part 1 (preprocessing) + Part 2 (analysis, modelling, viz)
+README.md
+```
+
+---
+
+## ▶️ How to Run
+
+1. Install the packages listed in [Tech Stack](#-tech-stack) above (`pip install pandas numpy pyarrow datasets scikit-learn xgboost shap umap-learn matplotlib seaborn plotly networkx ipywidgets tqdm`).
+2. Open `LoL Analytics.ipynb` in Jupyter/Colab and run all cells top to bottom — Part 1 streams the dataset from Hugging Face (needs internet access) and writes `match_features.parquet` / `player_features.parquet`; Part 2 reads them back for analysis and modelling.
+
+---
+
 ## ⚠️ Limitations
 
 The notebook documents these openly and treats them as *strengths* (scientific honesty), not weaknesses:

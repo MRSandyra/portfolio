@@ -101,9 +101,7 @@ To run the dbt models and tests by hand:
 docker compose exec airflow-scheduler bash -c "cd /opt/airflow/dbt_project && dbt build --profiles-dir ."
 ```
 
-For a full walkthrough of setting up the Metabase dashboard (adding the warehouse as a data source, building the charts, screenshotting for a portfolio), see `METABASE_WALKTHROUGH.md`.
-
-For a one-time script that seeds the dashboard with 14 days of real historical readings instead of waiting for the hourly DAG to build up history on its own, see `BACKFILL_WALKTHROUGH.md` and `extractors/backfill_openaq_history.py`.
+For a one-time script that seeds the dashboard with 14 days of real historical readings instead of waiting for the hourly DAG to build up history on its own, see `extractors/backfill_openaq_history.py`.
 
 ## Data Quality Issues Found
 
@@ -238,6 +236,4 @@ dbt_project/tests/                       custom singular tests
 dbt_project/macros/generate_schema_name.sql   forces literal schema names
 init-db.sql                              warehouse database, schemas, raw tables
 docker-compose.yml                       Postgres, Airflow, Metabase
-METABASE_WALKTHROUGH.md                  step by step dashboard setup guide
-BACKFILL_WALKTHROUGH.md                  step by step guide for the historical backfill
 ```

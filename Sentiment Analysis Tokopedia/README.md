@@ -64,9 +64,9 @@ The trained model predicts sentiment on unseen reviews with a confidence score:
 
 | Type | Review | Prediction |
 |------|--------|------------|
-| Positive | *produk ini bagus rasanya enak dan kualitasnya juga terbaik* | ✅ POSITIVE (confidence: ~95%) |
-| Negative | *saya sangat kecewa dengan produk ini rasanya tidak enak* | ❌ NEGATIVE (confidence: ~93%) |
-| Neutral-ish | *produk biasa saja tidak ada yang spesial* | ❌ NEGATIVE (confidence: ~70%) |
+| Positive | *produk ini bagus rasanya enak dan kualitasnya juga terbaik* | ✅ POSITIVE (confidence: ~94%) |
+| Negative | *saya sangat kecewa dengan produk ini rasanya tidak enak dan kualitasnya buruk* | ❌ NEGATIVE (confidence: ~98%) |
+| Neutral-ish | *produk biasa saja tidak ada yang spesial* | ❌ NEGATIVE (confidence: ~99%) |
 
 ---
 

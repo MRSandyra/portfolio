@@ -2,7 +2,7 @@
 
 # 🌟 Rizky's Portfolio
 
-[![License](https://img.shields.io/github/license/MRSandyra/portfolio?style=flat-square)](./LICENSE)
+![License](https://img.shields.io/github/license/MRSandyra/portfolio?style=flat-square)
 [![Last Commit](https://img.shields.io/github/last-commit/MRSandyra/portfolio?style=flat-square)](https://github.com/MRSandyra/portfolio/commits/main)
 ![Repo Size](https://img.shields.io/github/repo-size/MRSandyra/portfolio?style=flat-square)
 ![Jupyter Notebook](https://img.shields.io/badge/Jupyter-98.8%25-F37626?style=flat-square&logo=jupyter&logoColor=white)
