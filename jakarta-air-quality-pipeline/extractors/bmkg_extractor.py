@@ -32,7 +32,7 @@ def run():
     adm4_code = os.environ.get("BMKG_ADM4_CODE", "31.71.03.1001")
     data = fetch_forecast(adm4_code)
 
-    location_name = data.get("lokasi", {}).get("desa", adm4_code)
+    location_name = (data.get("lokasi") or {}).get("desa", adm4_code)
     # BMKG nests forecast entries under data[0]["cuaca"] as a list of lists
     # (one inner list per day). Flatten them into individual 3-hourly rows.
     forecast_days = data.get("data", [{}])[0].get("cuaca", [])

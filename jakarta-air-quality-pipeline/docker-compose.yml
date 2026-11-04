@@ -6,7 +6,12 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     # Quick-start convenience: installs these into the Airflow venv on container start.
     # Fine for a portfolio project; for anything long-lived, bake a custom image instead.
-    _PIP_ADDITIONAL_REQUIREMENTS: "requests psycopg2-binary pandas dbt-postgres"
+    # Pinned to match requirements.txt/CI. dbt-postgres's own metadata declares
+    # "dbt-core>=1.8.0a1" with no upper bound, so pinning only dbt-postgres
+    # still let pip resolve dbt-core to whatever is newest on PyPI (a 2.0.0
+    # pre-release at the time of writing) - a different, untested compiler
+    # version than the one CI runs. dbt-core is pinned explicitly to close that.
+    _PIP_ADDITIONAL_REQUIREMENTS: "requests==2.32.3 psycopg2-binary==2.9.9 pandas==2.2.2 dbt-core==1.8.2 dbt-postgres==1.8.2"
     OPENAQ_API_KEY: ${OPENAQ_API_KEY}
     BMKG_ADM4_CODE: ${BMKG_ADM4_CODE:-31.71.03.1001}
     WAREHOUSE_DB_HOST: postgres

@@ -56,7 +56,7 @@ def fetch_sensor_history(api_key: str, sensor_id: int, datetime_from: str, datet
         results = body.get("results", [])
         all_results.extend(results)
 
-        found = body.get("meta", {}).get("found", 0)
+        found = (body.get("meta") or {}).get("found", 0)
         if len(all_results) >= found or not results:
             break
         page += 1
