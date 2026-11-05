@@ -9,7 +9,7 @@
 ![Made with Python](https://img.shields.io/badge/Made%20with-Python-1f425f?style=flat-square&logo=python&logoColor=white)
 
 **From raw data to deployed intelligence.**
-A collection of end-to-end data science, machine learning, and applied AI projects spanning finance, gaming analytics, NLP, medical imaging, cybersecurity, and socio-economics.
+A collection of end-to-end data science, machine learning, data engineering, and applied AI projects spanning finance, gaming analytics, NLP, retrieval-augmented generation, medical imaging, cybersecurity, and socio-economics.
 
 🌐 **[mrsandyra.netlify.app](https://mrsandyra.netlify.app/)**
 
@@ -19,7 +19,7 @@ A collection of end-to-end data science, machine learning, and applied AI projec
 
 ## 👋 About
 
-I build projects across the full data lifecycle: **data ingestion → cleaning & feature engineering → modelling → interpretation → deployment.** My work emphasises methodological rigor (data-leakage auditing, class balancing, robustness checks) as much as results, and several projects ship as working web applications rather than notebooks alone.
+I build projects across the full data lifecycle: **data ingestion → cleaning & feature engineering → modelling → interpretation → deployment.** My work emphasises methodological rigor (data-leakage auditing, class balancing, robustness checks, evidence-grounding evaluations) as much as results, and several projects ship as working web applications rather than notebooks alone.
 
 This repository collects my favourite projects in one place. Five of them (`lung-diagnosis`, `anime-recommender`, `fraud-transaction-risk-pipeline`, `wikipedia-edit-stream-analytics`, and `panganwatch`) live in their own repos and are included here as **Git submodules**.
 
@@ -29,6 +29,7 @@ This repository collects my favourite projects in one place. Five of them (`lung
 
 | Project | Focus Area | Key Tech |
 |---|---|---|
+| [NusaLens](#-nusalens-local-rag-and-text-to-sql) | GenAI · RAG · Text-to-SQL | PostgreSQL/pgvector, Ollama, FastAPI, Streamlit |
 | [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | ML · Prediction · Interpretability | scikit-learn, XGBoost, SHAP, NetworkX |
 | [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Deep Learning · Medical Imaging | TensorFlow/Keras, DenseNet-169, Laravel, Flask |
 | [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | NLP · Text Classification | scikit-learn, Naive Bayes, CountVectorizer |
@@ -45,6 +46,19 @@ This repository collects my favourite projects in one place. Five of them (`lung
 ---
 
 ## 🤖 Machine Learning & AI
+
+### 🔎 NusaLens: Local RAG and Text-to-SQL
+
+A fully local, **evidence-grounded question-answering system for Indonesian public data** that combines **World Bank indicators** with indexed **Indonesian Wikipedia articles**. Indonesian-language questions are routed to **text-to-SQL**, hybrid document retrieval, or both; the response presents supporting citations, the executed SQL when applicable, and confidence signals. An evidence gate **abstains when the sources are insufficient** rather than fabricating an answer.
+
+- **Hybrid retrieval:** dense vector search (pgvector/HNSW) + PostgreSQL full-text search, Reciprocal Rank Fusion (RRF), and cross-encoder reranking. A fine-tuned embedding variant was also evaluated, but is **not yet the serving default**.
+- **Verified evaluations:** retrieval nDCG@10 rose from **0.390 to 0.630 (+61.5%)** in the deployed pipeline; **35/35** text-to-SQL queries executed correctly; routing accuracy reached **119/120 (99.2%)**; abstention recall was **15/15 (100%)** on the project test set.
+- **Transparent limitations:** answered-item fact coverage was **68.6%**, with **40.6%** groundedness according to the local LLM judge, below the 80% target. These gaps remain open rather than being presented as solved.
+- **Local-first delivery:** Ollama-powered generation, a FastAPI service, Streamlit UI, MCP server, and Docker Compose setup with **no paid API calls** in the pipeline.
+
+**Tech:** Python · PostgreSQL · pgvector · Ollama · FastAPI · Streamlit · RRF · Cross-Encoder Reranking · Docker Compose
+
+---
 
 ### 🎮 League of Legends: Challenger Match Analytics & Win Prediction
 
@@ -235,6 +249,11 @@ A real-time streaming pipeline that consumes Wikipedia's public global edit fire
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
 ![XGBoost](https://img.shields.io/badge/XGBoost-006400?style=flat-square)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
+
+**Retrieval, Generative AI & Serving**
+![Ollama](https://img.shields.io/badge/Ollama-000000?style=flat-square)
+![pgvector](https://img.shields.io/badge/pgvector-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
 
 **Visualization**
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=flat-square)
