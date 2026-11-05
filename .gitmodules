@@ -13,3 +13,6 @@
 [submodule "PanganWatch"]
 	path = PanganWatch
 	url = https://github.com/MRSandyra/PanganWatch.git
+[submodule "NusaLens"]
+	path = NusaLens
+	url = https://github.com/MRSandyra/NusaLens.git
