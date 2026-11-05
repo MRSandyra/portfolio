@@ -51,6 +51,8 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ### 🔎 NusaLens: AI Assistant for Indonesian Public Data
 
+> [`/NusaLens`](https://github.com/MRSandyra/NusaLens)
+
 **Helping people explore facts about Indonesia through simple questions.** NusaLens is an AI-powered application that answers questions in Indonesian using public information from the World Bank and Wikipedia. It shows the sources behind its answers and can explain when there is not enough information to respond confidently.
 
 - Makes statistical data and background information easier to access without manually searching through tables and articles.
