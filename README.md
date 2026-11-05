@@ -8,8 +8,8 @@
 ![Jupyter Notebook](https://img.shields.io/badge/Jupyter-98.8%25-F37626?style=flat-square&logo=jupyter&logoColor=white)
 ![Made with Python](https://img.shields.io/badge/Made%20with-Python-1f425f?style=flat-square&logo=python&logoColor=white)
 
-**From raw data to deployed intelligence.**
-A collection of end-to-end data science, machine learning, data engineering, and applied AI projects spanning finance, gaming analytics, NLP, retrieval-augmented generation, medical imaging, cybersecurity, and socio-economics.
+**Turning data into insights and useful applications.**  
+A collection of my projects in data analysis, artificial intelligence, and software development. Each project focuses on solving a practical problem, finding meaningful insights, or making information easier to use.
 
 🌐 **[mrsandyra.netlify.app](https://mrsandyra.netlify.app/)**
 
@@ -19,44 +19,45 @@ A collection of end-to-end data science, machine learning, data engineering, and
 
 ## 👋 About
 
-I build projects across the full data lifecycle: **data ingestion → cleaning & feature engineering → modelling → interpretation → deployment.** My work emphasises methodological rigor (data-leakage auditing, class balancing, robustness checks, evidence-grounding evaluations) as much as results, and several projects ship as working web applications rather than notebooks alone.
+I enjoy turning complex data into **clear insights, useful tools, and real-world solutions**. My projects cover a range of interests, from understanding customer feedback and financial trends to building AI-powered applications and monitoring data quality.
 
-This repository collects my favourite projects in one place. Five of them (`lung-diagnosis`, `anime-recommender`, `fraud-transaction-risk-pipeline`, `wikipedia-edit-stream-analytics`, and `panganwatch`) live in their own repos and are included here as **Git submodules**.
+I focus on more than just building a model or dashboard. I also aim to make the results **reliable, easy to understand, and useful for decision-making**. Some projects are interactive web applications, while others explore questions through data analysis.
+
+Explore a project below for a quick overview of **what it does, why it matters, and the tools I used**. A few larger projects are maintained in separate GitHub repositories and included here as submodules.
 
 ---
 
 ## 🗂️ Projects at a Glance
 
-| Project | Focus Area | Key Tech |
+| Project | What It Does | Main Tools |
 |---|---|---|
-| [NusaLens](#-nusalens-local-rag-and-text-to-sql) | GenAI · RAG · Text-to-SQL | PostgreSQL/pgvector, Ollama, FastAPI, Streamlit |
-| [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | ML · Prediction · Interpretability | scikit-learn, XGBoost, SHAP, NetworkX |
-| [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Deep Learning · Medical Imaging | TensorFlow/Keras, DenseNet-169, Laravel, Flask |
-| [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | NLP · Text Classification | scikit-learn, Naive Bayes, CountVectorizer |
-| [Anime Recommender](#-anime-recommender) | Recommender Systems | Python |
-| [IndoStock Analyzer](#-indostock-analyzer-personal-stock-analysis-tool) | FinTech · Automation | Selenium, TextBlob, yfinance, Pandas |
-| [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Security · Log Analysis | Python, PHP, MySQL |
-| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Data Viz · Clustering | Plotly, scikit-learn, NumPy |
-| [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | EDA · Data Cleaning | Pandas, Matplotlib, Seaborn |
-| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Data Engineering · Data Governance · BI | Airflow, Kafka, dbt, PostgreSQL, MongoDB, Tableau |
-| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Data Engineering · Streaming · Fraud Detection | Kafka, Spark, MinIO, ClickHouse, dbt, Airflow |
-| [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Data Engineering · ELT · Orchestration | Airflow, dbt, PostgreSQL, Metabase |
-| [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Data Engineering · Real-Time Streaming · Anomaly Detection | Redpanda, DuckDB, Streamlit, Pydantic |
+| [NusaLens](#-nusalens-ai-assistant-for-indonesian-public-data) | Answers questions about Indonesia using trusted public sources | Python, PostgreSQL, Ollama, Streamlit |
+| [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | Predicts match results and explores player behaviour | Python, XGBoost, Plotly |
+| [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Analyses chest X-rays and symptoms with AI | TensorFlow, Laravel, Flask |
+| [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | Finds positive and negative opinions in customer reviews | Python, scikit-learn |
+| [Anime Recommender](#-anime-recommender) | Suggests anime based on user preferences | Python |
+| [IndoStock Analyzer](#-indostock-analyzer-personal-stock-analysis-tool) | Brings together stock news, financial data, and market trends | Python, Selenium, yfinance |
+| [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Flags suspicious activity in website access logs | Python, PHP, MySQL |
+| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares income inequality across countries | Python, Plotly |
+| [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
+| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Tracks food prices and helps assess data reliability | Airflow, PostgreSQL, Tableau |
+| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Monitors payment activity for potential fraud risks | Kafka, Spark, Superset |
+| [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Combines air quality and weather data in a dashboard | Airflow, PostgreSQL, Metabase |
+| [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Tracks Wikipedia edits and highlights unusual activity | Python, DuckDB, Streamlit |
 
 ---
 
 ## 🤖 Machine Learning & AI
 
-### 🔎 NusaLens: Local RAG and Text-to-SQL
+### 🔎 NusaLens: AI Assistant for Indonesian Public Data
 
-A fully local, **evidence-grounded question-answering system for Indonesian public data** that combines **World Bank indicators** with indexed **Indonesian Wikipedia articles**. Indonesian-language questions are routed to **text-to-SQL**, hybrid document retrieval, or both; the response presents supporting citations, the executed SQL when applicable, and confidence signals. An evidence gate **abstains when the sources are insufficient** rather than fabricating an answer.
+**Helping people explore facts about Indonesia through simple questions.** NusaLens is an AI-powered application that answers questions in Indonesian using public information from the World Bank and Wikipedia. It shows the sources behind its answers and can explain when there is not enough information to respond confidently.
 
-- **Hybrid retrieval:** dense vector search (pgvector/HNSW) + PostgreSQL full-text search, Reciprocal Rank Fusion (RRF), and cross-encoder reranking. A fine-tuned embedding variant was also evaluated, but is **not yet the serving default**.
-- **Verified evaluations:** retrieval nDCG@10 rose from **0.390 to 0.630 (+61.5%)** in the deployed pipeline; **35/35** text-to-SQL queries executed correctly; routing accuracy reached **119/120 (99.2%)**; abstention recall was **15/15 (100%)** on the project test set.
-- **Transparent limitations:** answered-item fact coverage was **68.6%**, with **40.6%** groundedness according to the local LLM judge, below the 80% target. These gaps remain open rather than being presented as solved.
-- **Local-first delivery:** Ollama-powered generation, a FastAPI service, Streamlit UI, MCP server, and Docker Compose setup with **no paid API calls** in the pipeline.
+- Makes statistical data and background information easier to access without manually searching through tables and articles.
+- In project testing, **35 out of 35 test questions** were successfully converted into working database queries, and the search system improved its ability to find relevant information by **61.5%** compared with the initial version.
+- Runs locally without paid AI APIs. **Still being improved:** some written answers do not fully reflect all available source information (68.6% fact coverage in the main evaluation).
 
-**Tech:** Python · PostgreSQL · pgvector · Ollama · FastAPI · Streamlit · RRF · Cross-Encoder Reranking · Docker Compose
+**Built with:** Python · PostgreSQL · Ollama · FastAPI · Streamlit · Docker
 
 ---
 
@@ -64,14 +65,12 @@ A fully local, **evidence-grounded question-answering system for Indonesian publ
 
 > [`/League of Legends Challenger Rank Analytics`](./League%20of%20Legends%20Challenger%20Rank%20Analytics)
 
-An end-to-end study of **300 Challenger-tier matches (~311K in-game events)**, streamed from a 10-million-event public dataset without ever fully loading it into memory. Covers the complete pipeline: **streaming ingestion → feature engineering → win prediction → model interpretation → player profiling → anomaly detection → champion-synergy mining.**
+**Understanding what contributes to winning competitive matches.** I analysed **300 high-level League of Legends matches** and around **311,000 in-game events** to study winning patterns, player behaviour, and team combinations.
 
-- Win prediction with Logistic Regression, Random Forest, and XGBoost, explained via **SHAP**
-- A dedicated **data-leakage audit** and **patch-robustness** checks for honest evaluation
-- **K-Means** player archetypes, **Isolation Forest** anomaly detection, and champion-pair synergy mining with NetworkX
-- Automated text report + interactive win-probability dashboard
+- Built models to predict match outcomes and an interactive dashboard to explore the results.
+- Checked that predictions were not relying on information players would not have at the time, helping make the evaluation more realistic.
 
-**Tech:** Python · scikit-learn · XGBoost · SHAP · Plotly · NetworkX
+**Built with:** Python · scikit-learn · XGBoost · SHAP · Plotly · NetworkX
 
 ---
 
@@ -79,13 +78,14 @@ An end-to-end study of **300 Challenger-tier matches (~311K in-game events)**, s
 
 > [`/lung-diagnosis`](https://github.com/MRSandyra/Lung-Diagnosis-Web)
 
-A web-based diagnostic system that predicts lung conditions from **chest X-ray images + patient symptoms** using a multimodal **DenseNet-169** model. A Laravel (PHP) frontend integrates with a Flask (Python) microservice that serves the TensorFlow/Keras model in real time.
+**Exploring how AI can support the analysis of lung conditions.** This web application examines **chest X-ray images alongside patient-reported symptoms** and produces predictions across **11 lung-related categories**.
 
-- Multimodal input: 224×224 X-ray image + 13 binary symptom features → **11-class** output
-- Conditions include Cardiomegaly, Effusion, Fibrosis, Emphysema, Pneumothorax, and more
-- Full application: user auth, image upload with validation, and per-user diagnosis history
+- Combines medical images and symptom information rather than relying on one input alone.
+- Includes an interface for uploading images, viewing predictions, and reviewing previous results.
 
-**Tech:** TensorFlow/Keras · DenseNet-169 · Laravel 9 · Flask · MySQL/PostgreSQL
+*This is a research/software project, not a substitute for professional medical diagnosis.*
+
+**Built with:** TensorFlow · DenseNet-169 · Laravel · Flask · MySQL/PostgreSQL
 
 ---
 
@@ -93,13 +93,12 @@ A web-based diagnostic system that predicts lung conditions from **chest X-ray i
 
 > [`/Sentiment Analysis Tokopedia`](./Sentiment%20Analysis%20Tokopedia)
 
-An end-to-end **NLP pipeline** classifying real-world Indonesian e-commerce reviews (Tokopedia Food & Drink) into **Positive / Negative** sentiment, reaching **~83% accuracy** on a balanced dataset.
+**Understanding customer opinions from online reviews.** This project analyses Tokopedia food and beverage reviews and identifies whether the feedback is **positive or negative**.
 
-- 8-step text-preprocessing pipeline (noise removal, emoji stripping, deduplication)
-- Class balancing via **downsampling** to prevent majority-class bias
-- Bag-of-Words vectorization (`CountVectorizer`) paired with **Multinomial Naive Bayes**
+- Cleans and organises review text so it can be analysed consistently.
+- Achieved **approximately 83% accuracy** on a balanced evaluation dataset, showing how review analysis can help reveal customer sentiment.
 
-**Tech:** Python · scikit-learn · Multinomial Naive Bayes · CountVectorizer
+**Built with:** Python · scikit-learn · Naive Bayes · CountVectorizer
 
 ---
 
@@ -107,9 +106,9 @@ An end-to-end **NLP pipeline** classifying real-world Indonesian e-commerce revi
 
 > [`/anime-recommender`](https://github.com/MRSandyra/anime-recommender)
 
-A recommendation system that suggests anime titles based on user preferences and title similarity. Maintained in its own repository and linked here as a submodule.
+**Helping viewers discover their next anime.** A recommendation tool that suggests titles based on user preferences and similarities between shows.
 
-**Tech:** Python
+**Built with:** Python
 
 ---
 
@@ -119,14 +118,12 @@ A recommendation system that suggests anime titles based on user preferences and
 
 > [`/IndoStock Analyzer`](./IndoStock%20Analyzer)
 
-An automated analysis tool for **IDX (Indonesia Stock Exchange)** equities that fuses three signals into a single, data-driven recommendation ranging from **Strong Buy to Strong Sell**.
+**Making stock research easier to review in one place.** IndoStock Analyzer brings together news sentiment, company financial information, and price trends for stocks listed on the Indonesia Stock Exchange.
 
-- **News sentiment**: scrapes IndoPremier headlines with Selenium, scores them with TextBlob
-- **Fundamentals**: evaluates PER, PBV, ROE, DER, and earnings growth via Yahoo Finance
-- **Technicals**: MA, RSI, MACD, support/resistance levels, and volume surges
-- Combines all three into a **weighted composite score** with JSON reporting
+- Combines different signals into an overall assessment ranging from **Strong Buy to Strong Sell**.
+- Helps users compare information that would otherwise require checking several sources separately.
 
-**Tech:** Python · Selenium · TextBlob · yfinance · Pandas · NumPy
+**Built with:** Python · Selenium · TextBlob · yfinance · Pandas
 
 ---
 
@@ -134,13 +131,12 @@ An automated analysis tool for **IDX (Indonesia Stock Exchange)** equities that 
 
 > [`/Cybersecurity Anomali Detection`](./Cybersecurity%20Anomali%20Detection)
 
-A hybrid **PHP + Python** web application that parses Apache/Nginx access logs to detect **11 types of web attacks** and anomalous behaviour, then surfaces the findings on a dashboard.
+**Making suspicious website activity easier to spot.** This web application checks website access records and flags patterns associated with **11 types of potential cyberattacks**, including repeated login attempts and unusually high request volumes.
 
-- Core detection engine (`check.py`) with URL decoding for obfuscated payloads
-- Per-IP request counting for **DoS** detection and **brute-force** login tracking
-- Results exported to CSV; PHP web dashboard with authentication and password reset
+- Presents findings in a dashboard and lets users export the results for further review.
+- Designed to support security monitoring by highlighting records that may need investigation.
 
-**Tech:** Python · PHP · MySQL
+**Built with:** Python · PHP · MySQL
 
 ---
 
@@ -150,12 +146,12 @@ A hybrid **PHP + Python** web application that parses Apache/Nginx access logs t
 
 > [`/Global Income Inequality`](./Global%20Income%20Inequality%20-%20Visualizing%20Lorenz%20Curves%20%26%20Gini%20Coefficients)
 
-A cross-country study of income inequality over roughly two decades using World Bank data, visualising the distribution of wealth through **Lorenz curves** and **Gini coefficients.**
+**Comparing income inequality around the world.** This project uses World Bank data from roughly two decades to show how income distribution differs between countries and how it changes over time.
 
-- Interactive heatmaps of inequality across countries and time
-- Country clustering based on Gini index and GDP per capita
+- Creates interactive charts and maps that make country comparisons easier to understand.
+- Groups countries with similar inequality and economic patterns for further exploration.
 
-**Tech:** Plotly · scikit-learn (clustering) · NumPy
+**Built with:** Python · Plotly · scikit-learn · NumPy
 
 ---
 
@@ -163,12 +159,12 @@ A cross-country study of income inequality over roughly two decades using World 
 
 > [`/Capstone Project - Analisis Data Penerbangan`](./Capstone%20Project%20-%20Analisis%20Data%20Penerbangan)
 
-An end-to-end analysis of flight ticket sales data (price, airline, route, stopovers, arrival date), from raw data to insight.
+**Finding useful patterns in flight ticket sales.** This capstone explores airline, ticket price, route, and sales information to better understand customer travel trends.
 
-- Data cleaning and feature engineering (e.g. total tickets sold per airline)
-- Exploratory analysis revealing the **top 10 airlines** by sales, distribution trends, and correlation heatmaps
+- Organises and cleans the data before analysing it.
+- Highlights the **top 10 airlines by ticket sales** and visualises pricing and travel patterns.
 
-**Tech:** Pandas · NumPy · Matplotlib · Seaborn · Google Colab
+**Built with:** Python · Pandas · Matplotlib · Seaborn
 
 ---
 
@@ -176,17 +172,15 @@ An end-to-end analysis of flight ticket sales data (price, airline, route, stopo
 
 ### 🌾 PanganWatch: Governed Food Price Intelligence
 
-> [`/panganwatch`](https://github.com/MRSandyra/panganwatch) · [Live dashboards](PASTE_TABLEAU_PUBLIC_URL)
+> [`/panganwatch`](https://github.com/MRSandyra/panganwatch)
 
-A governed data platform answering three questions about Indonesian food prices: which provinces drift furthest from the national median, whether heavy rainfall precedes shallot price rises, and how city inflation tracks food-price change. Three public APIs (WFP food prices via HDX, Open-Meteo, BPS WebAPI) land in **MongoDB** as raw payloads carrying record-level lineage, flow into **PostgreSQL** and **dbt** marts guarded by 134 tests, and reach users through **Tableau**. **Airflow** runs the batch side, while a **Kafka** stream validates live weather against a Pydantic data contract and routes anything invalid to a dead-letter queue.
+**Helping people understand food price changes across Indonesia.** PanganWatch brings together public food price, rainfall, and inflation data to explore regional price differences and possible relationships between weather and prices.
 
-- Governance built to **DAMA** practice rather than bolted on: 27 quality rules covering all six dimensions that quarantine bad records instead of dropping them, a business glossary and RACI ownership matrix stored as queryable seeds, lineage generated from dbt's `manifest.json`, and retention enforced in code (90-day TTL on bronze, 7-day Kafka topics)
-- Master and reference data reconciled to official **BPS** codes across sources: 513 regencies and cities, a 2,565-row crosswalk, and all 150 CPI inflation cities mapped to 38 provinces (123 by normalised name, 27 mapped manually with the reason recorded for review)
-- Found and fixed real bugs along the way: a missing field that sent **every** quality rule into the exception handler and wrote fake failure results; a rule pointing at a column that never existed, quarantining 17,708 of 17,708 weather rows; a coverage rule passing vacuously because the engine counted rows instead of distinct provinces; a stale `airflow-webserver.pid` that killed the webserver on every container restart while the container still reported itself up; and a Kafka consumer holding a single Postgres connection for its whole lifetime with no reconnect
-- Honest about its gaps rather than hiding them: prices cover 34 of 38 provinces, January 2026 carries only 8, and chilli vanishes from the source after May 2024. Each gap was surfaced by the coverage rule, written into the findings, and flagged on the dashboard
-- Weather-to-price and inflation-to-price links are reported as correlations with sample sizes and p-values (Spearman rho = 0.206, n = 354, p = 9e-05), never as causation
+- Provides visual dashboards and automated checks to make the data more useful and trustworthy; the project includes **134 data tests**.
+- Clearly reports missing information instead of hiding it: food price coverage reaches **34 of Indonesia's 38 provinces**, with some periods having much less data.
+- Treats patterns between weather and prices as **relationships, not proof of cause and effect**.
 
-**Tech:** Apache Airflow · Kafka (KRaft) · dbt · PostgreSQL · MongoDB · Pydantic · Plotly · Tableau · Docker Compose · Python
+**Built with:** Python · Airflow · Kafka · PostgreSQL · MongoDB · dbt · Tableau · Docker
 
 ---
 
@@ -194,14 +188,12 @@ A governed data platform answering three questions about Indonesian food prices:
 
 > [`/fraud-transaction-risk-pipeline`](https://github.com/MRSandyra/fraud-transaction-risk-pipeline)
 
-A streaming and batch data platform for payment fraud monitoring, replaying the **PaySim** dataset (6.36M transactions, 8,213 fraudulent, a 0.13% fraud rate) as a live event stream through a 12-container Docker stack: **Kafka → Spark Structured Streaming → a MinIO data lake (bronze/silver/gold) → ClickHouse → dbt → Superset**, with **Airflow** orchestrating the nightly batch rebuild.
+**Making payment risks easier to monitor.** This project simulates a payment monitoring platform using a public dataset of **6.36 million transactions**, including **8,213 labelled fraudulent transactions**.
 
-- Dual-path design: a Kafka producer replays PaySim in simulated-hour order, streamed straight into a live ClickHouse table, while a daily Airflow DAG runs the batch PySpark job through bronze → silver → gold in MinIO
-- ClickHouse reads the gold Parquet files directly through its S3 table engine; dbt builds staging → intermediate → marts on top, checked by 14 tests
-- Found and fixed real bugs along the way: a fraud-rate spike that turned out to be a legitimate-volume dip, not an attack; a NULL merchant bucket that topped the risk leaderboard; and a fresh-clone crash caused by ClickHouse trying to infer a table schema from an empty bucket
-- MinIO's own images quietly disappeared from Docker Hub mid-project; every image is now pinned to a specific tag (MinIO repinned to `quay.io`) so a fresh clone still builds
+- Processes transaction activity and prepares dashboards to help identify unusual payment patterns.
+- Combines continuously arriving data with scheduled updates and includes checks to improve data consistency.
 
-**Tech:** Kafka · Apache Spark (Structured Streaming) · MinIO · ClickHouse · dbt · Apache Airflow · Superset · PostgreSQL · MongoDB · Docker Compose
+**Built with:** Kafka · Apache Spark · MinIO · ClickHouse · dbt · Airflow · Superset
 
 ---
 
@@ -209,14 +201,12 @@ A streaming and batch data platform for payment fraud monitoring, replaying the 
 
 > [`/jakarta-air-quality-pipeline`](./jakarta-air-quality-pipeline)
 
-An hourly ELT pipeline that extracts air quality readings from OpenAQ and weather forecasts from BMKG, models them with **dbt** into a Postgres warehouse, and serves the result through a **Metabase** dashboard, orchestrated by **Airflow** and running entirely on Docker Compose with no cloud account required.
+**Making Jakarta's air quality easier to explore.** This project collects air quality readings and weather information, refreshes them regularly, and brings them together in an interactive dashboard.
 
-- Bronze/silver/gold layering (`raw` → `staging` → `marts`), with **11 dbt tests blocking every run** so bad data never reaches the dashboard
-- Investigated why only 2 of 27 nearby OpenAQ stations report real data, surfacing dead sensors, `-999` sentinel values, and cross-vendor calibration drift between low-cost sensors
-- Found and fixed **10 distinct data-quality bugs** in production, including a silent dbt schema-naming quirk and a timezone bug that shifted every weather join by 7 hours undetected
-- One-time historical backfill script to seed 14 days of trend data without waiting on the hourly schedule
+- Automates hourly updates and includes checks to reduce errors in the displayed data.
+- Found that **only 2 of 27 nearby monitoring stations** were reporting usable readings during the investigation, highlighting why data quality matters before drawing conclusions.
 
-**Tech:** Airflow · dbt · PostgreSQL · Metabase · Docker Compose · Python
+**Built with:** Python · Airflow · dbt · PostgreSQL · Metabase · Docker
 
 ---
 
@@ -224,18 +214,16 @@ An hourly ELT pipeline that extracts air quality readings from OpenAQ and weathe
 
 > [`/wikipedia-edit-stream-analytics`](https://github.com/MRSandyra/wikipedia-edit-stream-analytics)
 
-A real-time streaming pipeline that consumes Wikipedia's public global edit firehose and scores every edit for vandalism and suspicious activity with rule-based heuristics. It runs entirely on Docker Compose with no cloud account, no API keys, and no dataset to download: **Wikimedia EventStreams → Redpanda → Consumer → DuckDB (bronze/silver) → Aggregator (gold) → Streamlit dashboard.**
+**Tracking how Wikipedia changes in real time.** This application follows public Wikipedia edits and highlights activity that may deserve closer review, such as unusually large deletions or repeated edits.
 
-- Six weighted heuristics score every edit 0–100 for vandalism risk (large content deletions, anonymous IP edits, empty comments on big changes, suspicious keywords, edit-warring), with bots excluded from scoring but tracked separately for a bot-vs-human ratio, all covered by a dedicated pytest suite
-- Aggregator pre-computes four gold tables every 60 seconds so the dashboard never scans the full silver table, alongside a retention job that prunes bronze Parquet files older than 3 days
-- Found and fixed real bugs along the way: an `httpx.Request` built by hand that silently dropped its `User-Agent` header, a schema written for a CloudEvents envelope the actual Wikimedia stream never uses, and a DuckDB single-writer lock that was quietly blocking the aggregator on every cycle
-- An early diagnosis wrongly concluded Wikimedia was blocking Docker containers outright, traced back to testing a never-closing SSE endpoint with a request method built for finite responses
+- Gives edits a **0–100 risk score** using six predefined warning signals; the score is an indicator, not a confirmed finding of vandalism.
+- Updates summary data regularly and displays patterns in an interactive dashboard.
 
-**Tech:** Python · Redpanda · DuckDB · Pydantic · APScheduler · Streamlit · Plotly · pytest · Docker Compose
+**Built with:** Python · Redpanda · DuckDB · Streamlit · Plotly · Docker
 
 ---
 
-## 🧰 Tech Stack
+## 🧰 Tools & Technologies
 
 **Languages & Core**
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
@@ -250,7 +238,7 @@ A real-time streaming pipeline that consumes Wikipedia's public global edit fire
 ![XGBoost](https://img.shields.io/badge/XGBoost-006400?style=flat-square)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
 
-**Retrieval, Generative AI & Serving**
+**AI Applications**
 ![Ollama](https://img.shields.io/badge/Ollama-000000?style=flat-square)
 ![pgvector](https://img.shields.io/badge/pgvector-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
@@ -266,7 +254,7 @@ A real-time streaming pipeline that consumes Wikipedia's public global edit fire
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=flat-square&logo=laravel&logoColor=white)
 ![Google Colab](https://img.shields.io/badge/Colab-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)
 
-**Data Engineering & Orchestration**
+**Data Platforms & Automation**
 ![Airflow](https://img.shields.io/badge/Apache%20Airflow-017CEE?style=flat-square&logo=apacheairflow&logoColor=white)
 ![dbt](https://img.shields.io/badge/dbt-FF694B?style=flat-square&logo=dbt&logoColor=white)
 ![Kafka](https://img.shields.io/badge/Apache%20Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white)
