@@ -40,7 +40,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 | [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Flags suspicious activity in website access logs | Python, PHP, MySQL |
 | [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares income inequality across countries | Python, Plotly |
 | [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
-| [FulfillIQ Cloud](#-fulfilliq-cloud-governed-delivery-sla-intelligence) | Reconciles delivery-SLA metrics between a local pipeline and an independent AWS cloud replay | Python, DuckDB, AWS (S3/Lambda/Athena), Terraform |
+| [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Checks whether online orders arrive on time, with the numbers double-verified between a local and cloud calculation | Python, DuckDB, AWS, Terraform |
 | [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Tracks food prices and helps assess data reliability | Airflow, PostgreSQL, Tableau |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Monitors payment activity for potential fraud risks | Kafka, Spark, Superset |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Combines air quality and weather data in a dashboard | Airflow, PostgreSQL, Metabase |
@@ -173,15 +173,16 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ## 🔧 Data Engineering
 
-### 🚀 FulfillIQ Cloud: Governed Delivery-SLA Intelligence
+### 🚀 FulfillIQ Cloud: Delivery Performance Dashboard
 
 > [`/fulfilliq-cloud`](https://github.com/MRSandyra/fulfilliq-cloud)
 
-**Proving a delivery-SLA dashboard's numbers, not just showing them.** FulfillIQ Cloud is an end-to-end case study built on local Olist marketplace CSVs: it reduces multiple order items to one analytical order, separates checkout-time facts from future delivery outcomes to avoid label leakage, and replays deterministic, content-addressed event batches so an at-least-once cloud pipeline stays retry-safe.
+**Making sure a delivery performance dashboard's numbers can actually be trusted.** This project tracks whether online orders are delivered on time, using real historical e-commerce data. To prove the results are accurate, every number is calculated twice in two completely separate ways, once on a local computer and once independently in the cloud (AWS), and both have to match.
 
-- Calculates the same KPI contract twice, once locally in DuckDB and once independently in AWS (private S3, Lambda, Athena), and reconciles both paths exactly: **98,665 unique orders**, **96,384 eligible deliveries**, and a **6.7086% late-delivery rate**, with zero quarantined batches across the full replay.
-- Pairs the dashboard with a leakage-aware logistic-regression risk baseline trained only on checkout-time features, evaluated with a chronological hold-out rather than a random split.
-- Ships only privacy-safe, aggregate-only JSON to the browser (no raw order IDs, customer records, or AWS credentials), and documents its own limitations: a historical 2016 to 2018 dataset, not a live tracking system or a causal model.
+- Checked nearly 100,000 orders and found a **6.7% late-delivery rate**, with the local and cloud results matching exactly.
+- Built in checks so that bad, duplicate, or incomplete data cannot quietly skew the final numbers, with zero failed or rejected records across the full run.
+- Includes a simple prediction model that estimates delivery risk using only the information known at checkout, then tests it the way it would actually be used in practice.
+- The dashboard only ever shows summarized numbers, never personal customer details or private login information, and is upfront about what the data can and cannot prove.
 
 **Built with:** Python · DuckDB · AWS (S3 · Lambda · Athena) · Terraform · React · TypeScript · Vite
 
