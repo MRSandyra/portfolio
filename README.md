@@ -175,7 +175,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ### 🚀 FulfillIQ Cloud: Delivery Performance Dashboard
 
-> [`/fulfilliq-cloud`](https://github.com/MRSandyra/fulfilliq-cloud)
+> [`/fulfilliq`](https://github.com/MRSandyra/fulfilliq)
 
 **Making sure a delivery performance dashboard's numbers can actually be trusted.** This project tracks whether online orders are delivered on time, using real historical e-commerce data. To prove the results are accurate, every number is calculated twice in two completely separate ways, once on a local computer and once independently in the cloud (AWS), and both have to match.
 
