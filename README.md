@@ -179,9 +179,9 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 **Proving a delivery-SLA dashboard's numbers, not just showing them.** FulfillIQ Cloud is an end-to-end case study built on local Olist marketplace CSVs: it reduces multiple order items to one analytical order, separates checkout-time facts from future delivery outcomes to avoid label leakage, and replays deterministic, content-addressed event batches so an at-least-once cloud pipeline stays retry-safe.
 
-- Calculates the same KPI contract twice — once locally in DuckDB and once independently in AWS (private S3, Lambda, Athena) — and reconciles both paths exactly: **98,665 unique orders**, **96,384 eligible deliveries**, and a **6.7086% late-delivery rate**, with zero quarantined batches across the full replay.
+- Calculates the same KPI contract twice, once locally in DuckDB and once independently in AWS (private S3, Lambda, Athena), and reconciles both paths exactly: **98,665 unique orders**, **96,384 eligible deliveries**, and a **6.7086% late-delivery rate**, with zero quarantined batches across the full replay.
 - Pairs the dashboard with a leakage-aware logistic-regression risk baseline trained only on checkout-time features, evaluated with a chronological hold-out rather than a random split.
-- Ships only privacy-safe, aggregate-only JSON to the browser — no raw order IDs, customer records, or AWS credentials — and documents its own limitations (a historical 2016–2018 dataset, not a live tracking system or a causal model).
+- Ships only privacy-safe, aggregate-only JSON to the browser (no raw order IDs, customer records, or AWS credentials), and documents its own limitations: a historical 2016 to 2018 dataset, not a live tracking system or a causal model.
 
 **Built with:** Python · DuckDB · AWS (S3 · Lambda · Athena) · Terraform · React · TypeScript · Vite
 
