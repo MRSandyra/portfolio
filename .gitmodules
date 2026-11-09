@@ -16,3 +16,6 @@
 [submodule "NusaLens"]
 	path = NusaLens
 	url = https://github.com/MRSandyra/NusaLens.git
+[submodule "fulfilliq"]
+	path = fulfilliq
+	url = https://github.com/MRSandyra/fulfilliq.git
