@@ -40,6 +40,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 | [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Flags suspicious activity in website access logs | Python, PHP, MySQL |
 | [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares income inequality across countries | Python, Plotly |
 | [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
+| [FulfillIQ Cloud](#-fulfilliq-cloud-governed-delivery-sla-intelligence) | Reconciles delivery-SLA metrics between a local pipeline and an independent AWS cloud replay | Python, DuckDB, AWS (S3/Lambda/Athena), Terraform |
 | [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Tracks food prices and helps assess data reliability | Airflow, PostgreSQL, Tableau |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Monitors payment activity for potential fraud risks | Kafka, Spark, Superset |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Combines air quality and weather data in a dashboard | Airflow, PostgreSQL, Metabase |
@@ -172,6 +173,20 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ## 🔧 Data Engineering
 
+### 🚀 FulfillIQ Cloud: Governed Delivery-SLA Intelligence
+
+> [`/fulfilliq-cloud`](https://github.com/MRSandyra/fulfilliq-cloud)
+
+**Proving a delivery-SLA dashboard's numbers, not just showing them.** FulfillIQ Cloud is an end-to-end case study built on local Olist marketplace CSVs: it reduces multiple order items to one analytical order, separates checkout-time facts from future delivery outcomes to avoid label leakage, and replays deterministic, content-addressed event batches so an at-least-once cloud pipeline stays retry-safe.
+
+- Calculates the same KPI contract twice — once locally in DuckDB and once independently in AWS (private S3, Lambda, Athena) — and reconciles both paths exactly: **98,665 unique orders**, **96,384 eligible deliveries**, and a **6.7086% late-delivery rate**, with zero quarantined batches across the full replay.
+- Pairs the dashboard with a leakage-aware logistic-regression risk baseline trained only on checkout-time features, evaluated with a chronological hold-out rather than a random split.
+- Ships only privacy-safe, aggregate-only JSON to the browser — no raw order IDs, customer records, or AWS credentials — and documents its own limitations (a historical 2016–2018 dataset, not a live tracking system or a causal model).
+
+**Built with:** Python · DuckDB · AWS (S3 · Lambda · Athena) · Terraform · React · TypeScript · Vite
+
+---
+
 ### 🌾 PanganWatch: Governed Food Price Intelligence
 
 > [`/panganwatch`](https://github.com/MRSandyra/panganwatch)
@@ -232,6 +247,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 
 **Data & ML**
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
@@ -254,6 +270,8 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 ![Selenium](https://img.shields.io/badge/Selenium-43B02A?style=flat-square&logo=selenium&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=flat-square&logo=laravel&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Google Colab](https://img.shields.io/badge/Colab-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)
 
 **Data Platforms & Automation**
@@ -267,6 +285,8 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 ![MinIO](https://img.shields.io/badge/MinIO-C72E49?style=flat-square&logo=minio&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![Tableau](https://img.shields.io/badge/Tableau-E97627?style=flat-square&logo=tableau&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
