@@ -41,7 +41,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 | [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares income inequality across countries | Python, Plotly |
 | [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
 | [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Checks whether online orders arrive on time, with the numbers double-verified between a local and cloud calculation | Python, DuckDB, AWS, Terraform |
-| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Tracks food prices and helps assess data reliability | Airflow, PostgreSQL, Tableau |
+| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Tracks food prices through a governed, validated Databricks Lakehouse | Databricks, PySpark, Delta Lake |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Monitors payment activity for potential fraud risks | Kafka, Spark, Superset |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Combines air quality and weather data in a dashboard | Airflow, PostgreSQL, Metabase |
 | [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Tracks Wikipedia edits and highlights unusual activity | Python, DuckDB, Streamlit |
@@ -192,13 +192,14 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/panganwatch`](https://github.com/MRSandyra/panganwatch)
 
-**Helping people understand food price changes across Indonesia.** PanganWatch brings together public food price, rainfall, and inflation data to explore regional price differences and possible relationships between weather and prices.
+**Helping people understand food price changes across Indonesia.** PanganWatch brings together public food price, rainfall, and inflation data to explore regional price differences and possible relationships between weather and prices. Its current cloud path is a batch-focused Databricks Lakehouse built from immutable source snapshots.
 
-- Provides visual dashboards and automated checks to make the data more useful and trustworthy; the project includes **134 data tests**.
+- Migrated the governed transformation flow to a Databricks Free Edition Lakehouse with Bronze, Silver, and Gold Delta layers, reference mapping, data-quality gates, governance tables, and source-replay reconciliation.
+- Validated the migration against a recovered legacy baseline with **zero missing business keys and zero value mismatches**; a nine-task batch job powers a four-page Databricks dashboard.
 - Clearly reports missing information instead of hiding it: food price coverage reaches **34 of Indonesia's 38 provinces**, with some periods having much less data.
 - Treats patterns between weather and prices as **relationships, not proof of cause and effect**.
 
-**Built with:** Python · Airflow · Kafka · PostgreSQL · MongoDB · dbt · Tableau · Docker
+**Built with:** Python · Databricks · PySpark · Delta Lake · Unity Catalog · Airflow · dbt · PostgreSQL · MongoDB · Kafka · Docker
 
 ---
 
@@ -289,7 +290,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white)
 ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Tableau](https://img.shields.io/badge/Tableau-E97627?style=flat-square&logo=tableau&logoColor=white)
+![Databricks](https://img.shields.io/badge/Databricks-FF3621?style=flat-square&logo=databricks&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
 ![Metabase](https://img.shields.io/badge/Metabase-509EE3?style=flat-square&logo=metabase&logoColor=white)
 ![Superset](https://img.shields.io/badge/Apache%20Superset-20A6C9?style=flat-square&logo=apachesuperset&logoColor=white)
