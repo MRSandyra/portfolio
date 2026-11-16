@@ -4,9 +4,9 @@ An hourly ELT pipeline that pulls air quality readings from the [OpenAQ v3 API](
 
 ## The problem
 
-Jakarta is one of the most polluted large cities in the world, but public data about it is scattered. Pollutant readings live in OpenAQ. Weather lives in BMKG. Neither is easy to query next to the other, and there is no single place that keeps a history of either one.
+For the DKI Jakarta Environmental Agency (Dinas Lingkungan Hidup), the immediate problem is not simply collecting more air quality data. It is deciding where a limited sensor maintenance budget will restore trustworthy coverage for public health teams. That requires knowing which stations are still transmitting real, current readings, which are returning missing-value sentinels or stale observations, and whether readings from different sensor vendors are calibrated well enough to compare.
 
-This project builds that missing piece: a pipeline that extracts both sources on a schedule, models them into a small warehouse, and blocks every run behind data quality tests so bad data does not quietly reach the dashboard.
+The public data needed for that decision is scattered. Pollutant readings live in OpenAQ, weather lives in BMKG, and neither is easy to query next to the other or retain as a shared history. This project builds that missing decision layer: a pipeline that extracts both sources on a schedule, models them into a small warehouse, and blocks every run behind data quality tests so dead sensors, sentinel values, and calibration drift do not quietly become evidence for maintenance or public health decisions.
 
 The most honest finding from this project is not a chart, it is a number: of the 27 OpenAQ stations within 25 km of central Jakarta, only 2 have reported real data in the last few days. Most of the city's "coverage" is sensors that stopped transmitting long ago but still return their last reading through the API. Getting from 27 down to a trustworthy 2 was most of the actual work. See [Data Quality Issues Found](#data-quality-issues-found) below.
 
@@ -237,3 +237,5 @@ dbt_project/macros/generate_schema_name.sql   forces literal schema names
 init-db.sql                              warehouse database, schemas, raw tables
 docker-compose.yml                       Postgres, Airflow, Metabase
 ```
+
+**Recommendation:** Dinas Lingkungan Hidup should prioritize repair or replacement of the 25 stations that have not reported in more than three days—every station in the 25 km search area except the live `Jakarta` and `BMKG 1` nodes—while keeping those two nodes online and calibrating them against the same reference-grade monitor before their readings are compared or used for public health decisions.
