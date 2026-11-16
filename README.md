@@ -31,20 +31,20 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 | Project | What It Does | Main Tools |
 |---|---|---|
-| [NusaLens](#-nusalens-ai-assistant-for-indonesian-public-data) | Answers questions about Indonesia using trusted public sources | Python, PostgreSQL, Ollama, Streamlit |
-| [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | Predicts match results and explores player behaviour | Python, XGBoost, Plotly |
-| [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Analyses chest X-rays and symptoms with AI | TensorFlow, Laravel, Flask |
+| [NusaLens](#-nusalens-ai-assistant-for-indonesian-public-data) | Helps public-policy analysts prepare evidence-backed Indonesia briefs | Python, PostgreSQL, Ollama, FastAPI |
+| [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | Audits when match predictions become reliable and explains the drivers | Python, XGBoost, SHAP |
+| [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Combines chest X-rays and symptoms across 11 lung conditions | TensorFlow, Laravel, Flask |
 | [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | Finds positive and negative opinions in customer reviews | Python, scikit-learn |
 | [Anime Recommender](#-anime-recommender) | Suggests anime based on user preferences | Python |
 | [IndoStock Analyzer](#-indostock-analyzer-personal-stock-analysis-tool) | Brings together stock news, financial data, and market trends | Python, Selenium, yfinance |
 | [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Flags suspicious activity in website access logs | Python, PHP, MySQL |
-| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares income inequality across countries | Python, Plotly |
+| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares inequality and simulates redistribution scenarios | Python, Plotly, scikit-learn |
 | [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
-| [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Checks whether online orders arrive on time, with the numbers double-verified between a local and cloud calculation | Python, DuckDB, AWS, Terraform |
-| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Tracks food prices through a governed, validated Databricks Lakehouse | Databricks, PySpark, Delta Lake |
-| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Monitors payment activity for potential fraud risks | Kafka, Spark, Superset |
-| [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Combines air quality and weather data in a dashboard | Airflow, PostgreSQL, Metabase |
-| [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Tracks Wikipedia edits and highlights unusual activity | Python, DuckDB, Streamlit |
+| [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Reconciles one delivery-SLA definition locally and in AWS | Python, DuckDB, AWS, Terraform |
+| [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Governs food-price data and proves a Databricks migration against its legacy baseline | Databricks, PySpark, Delta Lake |
+| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Demonstrates dual-path fraud monitoring and investigates misleading risk signals | Kafka, Spark, dbt, Superset |
+| [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Identifies which Jakarta sensors can support maintenance and public-health decisions | Airflow, dbt, PostgreSQL, Metabase |
+| [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Turns a global edit stream into an explainable moderation queue | Redpanda, DuckDB, Streamlit |
 
 ---
 
@@ -54,11 +54,11 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/NusaLens`](https://github.com/MRSandyra/NusaLens)
 
-**Helping people explore facts about Indonesia through simple questions.** NusaLens is an AI-powered application that answers questions in Indonesian using public information from the World Bank and Wikipedia. It shows the sources behind its answers and can explain when there is not enough information to respond confidently.
+**Helping Indonesian public-policy analysts prepare evidence-backed country briefs.** NusaLens answers questions in Indonesian that combine World Bank indicators with indexed Wikipedia context. It exposes citations and generated SQL, and abstains when the available evidence is insufficient.
 
-- Makes statistical data and background information easier to access without manually searching through tables and articles.
-- In project testing, **35 out of 35 test questions** were successfully converted into working database queries, and the search system improved its ability to find relevant information by **61.5%** compared with the initial version.
-- Runs locally without paid AI APIs. **Still being improved:** some written answers do not fully reflect all available source information (68.6% fact coverage in the main evaluation).
+- The production retrieval pipeline improved nDCG@10 from **0.390 to 0.630 (+61.5%)**; text-to-SQL execution reached **35/35**, routing reached **119/120**, and abstain recall reached **15/15**.
+- Runs locally without paid AI APIs, using a rule-first router, PostgreSQL/pgvector retrieval, and local Ollama models.
+- **Deployment decision:** it is not ready for real policy queries because answer fact coverage is **68.6%**, below the 80% target. The synthesis step should be replaced or constrained and revalidated without reducing abstain recall.
 
 **Built with:** Python · PostgreSQL · Ollama · FastAPI · Streamlit · Docker
 
@@ -68,10 +68,10 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/League of Legends Challenger Rank Analytics`](./League%20of%20Legends%20Challenger%20Rank%20Analytics)
 
-**Understanding what contributes to winning competitive matches.** I analysed **300 high-level League of Legends matches** and around **311,000 in-game events** to study winning patterns, player behaviour, and team combinations.
+**Understanding when a competitive-match prediction becomes trustworthy.** I analysed **300 Challenger-tier League of Legends matches** and **311,266 in-game events** to study objectives, player archetypes, anomalies, and champion combinations.
 
-- Built models to predict match outcomes and an interactive dashboard to explore the results.
-- Checked that predictions were not relying on information players would not have at the time, helping make the evaluation more realistic.
+- The full XGBoost model reached **0.901 ROC-AUC**, but a leakage audit showed that a 10-minute-only model reached just **0.68**; the stronger result is therefore a mid-game predictor, not an early-game claim.
+- First Tower and First Herald were the strongest observed early objectives, while SHAP, permutation importance, and feature ablation were cross-checked to explain the model.
 
 **Built with:** Python · scikit-learn · XGBoost · SHAP · Plotly · NetworkX
 
@@ -81,9 +81,9 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/lung-diagnosis`](https://github.com/MRSandyra/Lung-Diagnosis-Web)
 
-**Exploring how AI can support the analysis of lung conditions.** This web application examines **chest X-ray images alongside patient-reported symptoms** and produces predictions across **11 lung-related categories**.
+**Exploring how AI can support the analysis of lung conditions.** This web application combines **224x224 chest X-ray images with 13 symptom features** and produces probabilities across **11 lung-related categories**.
 
-- Combines medical images and symptom information rather than relying on one input alone.
+- Uses a DenseNet-169 model with a documented **0.7586 AUC** model artifact.
 - Includes an interface for uploading images, viewing predictions, and reviewing previous results.
 
 *This is a research/software project, not a substitute for professional medical diagnosis.*
@@ -149,10 +149,10 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/Global Income Inequality`](./Global%20Income%20Inequality%20-%20Visualizing%20Lorenz%20Curves%20%26%20Gini%20Coefficients)
 
-**Comparing income inequality around the world.** This project uses World Bank data from roughly two decades to show how income distribution differs between countries and how it changes over time.
+**Comparing income inequality and possible redistribution scenarios.** This project uses **2,456 country-year distributions** from the World Bank Poverty and Inequality Platform to study Gini trends and Lorenz curves.
 
-- Creates interactive charts and maps that make country comparisons easier to understand.
-- Groups countries with similar inequality and economic patterns for further exploration.
+- Creates interactive trends and a global map, including an Indonesia 2019 baseline Gini of **0.3728**.
+- Simulates targeted subsidy and progressive-tax scenarios as analytical illustrations, not policy forecasts.
 
 **Built with:** Python · Plotly · scikit-learn · NumPy
 
@@ -177,12 +177,12 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/fulfilliq`](https://github.com/MRSandyra/fulfilliq)
 
-**Making sure a delivery performance dashboard's numbers can actually be trusted.** This project tracks whether online orders are delivered on time, using real historical e-commerce data. To prove the results are accurate, every number is calculated twice in two completely separate ways, once on a local computer and once independently in the cloud (AWS), and both have to match.
+**Making a delivery-SLA dashboard earn its numbers.** FulfillIQ turns historical Olist data into one-row-per-order events, separates checkout facts from future outcomes, and independently reconciles the same metric contract in local DuckDB and AWS.
 
-- Checked nearly 100,000 orders and found a **6.7% late-delivery rate**, with the local and cloud results matching exactly.
-- Built in checks so that bad, duplicate, or incomplete data cannot quietly skew the final numbers, with zero failed or rejected records across the full run.
-- Includes a simple prediction model that estimates delivery risk using only the information known at checkout, then tests it the way it would actually be used in practice.
-- The dashboard only ever shows summarized numbers, never personal customer details or private login information, and is upfront about what the data can and cannot prove.
+- The completed AWS replay reconciled **98,665 unique orders**, **96,384 eligible deliveries**, and **6,466 late deliveries** exactly to the frozen local reference: a **6.7086%** late-delivery rate.
+- Deterministic, content-addressed batches make retries safe; all **987 placement** and **964 outcome** batches completed with zero full-run quarantine objects and passed duplicate-retry probes.
+- A checkout-only model is reported honestly as a historical baseline (**ROC-AUC 0.6815**), while the browser receives aggregate data only.
+- **Operational recommendation:** use 6.7% as the verified baseline, then prioritize customer regions that combine high order volume with a high late-delivery rate for investigation.
 
 **Built with:** Python · DuckDB · AWS (S3 · Lambda · Athena) · Terraform · React · TypeScript · Vite
 
@@ -192,12 +192,12 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/panganwatch`](https://github.com/MRSandyra/panganwatch)
 
-**Helping people understand food price changes across Indonesia.** PanganWatch brings together public food price, rainfall, and inflation data to explore regional price differences and possible relationships between weather and prices. Its current cloud path is a batch-focused Databricks Lakehouse built from immutable source snapshots.
+**Proving whether a provincial food-price comparison deserves to be trusted.** PanganWatch preserves public food-price and weather responses as evidence, applies reference mapping and data-quality gates, and publishes a batch-focused Databricks Lakehouse from immutable source snapshots.
 
-- Migrated the governed transformation flow to a Databricks Free Edition Lakehouse with Bronze, Silver, and Gold Delta layers, reference mapping, data-quality gates, governance tables, and source-replay reconciliation.
-- Validated the migration against a recovered legacy baseline with **zero missing business keys and zero value mismatches**; a nine-task batch job powers a four-page Databricks dashboard.
-- Clearly reports missing information instead of hiding it: food price coverage reaches **34 of Indonesia's 38 provinces**, with some periods having much less data.
-- Treats patterns between weather and prices as **relationships, not proof of cause and effect**.
+- The Databricks path uses Bronze, Silver, Gold, and governance Delta tables; its nine-task job completed successfully and feeds a four-page published dashboard.
+- Source replay matched **164,750 price** and **269,496 weather** records with zero missing or unexpected rows; recovered legacy replay also had zero missing keys and zero value mismatches.
+- The analysis found major coverage limits: prices cover **34 of 38 provinces**, only **8 of 14 reference commodities**, and January 2026 is nearly empty. Weather-price patterns are reported as correlations, not causation.
+- **Policy recommendation:** onboard and validate feeds for the four missing Papua provinces before using provincial rankings for nationwide allocation or intervention decisions; until then, visibly flag and exclude incomplete provinces from nationally comparable rankings.
 
 **Built with:** Python · Databricks · PySpark · Delta Lake · Unity Catalog · Airflow · dbt · PostgreSQL · MongoDB · Kafka · Docker
 
@@ -207,10 +207,11 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/fraud-transaction-risk-pipeline`](https://github.com/MRSandyra/fraud-transaction-risk-pipeline)
 
-**Making payment risks easier to monitor.** This project simulates a payment monitoring platform using a public dataset of **6.36 million transactions**, including **8,213 labelled fraudulent transactions**.
+**Demonstrating the platform work behind fraud monitoring when bank-grade logs are unavailable.** The well-known public PaySim dataset is used as a stand-in for sensitive real transaction logs; the original work is the dual-path architecture, tested analytical layers, and incident investigation rather than the dataset itself.
 
-- Processes transaction activity and prepares dashboards to help identify unusual payment patterns.
-- Combines continuously arriving data with scheduled updates and includes checks to improve data consistency.
+- Kafka and Spark Structured Streaming power the live path, while Airflow runs a separate batch path through a MinIO Bronze/Silver/Gold lake; ClickHouse, dbt, and Superset provide tested serving layers.
+- The analysis showed that a fraud-rate spike came from a collapse in legitimate transaction volume, not a surge in fraud count, and that a 100%-risk “merchant” was actually a grouped NULL bucket.
+- **Fraud-ops recommendation:** enforce a non-null merchant identifier upstream and quarantine unmatched records before they enter any merchant risk leaderboard.
 
 **Built with:** Kafka · Apache Spark · MinIO · ClickHouse · dbt · Airflow · Superset
 
@@ -220,10 +221,11 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/jakarta-air-quality-pipeline`](./jakarta-air-quality-pipeline)
 
-**Making Jakarta's air quality easier to explore.** This project collects air quality readings and weather information, refreshes them regularly, and brings them together in an interactive dashboard.
+**Helping Dinas Lingkungan Hidup decide where sensor maintenance can restore trustworthy coverage.** This hourly pipeline combines OpenAQ readings with BMKG forecasts, models them with dbt, and blocks publication behind data-quality tests.
 
-- Automates hourly updates and includes checks to reduce errors in the displayed data.
-- Found that **only 2 of 27 nearby monitoring stations** were reporting usable readings during the investigation, highlighting why data quality matters before drawing conclusions.
+- Of **27 stations** within 25 km of central Jakarta, **25 were stale** and only the `Jakarta` and `BMKG 1` nodes were reporting usable recent data; the backfill loaded 459 historical readings and all 11 dbt tests passed.
+- The two live low-cost sensor vendors differed by roughly 4-5x, so their raw PM2.5 values should not be compared without shared reference-grade calibration.
+- **Maintenance recommendation:** repair or replace the 25 stale stations first, keep the two live nodes online, and calibrate both against the same reference monitor before using comparisons for public-health decisions.
 
 **Built with:** Python · Airflow · dbt · PostgreSQL · Metabase · Docker
 
@@ -233,10 +235,11 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/wikipedia-edit-stream-analytics`](https://github.com/MRSandyra/wikipedia-edit-stream-analytics)
 
-**Tracking how Wikipedia changes in real time.** This application follows public Wikipedia edits and highlights activity that may deserve closer review, such as unusually large deletions or repeated edits.
+**Turning Wikipedia's global edit firehose into an explainable moderation queue.** This real-time pipeline scores edits using transparent warning signals and gives platform-integrity teams a focused review feed instead of requiring them to inspect every change.
 
-- Gives edits a **0–100 risk score** using six predefined warning signals; the score is an indicator, not a confirmed finding of vandalism.
-- Updates summary data regularly and displays patterns in an interactive dashboard.
+- Gives each non-bot edit a **0-100 suspicion score** using six deterministic rules, stores Bronze/Silver/Gold data, and refreshes dashboard summaries every 60 seconds.
+- Runs locally with Docker Compose, Redpanda, DuckDB, and Streamlit; no cloud account, API key, or downloaded dataset is required.
+- **Moderation recommendation:** queue scores **50-69** for review and immediately escalate scores **70+** to a human moderator. Do not auto-revert because the heuristic has not been precision/recall calibrated.
 
 **Built with:** Python · Redpanda · DuckDB · Streamlit · Plotly · Docker
 
