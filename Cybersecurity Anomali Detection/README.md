@@ -1,269 +1,56 @@
-# 🛡️ Anomaly Detection System
+# Cybersecurity Anomaly Detection
 
-A web-based security monitoring application that analyzes Apache/Nginx access logs to detect various types of web attacks and anomalous behavior in real time.
+A PHP and Python portfolio project that analyzes Apache/Nginx Combined Log Format files for suspicious web requests. It detects SQL injection, path traversal, OGNL, XSS, RFI, shell-like payloads, HTTP method abuse, password-related attacks, unauthorized-path probing, repeated logins, and high-volume requests.
 
----
+## Security posture
 
-## 📋 Table of Contents
+- Database configuration is supplied exclusively through environment variables; copy `.env.example` for local reference but do not commit a populated `.env`.
+- Password-reset tokens are 256-bit random, URL-safe values. Only their SHA-256 digest is stored, they expire after one hour, and the password update consumes the token atomically.
+- Reset requests always return the same message, whether or not the account exists. Reset links use `APP_BASE_URL` and are URL encoded.
+- The reset flow has no token, query, account-ID, or database-error debug output. Existing plaintext reset tokens are invalidated by the migration.
+- Uploads are limited to 5 MB, validated by extension, MIME, NUL-byte check, and Combined Log Format content check.
+- Each analysis gets a random private workspace outside the web root. The Python program receives explicit input and output paths; there are no shared `result.txt`, `access.csv`, or CSV outputs.
+- The analyzer starts using `proc_open()` with an argument array and `bypass_shell`, has a configurable timeout, and receives no constructed shell command.
+- Result CSV downloads are restricted to the session that created the analysis and workspaces are safely purged after one hour.
+- Dynamic HTML is escaped, forms use CSRF tokens, sessions use HttpOnly/SameSite cookies, and response headers reduce MIME-sniffing, framing, and reset-link referrer exposure.
 
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Attack Detection Logic](#attack-detection-logic)
-- [Output Files](#output-files)
-- [Web Interface](#web-interface)
-- [Database](#database)
+## Requirements
 
----
+- PHP 8.0+ with `mysqli`, `fileinfo`, and `proc_open` enabled
+- MySQL or MariaDB
+- Python 3.9+ (standard library only)
+- A working server-side mail transport for PHP `mail()` (or replace that delivery adapter in production)
 
-## Overview
+## Setup
 
-The **Anomaly Detection System** is a hybrid PHP + Python application designed to parse web server access logs, identify malicious traffic patterns, and display the results through a web dashboard. The Python script (`check.py`) handles the core log analysis and attack detection, while the PHP files provide a user-facing web interface with authentication.
+1. Import the clean schema: `mysql -u USER -p anomali_detection < anomali_detection.sql`.
+2. For an existing database, first run `migrations/20261120_harden_reset_tokens.sql`. It preserves the existing reset columns, adds a lookup index, and invalidates legacy plaintext tokens.
+3. Set the environment variables in `.env.example` in your web-server configuration. This application deliberately does not load `.env` files itself, keeping runtime secrets outside the document root and source control.
+4. Set `ANALYSIS_WORKSPACE_ROOT` to an absolute directory outside the web root that is writable only by the web-server account. If it is unset, the application uses the operating system temporary directory with restrictive permissions.
 
----
+`APP_BASE_URL` must be an HTTPS public URL without a trailing slash. The reset handler will not issue a link if it is absent or not HTTPS. Set `RESET_EMAIL_FROM` to an allowed sender. Failure to send a message clears the just-issued token and still shows the generic response.
 
-## ✨ Features
+## Use
 
-- Parses Apache/Nginx Combined Log Format access logs
-- Detects **11 types** of web attacks and anomalies
-- URL decoding for obfuscated attack payloads
-- Per-IP request counting for DoS detection
-- Brute-force login attempt detection
-- Exports results to CSV for further analysis
-- Web dashboard with user authentication, registration, and password reset
-
----
-
-## 📁 Project Structure
-
-```
-anomali_detection/
-├── check.py                        # Core Python script: log parsing & attack detection
-├── index.php                       # Main dashboard page
-├── result.php                      # Detection results display page
-├── login.php                       # User login page
-├── register.php                    # User registration page
-├── logout.php                      # Session logout handler
-├── koneksi.php                     # Database connection configuration
-├── account_settings.php            # User account settings
-├── Reset_form.php                  # Password reset form
-├── reset_password.html             # Password reset HTML page
-├── reset_password.php              # Password reset handler
-├── reset2.php                      # Secondary reset handler
-├── send_reset_link.php             # Sends password reset link via email
-├── update_password.php             # Updates password in database
-├── anomali_detection.sql           # Database schema and initial data
-├── attack_detection_results.csv    # Output: full detection results per log entry
-├── package.json                    # Node.js dependencies (if any)
-├── package-lock.json               # Node.js lock file
-├── log.txt                         # Application log
-├── send_success_log.txt            # Email send success log
-├── php_command_output_log.txt      # PHP command execution log
-└── README.md                       # Project documentation
-```
-
-> **Note:** `check.py` expects an `uploads/access.log` file at runtime and produces `access.csv`, `result.txt`, and `attack_detection_results.csv` as output.
-
----
-
-## ⚙️ Requirements
-
-### Python
-
-- Python 3.7+
-- Required packages:
-
-```
-pandas
-tqdm
-```
-
-Install with:
+Open `index.php`, upload a `.log` or `.txt` file in Apache/Nginx Combined Log Format, and review the escaped summary. The detailed CSV remains available to that browser session for one hour. For command-line use:
 
 ```bash
-pip install pandas tqdm
+python check.py path/to/access.log --output-dir path/to/private-job
 ```
 
-### PHP & Web Server
+The output directory receives `access.csv`, `result.txt`, and `attack_detection_results.csv`; do not use a shared directory for concurrent jobs.
 
-- PHP 7.4+ or 8.x
-- MySQL / MariaDB
-- Apache or Nginx web server
-- PHPMailer (or similar) for password reset email functionality
-
----
-
-## 🚀 Installation
-
-1. **Clone or copy** the project to your web server's document root:
+## Tests
 
 ```bash
-cp -r anomali_detection/ /var/www/html/anomali_detection/
+php tests/run.php
+python -m unittest tests/test_analyzer_concurrency.py
 ```
 
-2. **Import the database schema:**
+The PHP test covers reset-token format, hashing, expiry, modeled one-time consumption, and upload extension/content validation. The Python integration test runs two analyses concurrently and asserts that their output files do not collide.
 
-```bash
-mysql -u root -p < anomali_detection.sql
-```
+## Threat model and remaining limitations
 
-3. **Configure the database connection** in `koneksi.php`:
+The main attackers considered are unauthenticated users enumerating reset accounts or replaying reset links; authenticated or anonymous users uploading malicious/binary/oversized files; concurrent users racing output files; and users injecting rendered log data. The controls above reduce those attack paths, but they do not replace web-server request limits, TLS, rate limiting, monitoring, mail-provider hardening, malware scanning, or sandbox/container isolation for Python in a high-risk deployment.
 
-```php
-$host = 'localhost';
-$db   = 'anomali_detection';
-$user = 'your_db_user';
-$pass = 'your_db_password';
-```
-
-4. **Install Python dependencies:**
-
-```bash
-pip install pandas tqdm
-```
-
-5. **Set permissions** for the upload directory:
-
-```bash
-mkdir -p uploads/
-chmod 755 uploads/
-```
-
-6. Access the application at `http://localhost/anomali_detection/`.
-
----
-
-## 🔧 Configuration
-
-The following paths are configured at the top of `check.py` and can be adjusted as needed:
-
-| Variable          | Default                          | Description                        |
-|-------------------|----------------------------------|------------------------------------|
-| `log_file_path`   | `uploads/access.log`             | Input: web server access log file  |
-| `csv_file_path`   | `access.csv`                     | Intermediate: parsed log as CSV    |
-| `result_file_path`| `result.txt`                     | Output: attack count summary       |
-| `detail_csv_path` | `attack_detection_results.csv`   | Output: full per-request results   |
-
----
-
-## 🖥️ Usage
-
-### Running the Detection Script
-
-1. Place your Apache/Nginx access log file at `uploads/access.log`.
-
-2. Run the detection script:
-
-```bash
-python check.py
-```
-
-3. Review the summary output in `result.txt` and the full detailed results in `attack_detection_results.csv`.
-
-### Example Summary Output (`result.txt`)
-
-```
-Total Path Traversal Attacks:        12
-Total SQL Injection Attacks:         47
-Total OGNL Injection Attacks:        3
-Total XSS Attacks:                   19
-Total RFI Attacks:                   2
-Total Malicious Payload Attacks:     8
-Total HTTP Methods Abuse:            5
-Total Password-Based Attacks:        31
-Total Repeated Login Attempts:       14
-Total Unauthorized Access Attempts:  62
-Total DoS Attacks:                   200
-```
-
----
-
-## 🔍 Attack Detection Logic
-
-`check.py` applies regex-based pattern matching on each decoded URL request. Detection categories and their priority order:
-
-| Priority | Attack Type                  | Detection Method                                         |
-|----------|------------------------------|----------------------------------------------------------|
-| 1        | **SQL Injection**            | Keywords: `UNION`, `SELECT`, `DROP`, `--`, `%27`, etc.  |
-| 2        | **Path Traversal**           | Patterns: `../`, `..\`, `%2F%2E%2E`, etc.               |
-| 3        | **OGNL Injection**           | Patterns: `${...}`, `#context`, `#request`, etc.        |
-| 4        | **XSS**                      | Patterns: `<script>`, `onXXX=`, `javascript:`, etc.     |
-| 5        | **Remote File Inclusion**    | External URLs ending in `.php`, `.txt`, `.html`         |
-| 6        | **Malicious Payload**        | `cmd=`, `exec=`, `/bin/bash`, `powershell=`, etc.       |
-| 7        | **HTTP Methods Abuse**       | Methods: `TRACE`, `TRACK`, `OPTIONS`, `CONNECT`, etc.   |
-| 8        | **Password-Based Attack**    | Params: `password=`, `passwd=`, `login=`, `user=`       |
-| 9        | **Unauthorized Access**      | Paths: `admin`, `administrator`, `root`, `superuser`    |
-| 10       | **Denial of Service (DoS)**  | > 100 requests from a single IP address                 |
-| –        | **Repeated Login Attempts**  | > 5 password-related requests from a single IP          |
-
-> When multiple attack types are detected in a single request, the **highest-priority** category is assigned as the `attack_focus`.
-
----
-
-## 📄 Output Files
-
-### `result.txt`
-A plain-text summary of total detected attacks per category. Suitable for quick review or integration with alerting systems.
-
-### `attack_detection_results.csv`
-A full per-request CSV export containing all original log fields plus the following detection columns:
-
-| Column                   | Description                                      |
-|--------------------------|--------------------------------------------------|
-| `decoded_request`        | URL-decoded version of the request path          |
-| `is_path_traversal`      | 1 if path traversal detected, else 0             |
-| `is_sql_injection`       | 1 if SQL injection detected, else 0              |
-| `is_ognl_injection`      | 1 if OGNL injection detected, else 0             |
-| `is_xss`                 | 1 if XSS detected, else 0                        |
-| `is_rfi`                 | 1 if remote file inclusion detected, else 0      |
-| `is_malicious_payload`   | 1 if malicious payload detected, else 0          |
-| `is_http_methods_abuse`  | 1 if HTTP method abuse detected, else 0          |
-| `is_password_attack`     | 1 if password-based attack detected, else 0      |
-| `is_repeated_login`      | 1 if IP has >5 password attempts, else 0         |
-| `is_unauthorized_access` | 1 if admin panel access attempt detected, else 0 |
-| `request_count`          | Total requests from this IP address              |
-| `is_dos_attack`          | 1 if IP has >100 requests, else 0                |
-| `attack_focus`           | Highest-priority attack type label               |
-
----
-
-## 🌐 Web Interface
-
-The PHP-based web interface provides:
-
-- **Login / Register** — Secure user authentication (`login.php`, `register.php`)
-- **Dashboard** — Overview of detection activity (`index.php`)
-- **Results View** — Paginated display of `attack_detection_results.csv` data (`result.php`)
-- **Account Settings** — Manage user profile (`account_settings.php`)
-- **Password Reset** — Email-based password recovery flow (`Reset_form.php`, `send_reset_link.php`, `reset_password.php`, `update_password.php`)
-
----
-
-## 🗄️ Database
-
-The application uses a MySQL database. Import the schema using:
-
-```bash
-mysql -u root -p anomali_detection < anomali_detection.sql
-```
-
-The database stores user accounts, session data, and optionally detection results for display in the web dashboard.
-
----
-
-## 📝 Notes
-
-- The log parser follows the **Apache/Nginx Combined Log Format**. Custom log formats may require modifying the `combined_regex` pattern in `check.py`.
-- All URL-encoded attack payloads are decoded before pattern matching to improve detection accuracy.
-- DoS and repeated login detection thresholds (100 requests and 5 login attempts respectively) can be adjusted directly in `check.py`.
-- This tool is intended for **defensive security monitoring** purposes only.
-
----
-
-## 📄 License
-
-This project is proprietary. All rights reserved.
+Detection is intentionally regex-based. It can produce false positives from benign queries and false negatives from novel encodings, multi-stage payloads, non-Combined log formats, encrypted traffic, and attacks that do not appear in the request path. The DoS and repeated-login thresholds are simple whole-file heuristics rather than time-windowed behavioral analytics. Treat the tool as triage support, not an IDS decision engine.

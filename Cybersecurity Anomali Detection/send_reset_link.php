@@ -1,39 +1,46 @@
-<? if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+<?php
+declare(strict_types=1);
 
-    // Validate email address
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email address";
-        exit;
-    }
+require_once __DIR__ . '/security.php';
+require_once __DIR__ . '/ResetToken.php';
+require_once __DIR__ . '/koneksi.php';
 
-    // Check if email exists in database using a prepared statement
-    $stmt = $pdo->prepare("SELECT 1 FROM login WHERE email = :email");
-    $stmt->bindParam(":email", $email);
-    $stmt->execute();
-    if (!$stmt->fetch()) {
-        echo "Email not found";
-        exit;
-    }
-
-    // Generate a secure token
-    $token = password_hash(random_bytes(50), PASSWORD_BCRYPT);
-
-    // Update database with token and timestamp
-    $stmt = $pdo->prepare("UPDATE login SET reset_token = :token, reset_timestamp = :timestamp WHERE email = :email");
-    $stmt->bindParam(":token", $token);
-    $stmt->bindParam(":timestamp", time());
-    $stmt->bindParam(":email", $email);
-    $stmt->execute();
-
-    // Send email with reset link
-    $resetLink = "https://example.com/reset_password.php?token=" . $token;
-    $subject = "Reset Password";
-    $message = "Klik link ini untuk mereset password Anda: " . $resetLink;
-    if (!mail($email, $subject, $message)) {
-        echo "Error sending email";
-        exit;
-    }
-
-    echo "Link reset password telah dikirim ke email Anda.";
+start_secure_session();
+security_headers();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+    http_response_code(400);
+    exit('Invalid request.');
 }
+
+$email = filter_var(trim((string) ($_POST['email'] ?? '')), FILTER_VALIDATE_EMAIL);
+$genericMessage = 'If that email address is registered, a password-reset link will be sent shortly.';
+
+if ($email !== false && ($baseUrl = safe_base_url()) !== null) {
+    try {
+        $tokenData = ResetToken::issue();
+        $stmt = $conn->prepare('UPDATE login SET reset_token = ?, reset_token_expiry = ? WHERE email = ?');
+        $stmt->bind_param('sss', $tokenData['hash'], $tokenData['expiresAt'], $email);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 1) {
+            $link = $baseUrl . '/reset_password.php?token=' . rawurlencode($tokenData['token']);
+            $from = (string) getenv('RESET_EMAIL_FROM');
+            $headers = $from !== '' && filter_var($from, FILTER_VALIDATE_EMAIL)
+                ? "From: {$from}\r\nContent-Type: text/plain; charset=UTF-8"
+                : 'Content-Type: text/plain; charset=UTF-8';
+            $sent = @mail($email, 'Password reset request', "Use this one-time link within one hour:\n{$link}\n\nIf you did not request it, you can ignore this email.", $headers);
+            if (!$sent) {
+                $clear = $conn->prepare('UPDATE login SET reset_token = NULL, reset_token_expiry = NULL WHERE email = ? AND reset_token = ?');
+                $clear->bind_param('ss', $email, $tokenData['hash']);
+                $clear->execute();
+                error_log('Password reset delivery failed.');
+            }
+        }
+    } catch (Throwable $exception) {
+        error_log('Password reset request failed: ' . $exception->getCode());
+    }
+}
+
+$_SESSION['reset_request_message'] = $genericMessage;
+header('Location: Reset_form.php', true, 303);
+exit;

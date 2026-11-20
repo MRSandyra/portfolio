@@ -1,117 +1,101 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/security.php';
+require_once __DIR__ . '/ResetToken.php';
+require_once __DIR__ . '/koneksi.php';
+
+start_secure_session();
+security_headers();
+$message = null;
+$token = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $token = (string) ($_POST['token'] ?? '');
+    $password = (string) ($_POST['password'] ?? '');
+    $confirmation = (string) ($_POST['password_confirmation'] ?? '');
+    if (!verify_csrf()) {
+        $message = 'Your session expired. Please open the reset link again.';
+    } elseif (!ResetToken::isWellFormed($token)) {
+        $message = 'This reset link is invalid or has expired.';
+    } elseif ($password !== $confirmation) {
+        $message = 'The password confirmation does not match.';
+    } elseif (($passwordError = password_error($password)) !== null) {
+        $message = $passwordError;
+    } else {
+        try {
+            $conn->begin_transaction();
+            $tokenHash = ResetToken::hash($token);
+            $find = $conn->prepare('SELECT id_member FROM login WHERE reset_token = ? AND reset_token_expiry > UTC_TIMESTAMP() FOR UPDATE');
+            $find->bind_param('s', $tokenHash);
+            $find->execute();
+            $user = $find->get_result()->fetch_assoc();
+            if ($user === null) {
+                $conn->rollback();
+                $message = 'This reset link is invalid or has expired.';
+            } else {
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $update = $conn->prepare('UPDATE login SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id_member = ? AND reset_token = ?');
+                $update->bind_param('sis', $hash, $user['id_member'], $tokenHash);
+                $update->execute();
+                if ($update->affected_rows !== 1) {
+                    throw new RuntimeException('Reset token could not be consumed.');
+                }
+                $conn->commit();
+                session_regenerate_id(true);
+                $message = 'Your password has been reset. You may now sign in.';
+                $token = '';
+            }
+        } catch (Throwable $exception) {
+            try { $conn->rollback(); } catch (Throwable $ignored) { }
+            error_log('Password reset failed: ' . $exception->getCode());
+            $message = 'Unable to reset the password right now. Please request a new link.';
+        }
+    }
+} else {
+    $token = (string) ($_GET['token'] ?? '');
+    if (!ResetToken::isWellFormed($token)) {
+        $message = 'This reset link is invalid or has expired.';
+        $token = '';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/reset_password.css">
+    <title>Reset password</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/password-toggle.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Reset Password</h2>
-
-        <?php
-        include 'koneksi.php'; // Pastikan koneksi database ($conn) sudah diinisialisasi
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Proses pengiriman form reset password
-            $token = $_POST['token'];
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirm-password'];
-
-            // Validasi password dan konfirmasi password
-            if ($password !== $confirmPassword) {
-                echo "<p>Password tidak cocok</p>";
-                exit;
-            }
-
-            // Debugging: Cetak token yang diterima
-            echo "Token diterima: " . htmlspecialchars($token) . "<br>";
-
-            // Cek token dan waktu kedaluwarsa
-            $stmt = $conn->prepare("SELECT id_member, reset_token_expiry FROM login WHERE reset_token = ? AND reset_token_expiry > NOW()");
-            $stmt->bind_param("s", $token);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $user = $result->fetch_assoc();
-
-            if ($user) {
-                // Debugging: Token valid
-                echo "Token valid, id_member: " . $user['id_member'] . "<br>";
-                echo "Reset Token Expiry: " . $user['reset_token_expiry'] . "<br>";
-                echo "Current Time: " . date('Y-m-d H:i:s') . "<br>";
-
-                // Proses reset password
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-                // Update password dan hapus token dari database
-                $stmt = $conn->prepare("UPDATE login SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id_member = ?");
-                $stmt->bind_param("si", $hashedPassword, $user['id_member']);
-                $stmt->execute();
-
-                echo "<p>Password berhasil direset.</p>";
-            } else {
-                // Debugging: Token tidak valid atau sudah kadaluarsa
-                echo "<p>Token tidak valid atau sudah kadaluarsa.</p>";
-                echo "Query Error: " . $conn->error . "<br>";
-                echo "Current Time: " . date('Y-m-d H:i:s') . "<br>";
-            }
-        } else {
-            // Jika method GET, tampilkan form reset password
-            if (isset($_GET['token'])) {
-                $token = $_GET['token'];
-                ?>
-
-                <form action="" method="post">
-                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
-
-                    <div class="form-group">
-                        <label for="password">Password *</label>
-                        <div class="input-container">
-                            <input type="password" id="password" name="password" required>
-                            <span class="toggle-password" onclick="togglePassword('password', this)">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirm-password">Confirm Password *</label>
-                        <div class="input-container">
-                            <input type="password" id="confirm-password" name="confirm-password" required>
-                            <span class="toggle-password" onclick="togglePassword('confirm-password', this)">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn">Reset Password</button>
-                </form>
-
-                <?php
-            } else {
-                echo "<p>Token tidak ditemukan. Silakan periksa kembali link yang diberikan.</p>";
-            }
-        }
-        ?>
-
-    </div>
-
-    <script>
-        function togglePassword(fieldId, toggleIcon) {
-            var field = document.getElementById(fieldId);
-            var icon = toggleIcon.querySelector("i");
-            if (field.type === "password") {
-                field.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            } else {
-                field.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            }
-        }
-    </script>
+<main class="container">
+    <h1>Reset password</h1>
+    <?php if ($message !== null): ?><p class="alert" role="status"><?= e($message) ?></p><?php endif; ?>
+    <?php if ($token !== ''): ?>
+    <form method="post" novalidate>
+        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+        <input type="hidden" name="token" value="<?= e($token) ?>">
+        <div class="form-group">
+            <label for="password">New password</label>
+            <div class="password-field">
+                <input type="password" id="password" name="password" minlength="12" maxlength="4096" autocomplete="new-password" required>
+                <button class="toggle-password" type="button" data-password-toggle="password" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password_confirmation">Confirm new password</label>
+            <div class="password-field">
+                <input type="password" id="password_confirmation" name="password_confirmation" minlength="12" maxlength="4096" autocomplete="new-password" required>
+                <button class="toggle-password" type="button" data-password-toggle="password_confirmation" aria-label="Show password confirmation" aria-pressed="false">Show</button>
+            </div>
+        </div>
+        <p class="hint">Use at least 12 characters.</p>
+        <button type="submit">Reset password</button>
+    </form>
+    <?php endif; ?>
+    <p><a href="login.php">Back to sign in</a></p>
+</main>
 </body>
 </html>

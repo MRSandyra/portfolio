@@ -1,97 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result - Anomaly Checker</title>
-    <link rel="stylesheet" href="assets/css/index.css">
-</head>
-<body>
-    <div class="navbar">
-        <h1>Anomaly Checker</h1>
-        <a href="index.php">Back to Upload</a>
-    </div>
-
-    <div class="container">
-        <h2>Analysis Results</h2>
-        <div class="results-box">
-        <?php
-        if (isset($_FILES['logfile']) && $_FILES['logfile']['error'] == UPLOAD_ERR_OK) {
-            // File successfully uploaded
-            $file_name = basename($_FILES['logfile']['name']);
-            $upload_dir = 'uploads/';
-            $upload_file = $upload_dir . $file_name;
-
-            if (move_uploaded_file($_FILES['logfile']['tmp_name'], $upload_file)) {
-                // Analyze the uploaded log file with check.py
-                $check_command = escapeshellcmd("python3 check.py $upload_file");
-                shell_exec($check_command);
-
-                // Check if the result file was created
-                if (!file_exists('result.txt')) {
-                    echo "<p class='alert'>Error: result.txt file was not created. Please check the anomaly detection process.</p>";
-                    exit;
-                }
-
-                // Read results from result.txt
-                $results = file_get_contents('result.txt');
-                $results_array = explode("\n", trim($results));
-
-                echo "<p class='success'>Your uploaded file has been analyzed. Here are the results:</p>";
-
-                // Display results in a table
-                echo "<table>
-                        <thead>
-                            <tr>
-                                <th>Attack Type</th>
-                                <th>Total Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-                
-                foreach ($results_array as $result) {
-                    $result_data = explode(':', $result);
-                    echo "<tr>
-                            <td>" . trim($result_data[0]) . "</td>
-                            <td>" . trim($result_data[1]) . "</td>
-                        </tr>";
-                }
-
-                echo "  </tbody>
-                    </table>";
-
-                // Provide download link for attack_detection_results.csv
-                if (file_exists('attack_detection_results.csv')) {
-                    echo "<p class='success'>Download the detailed results:</p>";
-                    echo "<p><a href='attack_detection_results.csv' download>Download Attack Detection Results (CSV)</a></p>";
-                } else {
-                    echo "<p class='alert'>Error: CSV file was not generated. Please try again.</p>";
-                }
-
-                // Optionally remove files after processing
-                unlink($upload_file);
-                unlink('access.csv');
-                unlink('result.txt');
-
-            } else {
-                echo "<p class='alert'>Failed to move uploaded file.</p>";
-                echo "<p><a href='index.php'>Go Back</a></p>";
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/security.php';
+require_once __DIR__ . '/UploadValidator.php';
+require_once __DIR__ . '/AnalysisWorkspace.php';
+start_secure_session(); security_headers();
+$error = null; $rows = []; $jobId = null;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+    $error = 'Invalid upload request. Please try again.';
+} else {
+    $validation = UploadValidator::validate($_FILES['logfile'] ?? []);
+    if (!$validation['valid']) { $error = $validation['error']; }
+    else {
+        try {
+            $workspace = AnalysisWorkspace::create();
+            $input = $workspace['path'] . DIRECTORY_SEPARATOR . 'input.log';
+            if (!move_uploaded_file((string) $_FILES['logfile']['tmp_name'], $input)) { throw new RuntimeException('Could not store the upload.'); }
+            chmod($input, 0600);
+            $python = (string) (getenv('PYTHON_BIN') ?: 'python3');
+            $command = [$python, __DIR__ . DIRECTORY_SEPARATOR . 'check.py', $input, '--output-dir', $workspace['path']];
+            $process = proc_open($command, [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, null, null, ['bypass_shell' => true]);
+            if (!is_resource($process)) { throw new RuntimeException('Analyzer could not start.'); }
+            fclose($pipes[0]); stream_set_blocking($pipes[1], false); stream_set_blocking($pipes[2], false);
+            $deadline = microtime(true) + max(5, min(120, (int) (getenv('ANALYSIS_TIMEOUT_SECONDS') ?: 30)));
+            while (($status = proc_get_status($process))['running']) {
+                if (microtime(true) >= $deadline) { proc_terminate($process, 9); throw new RuntimeException('Analyzer timed out.'); }
+                usleep(100000);
             }
-        } else {
-            // File upload failed
-            echo "<p class='alert'>Failed to upload file.</p>";
-            echo "<p>Please make sure you select a valid access.log file.</p>";
-            echo "<p><a href='index.php'>Try Again</a></p>";
-        }
-        ?>
-            <p>
-                <a href="index.php" class="upload-again-btn">Upload another file</a>
-            </p>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2024 Anomaly Checker. All rights reserved.
-    </footer>
-</body>
-</html>
+            $stdout = stream_get_contents($pipes[1]); $stderr = stream_get_contents($pipes[2]); fclose($pipes[1]); fclose($pipes[2]);
+            $exitCode = $status['exitcode']; proc_close($process);
+            if ($exitCode !== 0 || !is_file($workspace['path'] . DIRECTORY_SEPARATOR . 'result.txt')) {
+                error_log('Analyzer failed: ' . substr((string) $stderr . (string) $stdout, 0, 1000)); throw new RuntimeException('Analyzer could not process this file.');
+            }
+            foreach (file($workspace['path'] . DIRECTORY_SEPARATOR . 'result.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+                [$label, $count] = array_pad(explode(':', $line, 2), 2, '');
+                if (preg_match('/^Total [A-Za-z() -]+$/D', $label) && ctype_digit(trim($count))) { $rows[] = ['label' => $label, 'count' => trim($count)]; }
+            }
+            if ($rows === [] || !is_file($workspace['path'] . DIRECTORY_SEPARATOR . 'attack_detection_results.csv')) { throw new RuntimeException('Analyzer generated incomplete output.'); }
+            $_SESSION['analysis_jobs'][$workspace['id']] = time(); $jobId = $workspace['id'];
+        } catch (Throwable $exception) { error_log('Upload analysis failed: ' . $exception->getCode()); $error = 'We could not analyze that file. Confirm it is a supported access log and try again.'; }
+    }
+}
+?>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Analysis results</title><link rel="stylesheet" href="assets/css/app.css"></head>
+<body><main class="container"><h1>Analysis results</h1>
+<?php if ($error !== null): ?><p class="alert" role="alert"><?= e($error) ?></p><?php else: ?>
+<p class="success" role="status">Your log was analyzed in an isolated workspace.</p><table><thead><tr><th scope="col">Attack type</th><th scope="col">Count</th></tr></thead><tbody>
+<?php foreach ($rows as $row): ?><tr><td><?= e($row['label']) ?></td><td><?= e($row['count']) ?></td></tr><?php endforeach; ?>
+</tbody></table><p><a href="download.php?job=<?= e((string) $jobId) ?>">Download detailed CSV</a></p>
+<?php endif; ?><p><a href="index.php">Upload another file</a></p></main></body></html>

@@ -1,57 +1,21 @@
 <?php
-include 'koneksi.php'; // Menyertakan file koneksi
-
+declare(strict_types=1);
+require_once __DIR__ . '/security.php'; require_once __DIR__ . '/koneksi.php';
+start_secure_session(); security_headers(); $message = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $full_name = $_POST['full_name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Hash password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Menghindari SQL Injection
-    $full_name = $conn->real_escape_string($full_name);
-    $email = $conn->real_escape_string($email);
-    $hashed_password = $conn->real_escape_string($hashed_password);
-
-    // SQL query untuk memasukkan data ke tabel login
-    $sql = "INSERT INTO login (full_name, email, password) VALUES ('$full_name', '$email', '$hashed_password')";
-
-    // Eksekusi query
-    if ($conn->query($sql) === TRUE) {
-        echo "Akun berhasil dibuat. Silakan <a href='login.php'>login</a>.";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    if (!verify_csrf()) { $message = 'Invalid request. Please try again.'; }
+    else {
+        $name = trim((string) ($_POST['full_name'] ?? '')); $email = filter_var(trim((string) ($_POST['email'] ?? '')), FILTER_VALIDATE_EMAIL); $password = (string) ($_POST['password'] ?? '');
+        if ($name === '' || strlen($name) > 255 || $email === false) { $message = 'Enter a valid name and email address.'; }
+        elseif (($passwordError = password_error($password)) !== null) { $message = $passwordError; }
+        else {
+            try { $hash = password_hash($password, PASSWORD_DEFAULT); $stmt = $conn->prepare('INSERT INTO login (full_name, email, password) VALUES (?, ?, ?)'); $stmt->bind_param('sss', $name, $email, $hash); $stmt->execute(); header('Location: login.php', true, 303); exit; }
+            catch (mysqli_sql_exception $exception) { error_log('Registration failed: ' . $exception->getCode()); $message = 'Unable to create the account with those details.'; }
+        }
     }
-
-    $conn->close();
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Account</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/Register.css"> 
-</head>
-<body>
-    <div class="container">
-        <h1>Create an Account</h1>
-        <form method="post" action="register.php">
-            <div class="form-group">
-                <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">CREATE ACCOUNT</button>
-        </form>
-    </div>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Create account</title><link rel="stylesheet" href="assets/css/app.css"></head>
+<body><main class="container"><h1>Create an account</h1><?php if ($message): ?><p class="alert" role="alert"><?= e($message) ?></p><?php endif; ?>
+<form method="post"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><div class="form-group"><label for="full_name">Full name</label><input type="text" id="full_name" name="full_name" maxlength="255" autocomplete="name" required></div><div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" required></div><div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" minlength="12" maxlength="4096" autocomplete="new-password" required></div><button type="submit">Create account</button></form>
+<p><a href="login.php">Back to sign in</a></p></main></body></html>

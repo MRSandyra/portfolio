@@ -1,14 +1,16 @@
 <?php
-session_start(); // Memulai session
+require_once __DIR__ . '/security.php';
+start_secure_session();
+security_headers();
 
 // Fungsi untuk mengambil huruf awal dari full_name
 function get_initial($full_name) {
     $words = explode(' ', $full_name); // Pisahkan nama berdasarkan spasi
     $initials = '';
     foreach ($words as $word) {
-        $initials .= strtoupper($word[0]); // Ambil huruf pertama dari setiap kata dan buat huruf besar
+        $initials .= strtoupper($word[0] ?? ''); // Ambil huruf pertama dari setiap kata dan buat huruf besar
     }
-    return $initials[0]; // Ambil huruf pertama dari initial
+    return $initials[0] ?? '?'; // Ambil huruf pertama dari initial
 }
 ?>
 
@@ -18,7 +20,7 @@ function get_initial($full_name) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anomaly Checker</title>
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
     <div class="navbar">
@@ -26,7 +28,7 @@ function get_initial($full_name) {
         <?php if(isset($_SESSION['full_name'])): ?>
             <div class="dropdown">
                 <button class="dropbtn">
-                    <?php echo get_initial($_SESSION['full_name']); ?>
+                    <?= e(get_initial((string) $_SESSION['full_name'])) ?>
                 </button>
                 <div class="dropdown-content">
                     <a href="account_settings.php">Account Settings</a>
@@ -42,8 +44,10 @@ function get_initial($full_name) {
         <div class="upload-box">
             <h1>Upload access.log File</h1>
             <form action="result.php" method="POST" enctype="multipart/form-data">
-                <label for="access_log">Choose a file</label>
-                <input type="file" name="logfile" id="logfile" accept=".log" required>
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <label for="logfile">Choose a file</label>
+                <input type="file" name="logfile" id="logfile" accept=".log,.txt,text/plain" required>
+                <p class="hint">Combined Apache/Nginx access logs only; maximum 5 MB.</p>
                 <br>
                 <button type="submit">Upload and Check Anomalies</button>
             </form>
@@ -106,6 +110,5 @@ function get_initial($full_name) {
             }
         });
     </script>
-    <script src="assets/js/script.js"></script>
 </body>
 </html>

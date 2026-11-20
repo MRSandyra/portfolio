@@ -1,0 +1,7 @@
+.env
+/uploads/
+/access.csv
+/result.txt
+/attack_detection_results.csv
+__pycache__/
+*.pyc

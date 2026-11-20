@@ -1,0 +1,1 @@
+# No third-party Python packages are required. The analyzer uses only the standard library.

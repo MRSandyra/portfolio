@@ -1,0 +1,28 @@
+:root { color-scheme: dark; font-family: ui-sans-serif, system-ui, sans-serif; background: #0b1220; color: #e8eef8; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: #0b1220; }
+a { color: #8cc7ff; text-underline-offset: .16em; }
+a:hover { color: #d5ebff; }
+.navbar, .container { width: min(92vw, 760px); margin-inline: auto; }
+.navbar { min-height: 4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.container { margin-block: clamp(2rem, 7vh, 5rem); padding: clamp(1.25rem, 4vw, 2.5rem); background: #121d30; border: 1px solid #2b3c56; border-radius: .75rem; box-shadow: 0 14px 30px rgb(0 0 0 / .28); overflow-wrap: anywhere; }
+h1, h2, h3 { color: #fff; line-height: 1.15; }
+form { display: grid; gap: 1rem; max-width: 38rem; }
+.form-group { display: grid; gap: .45rem; }
+label { font-weight: 650; }
+input, button { font: inherit; }
+input { width: 100%; min-height: 2.75rem; padding: .65rem .75rem; color: #f4f8ff; background: #0c1627; border: 1px solid #536987; border-radius: .4rem; }
+button { min-height: 2.75rem; padding: .65rem 1rem; color: #06101d; font-weight: 700; background: #8cc7ff; border: 1px solid #8cc7ff; border-radius: .4rem; cursor: pointer; }
+button:hover { background: #c3e3ff; border-color: #c3e3ff; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #ffd36e; outline-offset: 3px; }
+.password-field { display: flex; gap: .5rem; }
+.password-field input { min-width: 0; }
+.toggle-password { flex: 0 0 auto; background: #d8e7f7; border-color: #d8e7f7; }
+.hint { color: #bdd0e9; font-size: .95rem; margin: 0; }
+.alert { padding: .8rem 1rem; color: #ffe1e5; background: #512431; border: 1px solid #bd566d; border-radius: .4rem; }
+.success { padding: .8rem 1rem; color: #d5f8df; background: #17432b; border: 1px solid #4dac71; border-radius: .4rem; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { padding: .7rem; text-align: left; border-bottom: 1px solid #354861; }
+footer { width: min(92vw, 760px); margin: 2rem auto; color: #bdd0e9; }
+::selection { color: #06101d; background: #ffd36e; }
+@media (max-width: 520px) { .password-field { align-items: stretch; flex-direction: column; } }

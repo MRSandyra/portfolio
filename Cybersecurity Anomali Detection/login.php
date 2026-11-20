@@ -1,74 +1,24 @@
 <?php
-session_start(); // Memulai session
-include 'koneksi.php'; // Menyertakan file koneksi
-
+declare(strict_types=1);
+require_once __DIR__ . '/security.php'; require_once __DIR__ . '/koneksi.php';
+start_secure_session(); security_headers(); $message = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Menghindari SQL Injection
-    $email = $conn->real_escape_string($email);
-
-    // Query untuk mendapatkan user berdasarkan email
-    $sql = "SELECT * FROM login WHERE email = '$email'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-
-        // Verifikasi password
-        if (password_verify($password, $user['password'])) {
-            // Password benar, simpan full_name dalam session
-            $_SESSION['full_name'] = $user['full_name']; // Simpan full_name dalam session
-
-            // Redirect ke halaman index.php
-            header("Location: index.php");
-            exit();
-        } else {
-            echo "Password salah.";
+    if (!verify_csrf()) { $message = 'Invalid request. Please try again.'; }
+    else {
+        $email = filter_var(trim((string) ($_POST['email'] ?? '')), FILTER_VALIDATE_EMAIL); $password = (string) ($_POST['password'] ?? '');
+        if ($email === false || $password === '') { $message = 'Invalid email or password.'; }
+        else {
+            $stmt = $conn->prepare('SELECT id_member, full_name, password FROM login WHERE email = ? LIMIT 1'); $stmt->bind_param('s', $email); $stmt->execute(); $user = $stmt->get_result()->fetch_assoc();
+            if ($user !== null && password_verify($password, $user['password'])) {
+                session_regenerate_id(true); $_SESSION['user_id'] = (int) $user['id_member']; $_SESSION['full_name'] = (string) $user['full_name'];
+                header('Location: index.php', true, 303); exit;
+            }
+            $message = 'Invalid email or password.';
         }
-    } else {
-        echo "Email tidak ditemukan.";
     }
 }
-
-$conn->close();
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login Form</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/Login.css"> 
-</head>
-<body>
-    <div class="container">
-        <div class="logo">
-            <img src="your_logo.png" alt="Company Logo"> 
-        </div>
-        <h2>Login to your account</h2>
-        <!-- Start Form -->
-        <form action="login.php" method="POST">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id_member="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            </div>
-
-            <button type="submit">LOG IN</button>
-        </form>
-        <!-- End Form -->
-  
-        <div class="forgot">
-            <a href="Reset_form.php">Forgot Password</a>
-        </div>
-
-        <div class="create">
-            <a href="register.php">Create New Account</a>
-        </div>
-    </div>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in</title><link rel="stylesheet" href="assets/css/app.css"></head>
+<body><main class="container"><h1>Sign in</h1><?php if ($message): ?><p class="alert" role="alert"><?= e($message) ?></p><?php endif; ?>
+<form method="post"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" required></div><div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" autocomplete="current-password" required></div><button type="submit">Sign in</button></form>
+<p><a href="Reset_form.php">Forgot password?</a> · <a href="register.php">Create account</a></p></main></body></html>
