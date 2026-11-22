@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lol-challenger-analytics"
+version = "0.1.0"
+description = "Reproducible League of Legends Challenger match feature and modelling case study"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "joblib>=1.4,<2",
+  "numpy>=2.0,<3",
+  "pandas>=2.2,<3",
+  "pyarrow>=17,<23",
+  "scikit-learn>=1.5,<2",
+]
+
+[project.optional-dependencies]
+acquisition = ["datasets>=3,<5", "tqdm>=4.66,<5"]
+dev = [
+  "jupyter>=1.1,<2",
+  "nbconvert>=7.16,<8",
+  "pytest>=8.3,<10",
+]
+
+[project.scripts]
+lol-analytics = "lol_analytics.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lol_analytics"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.uv]
+cache-dir = ".uv-cache"
+

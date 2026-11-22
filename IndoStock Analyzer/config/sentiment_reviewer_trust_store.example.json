@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "trust_store_type": "sentiment_reviewers",
+  "governance": {
+    "minimum_distinct_reviewers": 2,
+    "minimum_distinct_organizations": 2,
+    "minimum_revocation_authorities": 2,
+    "minimum_revocation_organizations": 2
+  },
+  "reviewers": [
+    {
+      "key_id": "replace-with-stable-key-id",
+      "reviewer_id": "replace-with-reviewer-id",
+      "organization": "Replace with independent organization",
+      "public_key_base64": "REPLACE_WITH_32_BYTE_ED25519_PUBLIC_KEY_BASE64",
+      "status": "active",
+      "allowed_receipt_types": [
+        "sentiment_independent_review"
+      ],
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z"
+    }
+  ],
+  "revocation_authorities": [
+    {
+      "key_id": "replace-with-revocation-key-id-a",
+      "authority_id": "replace-with-revocation-authority-id-a",
+      "organization": "Replace with governance organization A",
+      "public_key_base64": "REPLACE_WITH_32_BYTE_ED25519_PUBLIC_KEY_BASE64",
+      "status": "active",
+      "allowed_registry_types": [
+        "sentiment_review_revocations"
+      ],
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z"
+    },
+    {
+      "key_id": "replace-with-revocation-key-id-b",
+      "authority_id": "replace-with-revocation-authority-id-b",
+      "organization": "Replace with independent governance organization B",
+      "public_key_base64": "REPLACE_WITH_32_BYTE_ED25519_PUBLIC_KEY_BASE64",
+      "status": "active",
+      "allowed_registry_types": [
+        "sentiment_review_revocations"
+      ],
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z"
+    }
+  ]
+}

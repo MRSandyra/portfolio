@@ -1,0 +1,198 @@
+{
+  "cohorts": {
+    "development_americas_2000": {
+      "allowed_operations": [
+        "integrity_check",
+        "feature_engineering",
+        "temporal_validation",
+        "model_selection",
+        "fit_base_model",
+        "fit_calibrator",
+        "monitoring_reference"
+      ],
+      "base_model_fit_allowed": true,
+      "calibrator_fit_allowed": true,
+      "horizons_minutes": [
+        10,
+        20
+      ],
+      "identity_namespace": "riot_match_id",
+      "manifest": {
+        "path": "data/manifests/americas-2000.json",
+        "sha256": "df3dcf802db471e69281928a1fd9958dd62206e9f896594c3fd3c45eb3b1b084"
+      },
+      "purpose": "Feature engineering, temporal validation, model selection, final fitting, and OOF calibration evidence.",
+      "raw_file": {
+        "bytes": 20867641,
+        "path": "data/raw/events_americas_2000.parquet",
+        "sha256": "4fbbac26cac22a3fd84e318dab6eb040b577c856720d198b0bd57bba9608d7af"
+      },
+      "role": "development",
+      "selection_allowed": true,
+      "unit_name": "matches",
+      "units": 2000
+    },
+    "diagnostic_americas_test_105": {
+      "allowed_operations": [
+        "integrity_check",
+        "diagnostic_evaluation",
+        "monitoring_current"
+      ],
+      "base_model_fit_allowed": false,
+      "calibrator_fit_allowed": false,
+      "horizons_minutes": [
+        10,
+        20
+      ],
+      "identity_namespace": "riot_match_id",
+      "manifest": {
+        "path": "data/manifests/americas-test-105.json",
+        "sha256": "7fad54a8fbc8ba235db4b2f73272ae29369d2f92bed7f30dd7cab500d5448161"
+      },
+      "purpose": "Same-region diagnostic evaluation only.",
+      "raw_file": {
+        "bytes": 1352072,
+        "path": "data/raw/events_americas_test_105.parquet",
+        "sha256": "a4206edcfa1064b7af32c4a982d89457be5816e0584fde83b34b8d19b35baefb"
+      },
+      "role": "diagnostic_external",
+      "selection_allowed": false,
+      "unit_name": "matches",
+      "units": 105
+    },
+    "diagnostic_asia_105": {
+      "allowed_operations": [
+        "integrity_check",
+        "diagnostic_evaluation",
+        "monitoring_current"
+      ],
+      "base_model_fit_allowed": false,
+      "calibrator_fit_allowed": false,
+      "horizons_minutes": [
+        10,
+        20
+      ],
+      "identity_namespace": "riot_match_id",
+      "manifest": {
+        "path": "data/manifests/asia-train-105.json",
+        "sha256": "77ce85099574f297f2066981d5a9bcf1e65fe90cc55b0bc0cb6de07b784d57d7"
+      },
+      "purpose": "Same-period cross-region diagnostic evaluation only.",
+      "raw_file": {
+        "bytes": 1410113,
+        "path": "data/raw/events_asia_train_105.parquet",
+        "sha256": "09a5008558e8485f3ee3a5967f1dcb3ccd0a34abfead663cddb0ab80c47e0b3d"
+      },
+      "role": "diagnostic_external",
+      "selection_allowed": false,
+      "unit_name": "matches",
+      "units": 105
+    },
+    "diagnostic_diamond_historical_9879": {
+      "allowed_operations": [
+        "integrity_check",
+        "diagnostic_evaluation",
+        "monitoring_current"
+      ],
+      "base_model_fit_allowed": false,
+      "calibrator_fit_allowed": false,
+      "horizons_minutes": [
+        10
+      ],
+      "identity_namespace": "kaggle_game_id_prefixed_by_adapter",
+      "manifest": {
+        "path": "data/manifests/high-diamond-10m.json",
+        "sha256": "422e18953d2ffb119aec17ac587144b75025f3d98fea1b874313f61c38ddcc78"
+      },
+      "purpose": "Cross-rank and historical-era stress test only.",
+      "raw_file": {
+        "bytes": 1446502,
+        "path": "data/raw/high-diamond-10m/high_diamond_ranked_10min.csv",
+        "sha256": "82b2e23279097c2dac616e966eb2911711c428d41b6382b4cdb15da4892f9ca6"
+      },
+      "role": "diagnostic_external",
+      "selection_allowed": false,
+      "unit_name": "rows",
+      "units": 9879
+    },
+    "diagnostic_europe_test_300": {
+      "allowed_operations": [
+        "integrity_check",
+        "diagnostic_evaluation",
+        "monitoring_current"
+      ],
+      "base_model_fit_allowed": false,
+      "calibrator_fit_allowed": false,
+      "horizons_minutes": [
+        10,
+        20
+      ],
+      "identity_namespace": "riot_match_id",
+      "manifest": {
+        "path": "data/manifests/europe-test-300.json",
+        "sha256": "9a63530e839038da9c302e65bd22effe2a60c649b2bcbb5dd520c857516ced35"
+      },
+      "purpose": "Cross-region, time, and patch diagnostic evaluation only.",
+      "raw_file": {
+        "bytes": 3562910,
+        "path": "data/raw/events_europe_test_300.parquet",
+        "sha256": "a2db95a299ce83c6fcecca6be3f60b8a1c658e5d0d7eb38fee94dfe9370691c4"
+      },
+      "role": "diagnostic_external",
+      "selection_allowed": false,
+      "unit_name": "matches",
+      "units": 300
+    },
+    "future_europe_500": {
+      "allowed_operations": [
+        "integrity_check"
+      ],
+      "base_model_fit_allowed": false,
+      "calibrator_fit_allowed": false,
+      "horizons_minutes": [
+        10,
+        20
+      ],
+      "identity_namespace": "riot_match_id",
+      "manifest": {
+        "path": "data/manifests/europe-future-500.json",
+        "sha256": "516e1dee45d6a88bccb2855d81f67fc7c2c924835356694f8f4d2dd19066f0d3"
+      },
+      "purpose": "One-time final evaluation only after an explicit release phase.",
+      "raw_file": {
+        "bytes": 5483107,
+        "path": "data/raw/events_europe_future_500.parquet",
+        "sha256": "91baf181449ef26c716ea3bcb77d430ddc4d04989861627838867180fb842e76"
+      },
+      "role": "future_holdout",
+      "selection_allowed": false,
+      "unit_name": "matches",
+      "units": 500
+    }
+  },
+  "identity_separation_evidence": {
+    "development_match_id_overlap": 0,
+    "diamond_identity_separation": "Adapter prefixes Kaggle game IDs, placing them outside the Riot match-ID namespace.",
+    "prior_riot_diagnostic_match_id_overlaps": {
+      "diagnostic_americas_test_105": 0,
+      "diagnostic_asia_105": 0,
+      "diagnostic_europe_test_300": 0
+    },
+    "strictly_future": true
+  },
+  "policy": {
+    "diagnostic_cohorts_are_evaluation_only": true,
+    "future_holdout_allowed_before_release": [
+      "integrity_check"
+    ],
+    "future_holdout_labels_read": false,
+    "future_holdout_metrics_computed": false,
+    "future_holdout_predictions_written": false,
+    "future_holdout_release_count": 0,
+    "future_holdout_release_requires": "A separate explicit Phase 5 release command after calibration and release gates.",
+    "future_holdout_rows_parsed": false,
+    "only_development_may_fit_or_select": true
+  },
+  "schema_version": 1,
+  "status": "frozen_pre_calibration"
+}

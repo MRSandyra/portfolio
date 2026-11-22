@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "indostock-analyzer"
+version = "2.10.0"
+description = "Uncalibrated exploratory indicators for IDX tickers mentioned in news"
+requires-python = ">=3.11"
+dependencies = [
+  "requests==2.31.0",
+  "selenium==4.18.1",
+  "pandas==2.2.2",
+  "yfinance==0.2.38",
+  "textblob==0.17.1",
+  "cryptography==50.0.2",
+]
+
+[project.scripts]
+indostock-analyzer = "indostock_analyzer.cli:main"
+indostock-universe = "indostock_analyzer.universe_cli:main"
+indostock-sentiment = "indostock_analyzer.sentiment_cli:main"
+indostock-backtest = "indostock_analyzer.backtest_cli:main"
+indostock-audit = "indostock_analyzer.artifact_cli:main"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["indostock_analyzer*"]
+
+[tool.setuptools.data-files]
+"share/indostock-analyzer" = [
+  "config/idx_tickers.json",
+  "config/backtest_manifest.example.json",
+  "config/sentiment_dataset_manifest.example.json",
+  "config/sentiment_model_manifest.example.json",
+  "config/sentiment_reviewer_trust_store.example.json",
+  "config/sentiment_review_receipt.example.json",
+  "config/sentiment_review_bundle.example.json",
+  "config/sentiment_review_revocations.example.json",
+]

@@ -1,0 +1,57 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.uv-cache/
+.cache/
+build/
+dist/
+*.egg-info/
+
+# Generated analyzer output
+output/
+stock_analysis_*.json
+
+# Browser binaries and downloaded artifacts
+drivers/
+chromedriver*
+
+# Large/local data and model artifacts
+data/
+datasets/
+models/
+*.csv
+*.parquet
+*.feather
+*.pkl
+*.pickle
+*.joblib
+*.onnx
+*.jsonl
+*.payload
+annotations/
+evaluations/
+backtests/
+review-requests/
+review-receipts/
+state/
+*.checkpoint.json
+*.checkpoint.json.lock
+
+# IDE and OS noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

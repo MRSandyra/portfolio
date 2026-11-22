@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../ResetToken.php';
-require_once __DIR__ . '/../UploadValidator.php';
+require_once __DIR__ . '/../src/ResetToken.php';
+require_once __DIR__ . '/../src/UploadValidator.php';
 
 function expect(bool $condition, string $message): void { if (!$condition) { throw new RuntimeException($message); } }
 

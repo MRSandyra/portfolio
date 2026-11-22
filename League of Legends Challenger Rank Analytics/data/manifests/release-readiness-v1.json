@@ -1,0 +1,62 @@
+{
+  "evidence": {
+    "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+    "ci_sha256": "d2af90a46107e304f961486bf84209065e8f0eeae44940ee7978c6923d08bd49",
+    "cohort_policy_sha256": "5a2855bde8ad7db2697cb181ea4d8c1bb368d6c1007bea80fc1f2af993471598",
+    "final_model_manifest_sha256": "8b83604550d420ef19122550146c5a754cf10aded4257026d1d38dc719fdd49d",
+    "future_holdout_manifest_sha256": "516e1dee45d6a88bccb2855d81f67fc7c2c924835356694f8f4d2dd19066f0d3",
+    "inference_manifest_sha256": "7af0e028ca8cb0f12aa3ad51db4240267abbe2dc1904f8ea7c9ad25d660a5157",
+    "robustness_summary_sha256": "961f9e6db3b21f839056ff0206024d4af87e8cd54e48958028717fc671fe8c39",
+    "rolling_backtest": {
+      "bytes": 135665,
+      "path": "artifacts/release-readiness-v1/rolling_drift_backtest.json",
+      "sha256": "b7b24a278034e76a44bea5bb89ad6852e7f536e21d01c0b030e8dabe91e89630"
+    },
+    "runtime_contract_sha256": "3d19206ca31ab18d0a6a9040ed4f739b84cd90142f75f2555c0e39b302cc93db"
+  },
+  "future_holdout": {
+    "cohort_key": "future_europe_500",
+    "eligible_10m": 498,
+    "eligible_20m": 404,
+    "file_path": "data/raw/events_europe_future_500.parquet",
+    "file_sha256": "91baf181449ef26c716ea3bcb77d430ddc4d04989861627838867180fb842e76",
+    "integrity_verification": "checksum_bytes_only",
+    "labels_read": false,
+    "matches": 500,
+    "metrics_computed": false,
+    "predictions_written": false,
+    "rows_parsed": false
+  },
+  "gates": {
+    "calibration_decision_complete": true,
+    "calibration_never_accessed_future": true,
+    "calibration_never_used_external_labels": true,
+    "ci_excludes_holdout_release": true,
+    "cohort_policy_integrity": true,
+    "development_role_frozen": true,
+    "final_models_never_scored_future": true,
+    "final_models_unreleased": true,
+    "future_final_evaluation_still_blocked": true,
+    "future_release_count_zero": true,
+    "future_role_frozen": true,
+    "holdout_development_overlap_zero": true,
+    "holdout_metrics_not_computed": true,
+    "holdout_model_not_fitted": true,
+    "holdout_predictions_not_written": true,
+    "holdout_prior_diagnostic_overlap_zero": true,
+    "holdout_status_frozen_unscored": true,
+    "holdout_strictly_future": true,
+    "inference_bundles_unreleased": true,
+    "inference_never_accessed_future": true,
+    "rolling_backtest_complete": true,
+    "runtime_contracts_match_registry": true
+  },
+  "release_protocol": {
+    "current_policy_allows_final_evaluation": false,
+    "explicit_phase5_command_required": true,
+    "post_release_model_or_calibrator_tuning_allowed": false,
+    "release_must_be_one_time": true
+  },
+  "schema_version": 1,
+  "status": "ready_for_one_time_holdout_release"
+}

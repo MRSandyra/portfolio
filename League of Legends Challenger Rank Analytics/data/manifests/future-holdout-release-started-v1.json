@@ -1,0 +1,16 @@
+{
+  "authorization": "explicit_phase5_one_time_override",
+  "authorized_operation": "final_evaluation",
+  "cohort_key": "future_europe_500",
+  "evidence": {
+    "cohort_policy_sha256": "5a2855bde8ad7db2697cb181ea4d8c1bb368d6c1007bea80fc1f2af993471598",
+    "future_holdout_manifest_sha256": "516e1dee45d6a88bccb2855d81f67fc7c2c924835356694f8f4d2dd19066f0d3",
+    "future_holdout_sha256": "91baf181449ef26c716ea3bcb77d430ddc4d04989861627838867180fb842e76",
+    "inference_manifest_sha256": "7af0e028ca8cb0f12aa3ad51db4240267abbe2dc1904f8ea7c9ad25d660a5157",
+    "release_readiness_sha256": "abdcaacc8872ba51aa71b9984b02f58dd3ba4eb70beb8c1bc91f3793c2f50cdd"
+  },
+  "output_dir": "artifacts/future-holdout-release-v1",
+  "pre_release_count": 0,
+  "schema_version": 1,
+  "status": "future_holdout_release_started"
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Income Inequality — reproducible static report</title>
+  <style>
+    :root { color-scheme: light; --ink:#18202a; --muted:#5b6573; --line:#d9dee5; --accent:#0b6b61; }
+    body { margin:0; font:16px/1.6 system-ui,sans-serif; color:var(--ink); background:#f4f6f8; }
+    main { max-width:960px; margin:auto; padding:48px 24px 80px; }
+    header,.card { background:white; border:1px solid var(--line); border-radius:14px; padding:28px; margin-bottom:22px; }
+    h1,h2 { line-height:1.2; } h1 { margin-top:0; font-size:2.3rem; }
+    .eyebrow { color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+    .notice { border-left:5px solid #c57900; background:#fff6df; padding:16px 18px; }
+    img { width:100%; height:auto; } table { width:100%; border-collapse:collapse; }
+    th,td { text-align:left; padding:9px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { color:var(--muted); } code { background:#eef1f4; padding:.15em .35em; border-radius:4px; }
+    small,.muted { color:var(--muted); }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">Generated static report · PIP 20260922_2021</div>
+    <h1>Grouped welfare inequality in five countries</h1>
+    <p>This offline report demonstrates the reproducible pipeline on a committed, deterministic sample of World Bank Poverty and Inequality Platform percentile distributions.</p>
+    <p class="notice"><strong>Scope:</strong> “Welfare” is income for Brazil and the United States, and consumption for China, Indonesia, and South Africa. Cross-country differences can therefore reflect both inequality and indicator definition. Survey years are not harmonized.</p>
+  </header>
+  <section class="card">
+    <h2>Sample trajectories</h2>
+    <img src="assets/gini_trends.png" alt="Gini coefficients across selected sample years">
+    <p>The grouped-data Gini is computed as one minus twice the trapezoidal area under the Lorenz curve. Values are recomputed from 100 percentile shares, not copied from a headline indicator.</p>
+    <table><thead><tr><th>Country</th><th>Latest year in sample</th><th>Welfare type</th><th>Gini</th></tr></thead><tbody><tr><td>Brazil</td><td>2024</td><td>income</td><td>0.5023</td></tr>
+<tr><td>China</td><td>2022</td><td>consumption</td><td>0.3603</td></tr>
+<tr><td>Indonesia</td><td>2025</td><td>consumption</td><td>0.3441</td></tr>
+<tr><td>South Africa</td><td>2022</td><td>consumption</td><td>0.5403</td></tr>
+<tr><td>United States</td><td>2024</td><td>income</td><td>0.4174</td></tr></tbody></table>
+  </section>
+  <section class="card">
+    <h2>Indonesia 2019 Lorenz curve</h2>
+    <img src="assets/lorenz_idn_2019.png" alt="Lorenz curve for Indonesia in 2019">
+    <p>Reporting level: national. Welfare definition: daily consumption per person in 2021 PPP dollars. Computed grouped-data Gini: <strong>0.3534</strong>.</p>
+  </section>
+  <section class="card">
+    <h2>Illustrative simulations — not policy forecasts</h2>
+    <p class="notice">These are static arithmetic counterfactuals. They omit eligibility errors, administration, financing incidence (for the subsidy), behavioral responses, general equilibrium effects, tax avoidance, and uncertainty. They must not be interpreted as predicted policy impacts.</p>
+    <img src="assets/illustrative_simulations.png" alt="Observed and simulated Lorenz curves">
+    <table><thead><tr><th>Scenario</th><th>Gini</th><th>Relative change</th><th>Mechanical assumption</th></tr></thead><tbody><tr><td>Observed</td><td>0.3534</td><td>+0.0%</td><td>PIP Indonesia 2019 consumption distribution.</td></tr>
+<tr><td>Illustrative bottom-50 subsidy</td><td>0.3259</td><td>-7.8%</td><td>Adds 0.5 2021 PPP dollars per person per day to percentiles 1-50; external funding is assumed.</td></tr>
+<tr><td>Illustrative top-10 tax / bottom-40 transfer</td><td>0.3110</td><td>-12.0%</td><td>Applies a 10% static tax above percentile 90 and transfers all arithmetic revenue per capita through percentile 40.</td></tr></tbody></table>
+  </section>
+  <section class="card">
+    <h2>Data treatment and limitations</h2>
+    <ul>
+      <li>Only national reporting-level rows are selected. No urban/rural series are mixed in.</li>
+      <li>Required missing or non-numeric values fail the build; no values or percentile bins are imputed or silently dropped.</li>
+      <li>Each distribution must contain exactly percentiles 1–100 with unique keys and non-negative welfare shares.</li>
+      <li>The sample uses explicitly listed country-year pairs. “Latest” above means latest in this sample, not latest globally.</li>
+      <li>Grouped percentiles approximate the underlying microdistribution; within-bin inequality is not observed.</li>
+    </ul>
+    <p>Source: World Bank (2026), <em>Poverty and Inequality Platform: Percentiles</em>, version 20260922_2021, CC BY 4.0; source accessed 20 November 2026. See <code>docs/methodology.md</code> and <code>data/sample/README.md</code> for the exact selection and checksum.</p>
+  </section>
+</main></body></html>

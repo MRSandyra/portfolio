@@ -1,115 +1,61 @@
-# ✈️ Capstone Project — Analisis Data Penerbangan
+# Flight Offer Analysis Capstone
 
-Proyek ini merupakan analisis data tiket penerbangan menggunakan Python dan berbagai library data science. Tujuan utamanya adalah memahami pola penjualan tiket berdasarkan maskapai, rute, dan tanggal keberangkatan/kedatangan.
+A recruiter-facing data analysis project with reproducible cleaning, feature engineering, quality checks, business analysis, visualization, and reporting.
 
----
+The source rows are **flight offer listings**, not ticket sales. Every generated insight is paired with a bounded recommendation and an explicit limitation.
 
-## 📁 Dataset
+## Business question
 
-- **File:** `flight.csv`
-- **Sumber:** Google Drive (diakses via Google Colab)
-- **Deskripsi:** Dataset berisi informasi tiket penerbangan meliputi nama maskapai, bandara keberangkatan, bandara tujuan, stopover, harga tiket (dalam Dolar), dan tanggal kedatangan.
+Which airlines, routes, and stop patterns are most represented in this snapshot, and where can a commercial analyst make a defensible pricing or assortment decision?
 
-### Kolom Utama
+## Repository structure
 
-| Kolom | Deskripsi |
-|---|---|
-| `Airline name` | Nama maskapai penerbangan |
-| `Depreture Airport` | Bandara keberangkatan |
-| `Destination Airport` | Bandara tujuan |
-| `1st Stoppage` | Stopover pertama |
-| `Ticket prize(Doller)` | Harga tiket dalam USD |
-| `Arrival Date` | Tanggal kedatangan |
-| `jumlah tiket terjual` | Jumlah tiket terjual per maskapai (kolom turunan) |
-
----
-
-## 🛠️ Library yang Digunakan
-
-```python
-pandas       # Manipulasi dan analisis data
-numpy        # Operasi matematika
-matplotlib   # Visualisasi data
-seaborn      # Visualisasi data statistik
-os           # Operasi sistem (Google Colab)
+```text
+src/flight_analysis/
+  schema.py          # source-column contract
+  cleaning.py        # cleaning and rejected-row audit
+  features.py        # fare, duration, stop, clock, and date parsers
+  quality.py         # schema, duplicate, missing, fare, and date checks
+  analysis.py        # KPI/airline/route/stop tables and narrative
+  visualization.py   # decision-focused charts
+  pipeline.py        # end-to-end orchestration
+tests/               # unit tests and a small synthetic fixture
+docs/                # dictionary, provenance/license, executive summary
+.github/workflows/   # CI unit and CLI smoke tests
+Capstone_Projek.ipynb # legacy notebook retained for audit history
 ```
 
----
+## Reproduce from a clean environment
 
-## 🔄 Alur Analisis
+Prerequisites: Python 3.11 or 3.12 and a permitted local copy of `flight.csv`. The dataset is not committed because its source and license are unverified.
 
-### 1. Setup & Load Data
-- Mount Google Drive ke Google Colab
-- Import semua library yang dibutuhkan
-- Baca dataset `flight.csv` ke dalam DataFrame
-
-### 2. Understanding Data
-- Cek dimensi data (`df.shape`)
-- Lihat nama kolom (`df.columns`)
-- Preview data awal (`df.head()`)
-- Hapus kolom yang memiliki nilai kosong (NaN) lebih dari **70%**
-
-### 3. Feature Engineering
-- Hitung jumlah tiket terjual per maskapai menggunakan `groupby`
-- Tambahkan kolom `jumlah tiket terjual` ke DataFrame utama via `merge`
-
-### 4. Data Cleaning
-- Deteksi dan hapus data duplikat (`drop_duplicates`)
-- Cek dan tangani *missing values*:
-  - Isi nilai kosong pada kolom `jumlah tiket terjual` menggunakan metode **backward fill (bfill)**
-- Simpan salinan data bersih sebagai `df2`
-
-### 5. Exploratory Data Analysis (EDA)
-
-Beberapa analisis dan visualisasi yang dilakukan:
-
-- **Statistik deskriptif** jumlah tiket terjual
-- **Distribusi** jumlah tiket terjual (histogram + KDE)
-- **Heatmap korelasi** antar variabel numerik
-- **Boxplot** pengaruh maskapai terhadap jumlah tiket terjual
-- **Bar chart** distribusi berdasarkan tanggal kedatangan
-- **Violin plot** jumlah tiket terjual vs tanggal kedatangan
-- **Pivot table** jumlah tiket terjual per maskapai (dengan gradient warna)
-- **Top 10 maskapai** berdasarkan total tiket terjual
-
----
-
-## 📊 Visualisasi Utama
-
-| Visualisasi | Keterangan |
-|---|---|
-| Histogram Tiket Terjual | Distribusi frekuensi jumlah tiket terjual |
-| Heatmap Korelasi | Hubungan antar variabel numerik |
-| Boxplot per Maskapai | Perbandingan distribusi tiket antar maskapai |
-| Violin Plot per Tanggal | Distribusi tiket berdasarkan tanggal kedatangan |
-| Bar Chart Top 10 Maskapai | Maskapai dengan tiket terjual terbanyak |
-
----
-
-## 💾 Output
-
-Data yang telah dibersihkan dan diproses disimpan kembali ke file:
-
-```
-df2.csv
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.lock
+python -m pip install --no-deps -e .
+python -m flight_analysis run --input data/raw/flight.csv --output-dir artifacts --clean-output
 ```
 
----
+On macOS/Linux, activate with `source .venv/bin/activate`. `--clean-output` removes only known pipeline-generated filenames before rebuilding them.
 
-## 🚀 Cara Menjalankan
+## Outputs
 
-1. Buka notebook di **Google Colab**
-2. Mount Google Drive dan arahkan ke folder dataset:
-   ```
-   /content/gdrive/MyDrive/Capstone Projek Dataset/
-   ```
-3. Pastikan file `flight.csv` tersedia di folder tersebut
-4. Jalankan semua sel secara berurutan dari atas ke bawah
+The pipeline writes cleaned and rejected-row CSVs, a JSON quality report, KPI/airline/route/stop tables, three charts, and a dataset-derived executive summary. Review the [data dictionary](docs/DATA_DICTIONARY.md), [source/license status](docs/DATA_SOURCE_AND_LICENSE.md), and [audit executive summary](docs/EXECUTIVE_SUMMARY.md) first.
 
----
+## Quality policy
 
-## 📌 Catatan
+Checks cover required schema, exact duplicates, missing values, nonnumeric/non-positive fares, travel duration, stop labels, and yearless arrival dates. Chronological arrival-after-departure logic is explicitly marked **not testable** because no departure date, year, or time-zone context exists.
 
-- Notebook ini dijalankan di lingkungan **Google Colab**
-- Pastikan semua library sudah terinstall (tersedia secara default di Colab)
-- Kolom dengan lebih dari 70% nilai kosong akan dihapus secara otomatis saat preprocessing
+## Tests and CI
+
+```powershell
+python -m pytest
+python -m flight_analysis run --input tests/fixtures/flight_sample.csv --output-dir artifacts/smoke --clean-output
+```
+
+CI installs the lock file on Python 3.11, runs unit tests, and executes the CLI against the synthetic fixture. It never requires or uploads private raw data.
+
+## Legacy notebook audit
+
+The refactor corrects the notebook's decision risks: listing frequency was labeled as ticket sales; the repeated group count was summed and therefore squared; a global missingness threshold replaced an explicit schema; derived values were backfilled across unrelated rows; invalid fares/date logic were not validated; and charts lacked bounded business recommendations.

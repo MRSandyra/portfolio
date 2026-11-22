@@ -1,0 +1,17 @@
+country_code,country,year,reporting_level,welfare_type,gini
+BRA,Brazil,2001,national,income,0.5836132187
+BRA,Brazil,2011,national,income,0.5290525798
+BRA,Brazil,2024,national,income,0.5022509936
+CHN,China,1999,national,consumption,0.3869055896
+CHN,China,2010,national,consumption,0.4372184522
+CHN,China,2022,national,consumption,0.3603301523
+IDN,Indonesia,2000,national,consumption,0.3028905060
+IDN,Indonesia,2010,national,consumption,0.3456610482
+IDN,Indonesia,2019,national,consumption,0.3533944916
+IDN,Indonesia,2025,national,consumption,0.3441475610
+USA,United States,2000,national,income,0.4010854709
+USA,United States,2010,national,income,0.4022201704
+USA,United States,2024,national,income,0.4174135761
+ZAF,South Africa,2000,national,consumption,0.5774978578
+ZAF,South Africa,2010,national,consumption,0.6084276768
+ZAF,South Africa,2022,national,consumption,0.5403066763

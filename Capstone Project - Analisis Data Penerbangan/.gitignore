@@ -1,0 +1,42 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.mplconfig/
+.coverage
+htmlcov/
+.uv-cache/
+
+# Raw/derived data and generated analysis output
+data/raw/*
+!data/raw/.gitkeep
+data/interim/
+data/processed/
+artifacts/
+outputs/
+models/
+*.parquet
+*.pkl
+*.joblib
+
+# Notebook and editor output
+.ipynb_checkpoints/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+

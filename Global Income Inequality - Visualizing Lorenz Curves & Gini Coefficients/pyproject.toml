@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "global-income-inequality"
+version = "0.1.0"
+description = "Reproducible Lorenz-curve, Gini, and illustrative redistribution analysis of World Bank PIP percentile data."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "matplotlib>=3.9,<4",
+  "numpy>=2,<3",
+  "pandas>=2.2,<4",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3,<10",
+]
+
+[project.scripts]
+inequality-download = "global_inequality.cli:download_main"
+inequality-sample = "global_inequality.cli:sample_main"
+inequality-report = "global_inequality.cli:report_main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/global_inequality"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.uv]
+required-version = ">=0.13.7,<0.14"
+

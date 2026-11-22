@@ -1,0 +1,26 @@
+{
+  "schema_version": 3,
+  "registry_type": "sentiment_review_revocations",
+  "registry_id": "replace-with-stable-registry-id",
+  "sequence": 1,
+  "previous_registry_sha256": null,
+  "generated_at": "2026-11-22T00:00:00Z",
+  "next_update_at": "2026-12-01T00:00:00Z",
+  "revoked_review_ids": [],
+  "revoked_key_ids": [],
+  "revoked_report_sha256": [],
+  "signatures": [
+    {
+      "algorithm": "Ed25519",
+      "authority_id": "replace-with-revocation-authority-id-a",
+      "key_id": "replace-with-revocation-key-id-a",
+      "value_base64": "REPLACE_WITH_64_BYTE_ED25519_SIGNATURE_BASE64"
+    },
+    {
+      "algorithm": "Ed25519",
+      "authority_id": "replace-with-revocation-authority-id-b",
+      "key_id": "replace-with-revocation-key-id-b",
+      "value_base64": "REPLACE_WITH_64_BYTE_ED25519_SIGNATURE_BASE64"
+    }
+  ]
+}

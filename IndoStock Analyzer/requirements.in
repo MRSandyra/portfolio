@@ -1,0 +1,8 @@
+# Direct runtime dependencies. Compile with:
+# uv pip compile requirements.in --output-file requirements.lock
+requests==2.31.0
+selenium==4.18.1
+pandas==2.2.2
+yfinance==0.2.38
+textblob==0.17.1
+cryptography==50.0.2

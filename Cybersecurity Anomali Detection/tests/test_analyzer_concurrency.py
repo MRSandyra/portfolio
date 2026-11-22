@@ -17,8 +17,8 @@ class AnalyzerIsolationTest(unittest.TestCase):
             input_two.write_text(LINE.replace('SELECT', 'normal'), encoding='utf-8')
             out_one, out_two = root / 'job-one', root / 'job-two'
             commands = [
-                [sys.executable, str(ROOT / 'check.py'), str(input_one), '--output-dir', str(out_one)],
-                [sys.executable, str(ROOT / 'check.py'), str(input_two), '--output-dir', str(out_two)],
+                [sys.executable, str(ROOT / 'analyzer' / 'check.py'), str(input_one), '--output-dir', str(out_one)],
+                [sys.executable, str(ROOT / 'analyzer' / 'check.py'), str(input_two), '--output-dir', str(out_two)],
             ]
             processes = [subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE) for command in commands]
             for process in processes:

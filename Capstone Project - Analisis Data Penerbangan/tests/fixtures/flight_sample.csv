@@ -1,0 +1,7 @@
+Airline name ,Travel  Time,Number of  Stoppage ,Ticket prize(Doller),Depreture  Airport,Depreture Time,1st Stoppage Waiting Hour,1st Stoppage,Destination Airport,Arrival Time,Arrival Date
+Emirates,21h 15m,1 Stop,1283,DAC,08:55p,3h 0m,AUH,JFK,09:30a,Apr 8
+Turkish,18h 5m,1 Stop,1175,DAC,06:35a,1h 50m,IST,JFK,05:50p,Apr 8
+Qatar,16h 0m,1 Stop,1431,DAC,05:30a,2h 5m,DOH,EWR,10:30p,Apr 8
+Emirates,15h 30m,Nonstop,1500,DAC,01:40a,,,DXB,06:55p,Apr 9
+British,27h 35m,2 Stops,1456,DAC,08:15p,2h 10m,DOH,EWR,01:50p,Apr 9
+

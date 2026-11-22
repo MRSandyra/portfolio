@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Verify dependency lock
+        run: uv lock --check
+      - name: Install locked dependencies
+        run: uv sync --locked --extra dev
+      - name: Unit and integration tests
+        run: uv run --locked pytest
+      - name: Audit frozen final evidence
+        run: uv run --locked lol-analytics audit-final-results
+      - name: Reproduce sample case study
+        run: >-
+          uv run --locked lol-analytics reproduce
+          --input data/sample/events.jsonl
+          --output artifacts/ci-sample
+      - name: Notebook smoke test
+        run: >-
+          uv run --locked jupyter nbconvert
+          --to notebook
+          --execute notebooks/case_study.ipynb
+          --output-dir notebooks/executed
+          --ExecutePreprocessor.timeout=180
+

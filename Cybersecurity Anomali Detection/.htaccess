@@ -1,4 +1,0 @@
-Options -Indexes
-<FilesMatch "^(\.env|\.env\.example)$">
-    Require all denied
-</FilesMatch>

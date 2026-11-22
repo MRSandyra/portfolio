@@ -21,21 +21,46 @@ A PHP and Python portfolio project that analyzes Apache/Nginx Combined Log Forma
 - Python 3.9+ (standard library only)
 - A working server-side mail transport for PHP `mail()` (or replace that delivery adapter in production)
 
+## Project structure
+
+```text
+.
+├── analyzer/              # Isolated Python log-analysis engine
+│   └── check.py
+├── config/                # Runtime infrastructure configuration
+│   └── database.php
+├── database/
+│   ├── migrations/        # Backward-compatible schema changes
+│   └── schema.sql         # Clean schema for new installations
+├── public/                # The only directory exposed by the web server
+│   ├── assets/            # Browser CSS and JavaScript
+│   ├── index.php          # Upload dashboard
+│   ├── analyze.php        # Upload and analysis controller
+│   └── *.php              # Authentication and reset endpoints
+├── src/                   # Reusable PHP security/domain classes
+├── tests/                 # PHP unit checks and Python integration test
+├── .env.example
+└── README.md
+```
+
+Only `public/` should be configured as the HTTP document root. Database configuration, analyzer code, migrations, tests, and generated files are therefore not directly web-accessible.
+
 ## Setup
 
-1. Import the clean schema: `mysql -u USER -p anomali_detection < anomali_detection.sql`.
-2. For an existing database, first run `migrations/20261120_harden_reset_tokens.sql`. It preserves the existing reset columns, adds a lookup index, and invalidates legacy plaintext tokens.
+1. Import the clean schema: `mysql -u USER -p anomali_detection < database/schema.sql`.
+2. For an existing database, first run `database/migrations/20261120_harden_reset_tokens.sql`. It preserves the existing reset columns, adds a lookup index, and invalidates legacy plaintext tokens.
 3. Set the environment variables in `.env.example` in your web-server configuration. This application deliberately does not load `.env` files itself, keeping runtime secrets outside the document root and source control.
 4. Set `ANALYSIS_WORKSPACE_ROOT` to an absolute directory outside the web root that is writable only by the web-server account. If it is unset, the application uses the operating system temporary directory with restrictive permissions.
+5. Point Apache/Nginx to the absolute `public/` directory. For local development, run `php -S 127.0.0.1:8080 -t public` from the project root.
 
 `APP_BASE_URL` must be an HTTPS public URL without a trailing slash. The reset handler will not issue a link if it is absent or not HTTPS. Set `RESET_EMAIL_FROM` to an allowed sender. Failure to send a message clears the just-issued token and still shows the generic response.
 
 ## Use
 
-Open `index.php`, upload a `.log` or `.txt` file in Apache/Nginx Combined Log Format, and review the escaped summary. The detailed CSV remains available to that browser session for one hour. For command-line use:
+Open the configured site root, upload a `.log` or `.txt` file in Apache/Nginx Combined Log Format, and review the escaped summary. The detailed CSV remains available to that browser session for one hour. For command-line use:
 
 ```bash
-python check.py path/to/access.log --output-dir path/to/private-job
+python analyzer/check.py path/to/access.log --output-dir path/to/private-job
 ```
 
 The output directory receives `access.csv`, `result.txt`, and `attack_detection_results.csv`; do not use a shared directory for concurrent jobs.

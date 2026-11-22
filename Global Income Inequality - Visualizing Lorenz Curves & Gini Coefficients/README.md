@@ -1,77 +1,72 @@
-# 🌍 Global Income Inequality: Visualizing Lorenz Curves & Gini Coefficients
+# Global Income Inequality
 
-This project explores the patterns of income inequality around the world using data from the **World Bank's Poverty and Inequality Platform (PIP)**. Through the lens of **Gini Coefficients** and **Lorenz Curves**, we quantify inequality trends, simulate redistribution scenarios such as **targeted subsidies** and **progressive taxation**, and assess their impact on reducing inequality.
+A reproducible analysis of Lorenz curves and grouped-data Gini coefficients using the World Bank Poverty and Inequality Platform (PIP) Percentiles database. Computation, data preparation, static visualization, and illustrative redistribution scenarios live in tested Python modules; the notebook is a thin walkthrough of the same package.
 
----
+> **Terminology:** PIP welfare can be income or consumption. This project calls it *welfare* unless a specific series is identified. The redistribution scenarios are illustrative arithmetic simulations, **not policy forecasts**.
 
-## 📦 Dataset
-- **Source**: [World Bank - PIP Percentile Distributions](https://pip.worldbank.org)
-- **Key variables**: `country_code`, `year`, `percentile`, `avg_welfare`, `pop_share`, `welfare_share`
-- **Coverage**: 2,456 country-year distributions using microdata, grouped, or synthetic data
+## Reproduce the committed report
 
----
+Install [uv](https://docs.astral.sh/uv/), then run:
 
-## 📊 Visualizations & Key Insights
+```bash
+uv sync --locked --group dev
+uv run pytest -q
+uv run inequality-report
+```
 
-### 1. **Gini Trends Across Selected Countries**
-This line chart illustrates Gini coefficient trajectories over time for countries with diverse economic contexts:
-- **Brazil (BRA)** and **South Africa (ZAF)** have persistently high inequality (>0.55)
-- **United States (USA)** shows stable inequality in the range of 0.38–0.45
-- **China (CHN)** experienced a sharp rise in inequality during economic liberalization, followed by a recent decline
-- **Indonesia (IDN)** maintains moderate inequality but is still vulnerable
+Open `report/index.html`. The command uses the committed 1,600-row sample, so report reproduction is offline after dependencies are installed. Dependencies and transitive versions are fixed in `uv.lock`; Python 3.11–3.13 is supported and CI uses Python 3.12.
 
-![Gini Over Time](Image/Gini_trend.png)
+## Refresh from the pinned official source
 
----
+```bash
+uv run inequality-download
+uv run inequality-sample
+uv run inequality-report
+```
 
-### 2. **Global Inequality Map**
-A choropleth map of Gini coefficients using the most recent available year for each country. Darker red represents higher inequality. This chart is interactive (Plotly) and rendered inline in the notebook rather than exported as a static image.
+The downloader fetches PIP Percentiles 2021 PPP, version `20260922_2021`, and rejects any SHA-256 mismatch. The 25 MB source is written under ignored `data/raw/`; only the documented deterministic sample is versioned. See [data/sample/README.md](data/sample/README.md).
 
----
+## Project layout
 
-### 3. **Lorenz Curve: Indonesia 2019**
-This curve visualizes income distribution in Indonesia before any intervention.
-- Gini: **0.3728**
-- The bottom 20% of the population controls less than 5% of total income, while the top 10% controls a disproportionately large share.
+```text
+src/global_inequality/
+  data.py          # download, checksum, selection, fail-fast validation
+  lorenz.py        # Lorenz and grouped Gini computation
+  simulation.py    # explicitly illustrative arithmetic scenarios
+  visualize.py     # headless static figures
+  report.py        # deterministic HTML/CSV report generation
+tests/              # mathematical invariants, validation, accounting tests
+data/sample/        # small attributed offline sample
+docs/methodology.md # definitions, missing-data policy, selection, limitations
+report/             # generated static report and assets
+```
 
-![Lorenz IDN](Image/lorenz_idn.png)
+## Method summary
 
----
+- Select national distributions only; urban/rural observations are not mixed in.
+- Identify a distribution by country, survey year, reporting level, and welfare type.
+- Require exactly 100 unique percentile rows and all analytical numeric values. Do not impute or silently drop incomplete bins; a missing unused `quantile` threshold is allowed.
+- Normalize positive population and welfare shares, prepend `(0, 0)`, and integrate the Lorenz polygon with the trapezoid rule: `Gini = 1 - 2 × area`.
+- Print welfare type and year. The report does not imply that mixed income/consumption definitions or non-harmonized survey years are directly comparable.
 
-### 4. **Redistribution Simulation: Subsidy vs Progressive Taxation**
-#### 💰 Scenario 1: Direct Subsidy to Bottom 50%
-- Adds $0.5 per capita to the poorest 50%
-- Gini drops to **0.3020** (↓ 18.97%)
+The full formula, indicator definition, selection rationale, source attribution, and limitations are in [docs/methodology.md](docs/methodology.md).
 
-#### 💼 Scenario 2: Progressive Tax (10% tax on top 10%, redistributed to bottom 40%)
-- Gini drops further to **0.2954** (↓ 20.74%)
+## Illustrative scenarios
 
----
+For the Indonesia 2019 consumption distribution, the report demonstrates:
 
-### 5. **Lorenz Curve Comparison: Before vs After Redistribution**
-The green line (after redistribution) shifts closer to the line of equality, reflecting a more equitable income distribution.
+1. an externally funded 0.5 2021 PPP dollars/person/day addition to the bottom 50%; and
+2. a static 10% reduction in top-decile welfare transferred arithmetically per person to the bottom 40%.
 
-![Lorenz Comparison](Image/lorenz_comparison.png)
+These exercises omit behavior, administration, eligibility, financing incidence, equilibrium effects, avoidance, and uncertainty. Their outputs must not be presented as predicted real-world policy impacts or evidence that one policy is superior.
 
----
+## Data source and attribution
 
-## 📈 Final Results Summary
+World Bank (2026), *Poverty and Inequality Platform: Percentiles*, version `20260922_2021`, accessed 20 November 2026. [Dataset catalog](https://datacatalog.worldbank.org/search/dataset/0063646/poverty-and-inequality-platform-pip-percentiles). Catalog license: CC BY 4.0.
 
-| Scenario                        | Gini Coefficient | Change from Original |
-|----------------------------------|------------------|------------------------|
-| 🎯 Before Redistribution         | 0.3728           | —                      |
-| 💰 Subsidy to Bottom 50%         | 0.3020           | ↓ 18.97%               |
-| 💼 Tax Top 10% → Bottom 40%      | 0.2954           | ↓ 20.74%               |
+PIP documents that percentile distributions may originate from microdata, binned data, imputed/synthetic data, or fitted grouped data. Grouped estimates also omit within-bin inequality; recomputed values can therefore differ from microdata or official headline Gini estimates.
 
----
+## Notebook
 
-## 🧭 Policy Implications
-- Inequality remains a global issue, especially in Latin America and Sub-Saharan Africa.
-- Direct subsidies help, but **progressive taxation** proves to be slightly more efficient in reducing inequality.
-- **Lorenz curves and Gini coefficients** offer intuitive tools to evaluate redistribution policies.
-- Countries with similar Gini values may differ greatly in who holds the wealth and how policies affect them.
+`Global Income Inequality.ipynb` is an output-free walkthrough that imports the package and calls the same report builder. It contains no Colab path or duplicate analytical implementation. The command-line workflow remains the CI reproduction entry point.
 
----
-
-## 📚 License
-This project is built on publicly available data from the World Bank PIP and is intended for research and educational purposes only. Redistribution models are theoretical and do not represent real-world policy outcomes.

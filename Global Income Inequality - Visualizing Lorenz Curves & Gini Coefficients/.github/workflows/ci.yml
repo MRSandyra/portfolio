@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-smoke-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.7"
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Sync locked environment
+        run: uv sync --locked --group dev
+
+      - name: Run tests
+        run: uv run pytest -q
+
+      - name: Smoke-build static report
+        run: uv run inequality-report --output .smoke-report
+
+      - name: Verify report artifacts
+        run: |
+          test -s .smoke-report/index.html
+          test -s .smoke-report/gini_estimates.csv
+          test -s .smoke-report/assets/gini_trends.png
+          test -s .smoke-report/assets/lorenz_idn_2019.png
+          test -s .smoke-report/assets/illustrative_simulations.png
+

@@ -1,0 +1,7 @@
+{
+  "id": "replace-with-model-id",
+  "revision": "replace-with-immutable-revision-or-hash",
+  "license": "replace-with-model-license",
+  "source_url": "https://replace-with-model-card-or-repository.example",
+  "notes": "The model artifact is installed separately and is not committed to this repository."
+}

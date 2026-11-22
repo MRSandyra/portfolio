@@ -1,0 +1,353 @@
+{
+  "evaluated_at_utc": "2026-11-21T12:17:16.178842+00:00",
+  "evaluation_time_source": "phase5_release_manifest_file_mtime_at_freeze",
+  "evidence": {
+    "release_authorization": {
+      "authorization": "explicit_phase5_one_time_override",
+      "authorized_operation": "final_evaluation",
+      "cohort_key": "future_europe_500",
+      "evidence": {
+        "cohort_policy_sha256": "5a2855bde8ad7db2697cb181ea4d8c1bb368d6c1007bea80fc1f2af993471598",
+        "future_holdout_manifest_sha256": "516e1dee45d6a88bccb2855d81f67fc7c2c924835356694f8f4d2dd19066f0d3",
+        "future_holdout_sha256": "91baf181449ef26c716ea3bcb77d430ddc4d04989861627838867180fb842e76",
+        "inference_manifest_sha256": "7af0e028ca8cb0f12aa3ad51db4240267abbe2dc1904f8ea7c9ad25d660a5157",
+        "release_readiness_sha256": "abdcaacc8872ba51aa71b9984b02f58dd3ba4eb70beb8c1bc91f3793c2f50cdd"
+      },
+      "output_dir": "artifacts/future-holdout-release-v1",
+      "pre_release_count": 0,
+      "schema_version": 1,
+      "status": "future_holdout_release_started"
+    },
+    "source_manifests": {
+      "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+      "final_model_manifest_sha256": "8b83604550d420ef19122550146c5a754cf10aded4257026d1d38dc719fdd49d",
+      "holdout_release_manifest_sha256": "fcfd8fc79d6b074ab547282a1cf33d30453fa96fe66e61c06b2701efa2ca82ec",
+      "holdout_release_started_manifest_sha256": "fc226a5c8e57a2ccba30879776e339d6f1665ef1b1b761535f92cced1ba173fc",
+      "inference_manifest_sha256": "7af0e028ca8cb0f12aa3ad51db4240267abbe2dc1904f8ea7c9ad25d660a5157"
+    }
+  },
+  "generated_report_artifact": {
+    "bytes": 863,
+    "path": "artifacts/future-holdout-release-v1/future_holdout_report.md",
+    "sha256": "90fcfa09e99a52b3bfd5cb9c57fa66e2e0eecc5cb1d5c71392a4f4429f480233"
+  },
+  "holdout": {
+    "available_for_future_selection_or_tuning": false,
+    "consumed": true,
+    "development_match_id_overlap": 0,
+    "file": {
+      "bytes": 5483107,
+      "path": "data/raw/events_europe_future_500.parquet",
+      "sha256": "91baf181449ef26c716ea3bcb77d430ddc4d04989861627838867180fb842e76"
+    },
+    "key": "future_europe_500",
+    "matches": 500,
+    "role": "future_holdout",
+    "strictly_future": true
+  },
+  "immutability_policy": {
+    "additional_holdout_evaluation_allowed": false,
+    "generated_artifacts_verified_by_checksum": true,
+    "post_release_calibrator_tuning_allowed": false,
+    "post_release_feature_selection_allowed": false,
+    "post_release_model_tuning_allowed": false,
+    "post_release_threshold_tuning_allowed": false,
+    "predictions_recomputed_in_phase6": false,
+    "raw_holdout_read_in_phase6": false
+  },
+  "interpretation": "Combined future-time, patch, and external-region evaluation; effects cannot be attributed separately.",
+  "models": {
+    "early_10m": {
+      "base_model_artifact": {
+        "bytes": 1741,
+        "path": "artifacts/final-models-2000/final_model_10m.joblib",
+        "sha256": "2c7b45ece544f9a96966204781eaae700a9bec9b10cb06c89ee239786167623c"
+      },
+      "calibration": {
+        "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+        "calibrator_artifact": null,
+        "decision": "rejected_keep_base_probability"
+      },
+      "calibration_metrics": {
+        "bins": 10,
+        "brier_score": 0.18965271880951273,
+        "expected_calibration_error": 0.05376432466414793,
+        "log_loss": 0.5573699816500638,
+        "maximum_calibration_error": 0.08445725444083452,
+        "reliability": [
+          {
+            "bin": 1,
+            "count": 13,
+            "lower": 0.0,
+            "mean_probability": 0.06732719727748576,
+            "observed_positive_rate": 0.0,
+            "upper": 0.1
+          },
+          {
+            "bin": 2,
+            "count": 33,
+            "lower": 0.1,
+            "mean_probability": 0.15301396000597176,
+            "observed_positive_rate": 0.21212121212121213,
+            "upper": 0.2
+          },
+          {
+            "bin": 3,
+            "count": 42,
+            "lower": 0.2,
+            "mean_probability": 0.2513263783705329,
+            "observed_positive_rate": 0.23809523809523808,
+            "upper": 0.3
+          },
+          {
+            "bin": 4,
+            "count": 79,
+            "lower": 0.3,
+            "mean_probability": 0.3491297218537197,
+            "observed_positive_rate": 0.2911392405063291,
+            "upper": 0.4
+          },
+          {
+            "bin": 5,
+            "count": 71,
+            "lower": 0.4,
+            "mean_probability": 0.45066069444501466,
+            "observed_positive_rate": 0.38028169014084506,
+            "upper": 0.5
+          },
+          {
+            "bin": 6,
+            "count": 65,
+            "lower": 0.5,
+            "mean_probability": 0.5459534445636752,
+            "observed_positive_rate": 0.6153846153846154,
+            "upper": 0.6
+          },
+          {
+            "bin": 7,
+            "count": 62,
+            "lower": 0.6,
+            "mean_probability": 0.6516859505771274,
+            "observed_positive_rate": 0.6451612903225806,
+            "upper": 0.7
+          },
+          {
+            "bin": 8,
+            "count": 71,
+            "lower": 0.7,
+            "mean_probability": 0.7468715663582071,
+            "observed_positive_rate": 0.6901408450704225,
+            "upper": 0.8
+          },
+          {
+            "bin": 9,
+            "count": 43,
+            "lower": 0.8,
+            "mean_probability": 0.8457753036987004,
+            "observed_positive_rate": 0.9302325581395349,
+            "upper": 0.9
+          },
+          {
+            "bin": 10,
+            "count": 19,
+            "lower": 0.9,
+            "mean_probability": 0.9348485587788662,
+            "observed_positive_rate": 1.0,
+            "upper": 1.0
+          }
+        ],
+        "samples": 498
+      },
+      "eligible_holdout_matches": 498,
+      "horizon_minutes": 10,
+      "inference_bundle_artifact": {
+        "bytes": 2462,
+        "path": "artifacts/inference-bundles-v1/inference_bundle_10m.joblib",
+        "sha256": "0efe58d20f63471e79e4eb9c7033addb75d12eb17452da52fe9a08dc23fb1147"
+      },
+      "metrics": {
+        "accuracy": 0.7208835341365462,
+        "f1": 0.7300970873786408,
+        "precision": 0.7230769230769231,
+        "recall": 0.7372549019607844,
+        "roc_auc": 0.784394416202695
+      },
+      "prediction_artifact": {
+        "bytes": 48366,
+        "path": "artifacts/future-holdout-release-v1/holdout_predictions_10m.csv",
+        "sha256": "bf9f5475ac36d3030c39a348087d3d906d1d6593aab8353c5632c02533028208"
+      },
+      "probability_transform": {
+        "calibration_applied": false,
+        "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+        "decision": "rejected_keep_base_probability",
+        "kind": "identity_keep_base_probability",
+        "reason": "Temporal cross-fitted Platt scaling failed the non-worsening rule."
+      },
+      "roc_auc_interval": {
+        "confidence": 0.95,
+        "estimate": 0.784394416202695,
+        "iterations": 2000,
+        "lower": 0.7424344387960946,
+        "upper": 0.8226769143871541
+      }
+    },
+    "mid_20m": {
+      "base_model_artifact": {
+        "bytes": 2257,
+        "path": "artifacts/final-models-2000/final_model_20m.joblib",
+        "sha256": "a55de97ab86716fdd68c9544d3138d30173e66fabcf720487f119bee6c92e088"
+      },
+      "calibration": {
+        "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+        "calibrator_artifact": null,
+        "decision": "rejected_keep_base_probability"
+      },
+      "calibration_metrics": {
+        "bins": 10,
+        "brier_score": 0.14996943767986473,
+        "expected_calibration_error": 0.05609400717013576,
+        "log_loss": 0.4651984024410715,
+        "maximum_calibration_error": 0.1753473702276458,
+        "reliability": [
+          {
+            "bin": 1,
+            "count": 74,
+            "lower": 0.0,
+            "mean_probability": 0.04658492779038064,
+            "observed_positive_rate": 0.05405405405405406,
+            "upper": 0.1
+          },
+          {
+            "bin": 2,
+            "count": 38,
+            "lower": 0.1,
+            "mean_probability": 0.14653984864869335,
+            "observed_positive_rate": 0.2894736842105263,
+            "upper": 0.2
+          },
+          {
+            "bin": 3,
+            "count": 40,
+            "lower": 0.2,
+            "mean_probability": 0.2479583552523119,
+            "observed_positive_rate": 0.25,
+            "upper": 0.3
+          },
+          {
+            "bin": 4,
+            "count": 28,
+            "lower": 0.3,
+            "mean_probability": 0.355107477681669,
+            "observed_positive_rate": 0.25,
+            "upper": 0.4
+          },
+          {
+            "bin": 5,
+            "count": 26,
+            "lower": 0.4,
+            "mean_probability": 0.4471361372627183,
+            "observed_positive_rate": 0.46153846153846156,
+            "upper": 0.5
+          },
+          {
+            "bin": 6,
+            "count": 16,
+            "lower": 0.5,
+            "mean_probability": 0.549045652553766,
+            "observed_positive_rate": 0.6875,
+            "upper": 0.6
+          },
+          {
+            "bin": 7,
+            "count": 19,
+            "lower": 0.6,
+            "mean_probability": 0.6368482532815767,
+            "observed_positive_rate": 0.631578947368421,
+            "upper": 0.7
+          },
+          {
+            "bin": 8,
+            "count": 19,
+            "lower": 0.7,
+            "mean_probability": 0.7542947386486984,
+            "observed_positive_rate": 0.5789473684210527,
+            "upper": 0.8
+          },
+          {
+            "bin": 9,
+            "count": 45,
+            "lower": 0.8,
+            "mean_probability": 0.8529412775919623,
+            "observed_positive_rate": 0.8666666666666667,
+            "upper": 0.9
+          },
+          {
+            "bin": 10,
+            "count": 99,
+            "lower": 0.9,
+            "mean_probability": 0.9597375079952839,
+            "observed_positive_rate": 0.8888888888888888,
+            "upper": 1.0
+          }
+        ],
+        "samples": 404
+      },
+      "eligible_holdout_matches": 404,
+      "horizon_minutes": 20,
+      "inference_bundle_artifact": {
+        "bytes": 3125,
+        "path": "artifacts/inference-bundles-v1/inference_bundle_20m.joblib",
+        "sha256": "a0218a3b98e04002006b062d463b7e7ea8dec6ecb4b6cde5489e316f1475b555"
+      },
+      "metrics": {
+        "accuracy": 0.7995049504950495,
+        "f1": 0.7990074441687345,
+        "precision": 0.8131313131313131,
+        "recall": 0.7853658536585366,
+        "roc_auc": 0.8666503247947053
+      },
+      "prediction_artifact": {
+        "bytes": 39404,
+        "path": "artifacts/future-holdout-release-v1/holdout_predictions_20m.csv",
+        "sha256": "a9fbc1386fe622c0e1aac8320613ba7ebf75d81186c46fb0567519e5c68cb580"
+      },
+      "probability_transform": {
+        "calibration_applied": false,
+        "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+        "decision": "rejected_keep_base_probability",
+        "kind": "identity_keep_base_probability",
+        "reason": "Temporal cross-fitted Platt scaling failed the non-worsening rule."
+      },
+      "roc_auc_interval": {
+        "confidence": 0.95,
+        "estimate": 0.8666503247947053,
+        "iterations": 2000,
+        "lower": 0.8305429586959187,
+        "upper": 0.8997426155166075
+      }
+    }
+  },
+  "paired_comparison": {
+    "auc_delta_interval": {
+      "bootstrap_probability_mid_gt_early": 1.0,
+      "confidence": 0.95,
+      "estimate_mid_minus_early": 0.14487069493810523,
+      "iterations": 2000,
+      "lower": 0.09851574947910287,
+      "upper": 0.1902690280671651
+    },
+    "cohort": "future_holdout_matches_eligible_at_20m",
+    "early_10m_roc_auc": 0.7217796298566,
+    "matches": 404,
+    "mid_20m_roc_auc": 0.8666503247947053,
+    "prediction_artifact": {
+      "bytes": 23113,
+      "path": "artifacts/future-holdout-release-v1/holdout_paired_predictions.csv",
+      "sha256": "5c1f3026bb8afcc7b4557b46da541d5997c20983b1da9fa03b94ba5d2d1a1296"
+    }
+  },
+  "release_count": 1,
+  "schema_version": 1,
+  "status": "final_holdout_consumed"
+}

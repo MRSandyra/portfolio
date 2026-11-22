@@ -1,0 +1,27 @@
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Downloaded data and generated outputs
+data/raw/
+data/processed/
+artifacts/
+reports/generated/
+*.parquet
+*.joblib
+
+# Notebook execution products
+notebooks/executed/
+

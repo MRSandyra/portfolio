@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "receipt_type": "sentiment_independent_review",
+  "review_id": "replace-with-unique-review-id",
+  "decision": "approved_for_exploratory_sentiment_runtime",
+  "issued_at": "2026-11-22T00:00:00Z",
+  "expires_at": "2027-05-22T00:00:00Z",
+  "report": {
+    "report_id": "replace-with-report-id",
+    "sha256": "replace-with-64-lowercase-hex-report-digest"
+  },
+  "input_sha256": {
+    "annotations": "replace-with-64-lowercase-hex-digest",
+    "predictions": "replace-with-64-lowercase-hex-digest",
+    "dataset_manifest": "replace-with-64-lowercase-hex-digest",
+    "model_manifest": "replace-with-64-lowercase-hex-digest"
+  },
+  "scope": [
+    "annotation_quality",
+    "calibration",
+    "dataset_provenance",
+    "failure_slices",
+    "leakage_controls",
+    "model_identity",
+    "reproducibility"
+  ],
+  "methodology": {
+    "independent_recomputation_completed": true,
+    "manual_failure_slice_review_completed": true
+  },
+  "reviewer": {
+    "id": "replace-with-reviewer-id",
+    "organization": "Replace with independent organization",
+    "key_id": "replace-with-stable-key-id",
+    "conflicts_disclosed": true
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "key_id": "replace-with-stable-key-id",
+    "value_base64": "REPLACE_WITH_64_BYTE_ED25519_SIGNATURE_BASE64"
+  }
+}

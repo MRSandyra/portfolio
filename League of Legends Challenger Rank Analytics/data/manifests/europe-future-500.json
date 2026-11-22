@@ -1,0 +1,148 @@
+{
+  "created_at_utc": "2026-11-21T03:54:57.619711+00:00",
+  "evaluation_policy": {
+    "allowed_before_release": [
+      "schema_validation",
+      "data_quality_gates",
+      "checksum_verification",
+      "time_and_identity_separation_checks"
+    ],
+    "interpretation_after_release": "Combined future-time and external-region validation; region and time effects cannot be attributed separately.",
+    "model_fitted": false,
+    "performance_metrics_computed": false,
+    "predictions_written": false,
+    "release_condition": "Explicit authorization after the model-selection policy and feature contract are fixed."
+  },
+  "holdout": {
+    "critical_column_missing_fraction": {
+      "eventId": 0.0,
+      "gameStartTimestamp": 0.0,
+      "gameVersion": 0.0,
+      "matchId": 0.0,
+      "platformId": 0.0,
+      "region": 0.0,
+      "timestamp": 0.0,
+      "type": 0.0,
+      "winningTeam": 0.9989965199311212
+    },
+    "duplicate_event_ids": 0,
+    "file": {
+      "bytes": 5483107,
+      "path": "data/raw/events_europe_future_500.parquet",
+      "sha256": "91baf181449ef26c716ea3bcb77d430ddc4d04989861627838867180fb842e76"
+    },
+    "horizon_coverage": {
+      "10m": {
+        "coverage_of_matches_reaching_horizon": 1.0,
+        "cutoff_ms": 600000,
+        "eligible_matches": 498,
+        "matches_reaching_horizon": 498,
+        "matches_with_snapshot_at_or_before": 500,
+        "snapshot_lag_ms": {
+          "max": 15406,
+          "median": 1418,
+          "p95": 6572
+        }
+      },
+      "20m": {
+        "coverage_of_matches_reaching_horizon": 1.0,
+        "cutoff_ms": 1200000,
+        "eligible_matches": 404,
+        "matches_reaching_horizon": 404,
+        "matches_with_snapshot_at_or_before": 500,
+        "snapshot_lag_ms": {
+          "max": 21463,
+          "median": 1505,
+          "p95": 8320
+        }
+      }
+    },
+    "matches": 500,
+    "patch_distribution": {
+      "15.10": 51,
+      "15.9": 449
+    },
+    "quality_gates": {
+      "exactly_one_game_end_per_match": true,
+      "expected_match_count": true,
+      "one_winner_per_match": true,
+      "ten_minute_snapshot_for_all_survivors": true,
+      "twenty_minute_snapshot_for_all_survivors": true,
+      "unique_event_id_per_match": true,
+      "valid_winner_values": true
+    },
+    "regions": [
+      "europe"
+    ],
+    "rows": 498266,
+    "source": {
+      "batch_size": 10000,
+      "config": "events",
+      "dataset": "gptilt/lol-ultimate-events-challenger-10m",
+      "requested_matches": 500,
+      "skipped_complete_matches": 0,
+      "split": "train_region_europe"
+    },
+    "time_range_utc": {
+      "end": "2025-05-15T20:43:07.584000+00:00",
+      "start": "2025-05-01T08:13:47.501000+00:00"
+    }
+  },
+  "schema_version": 1,
+  "separation": {
+    "gap_ms": 1006959527,
+    "match_id_overlap": 0,
+    "prior_evaluated_cohorts": [
+      {
+        "file": {
+          "bytes": 3562910,
+          "path": "data/raw/events_europe_test_300.parquet",
+          "sha256": "a2db95a299ce83c6fcecca6be3f60b8a1c658e5d0d7eb38fee94dfe9370691c4"
+        },
+        "match_id_overlap": 0,
+        "matches": 300,
+        "name": "data/raw/events_europe_test_300.parquet"
+      },
+      {
+        "file": {
+          "bytes": 1352072,
+          "path": "data/raw/events_americas_test_105.parquet",
+          "sha256": "a4206edcfa1064b7af32c4a982d89457be5816e0584fde83b34b8d19b35baefb"
+        },
+        "match_id_overlap": 0,
+        "matches": 105,
+        "name": "data/raw/events_americas_test_105.parquet"
+      },
+      {
+        "file": {
+          "bytes": 1410113,
+          "path": "data/raw/events_asia_train_105.parquet",
+          "sha256": "09a5008558e8485f3ee3a5967f1dcb3ccd0a34abfead663cddb0ab80c47e0b3d"
+        },
+        "match_id_overlap": 0,
+        "matches": 105,
+        "name": "data/raw/events_asia_train_105.parquet"
+      }
+    ],
+    "region_shift_explicitly_allowed": true,
+    "same_regions": false,
+    "strictly_future": true
+  },
+  "status": "frozen_unscored",
+  "training_reference": {
+    "file": {
+      "bytes": 20867641,
+      "path": "data/raw/events_americas_2000.parquet",
+      "sha256": "4fbbac26cac22a3fd84e318dab6eb040b577c856720d198b0bd57bba9608d7af"
+    },
+    "matches": 2000,
+    "regions": [
+      "americas"
+    ],
+    "time_range_utc": {
+      "end": "2025-04-19T16:31:07.974000+00:00",
+      "start": "2025-04-01T00:01:34.202000+00:00"
+    }
+  },
+  "validation_design": "future_external_region"
+}

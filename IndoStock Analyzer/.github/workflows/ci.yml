@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - name: Install locked dependencies
+        run: python -m pip install --requirement requirements-dev.lock
+      - name: Dependency compatibility
+        run: python -m pip check
+      - name: Repository release policy
+        run: python -B -m indostock_analyzer.artifact_cli release-check .
+      - name: Compile check
+        run: python -m compileall -q indostock_analyzer stock_scraper.py
+      - name: Unit tests
+        run: python -m pytest
+      - name: Build and inspect wheel
+        if: matrix.python-version == '3.11'
+        run: |
+          python -m pip wheel --no-deps --wheel-dir dist .
+          python -m pip install --force-reinstall --no-deps dist/*.whl
+          indostock-audit --help
+          indostock-audit verify-sentiment-evidence --help
+          indostock-audit verify-backtest-evidence --help
+          indostock-audit prepare-sentiment-review-request --help
+          indostock-audit canonicalize-review-receipt --help
+          indostock-audit verify-sentiment-review-receipt --help
+          indostock-audit canonicalize-review-revocations --help
+          indostock-audit build-sentiment-review-bundle --help
+          indostock-audit verify-sentiment-review-bundle --help
+          indostock-backtest --help

@@ -1,0 +1,404 @@
+{
+  "contract_name": "lol_model_input_features",
+  "metadata_columns_allowed": [
+    "matchId",
+    "win"
+  ],
+  "models": {
+    "early_10m": {
+      "features": {
+        "baron_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 Baron kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "cs_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 lane plus jungle CS",
+          "dtype": "number",
+          "nullable": true
+        },
+        "dragon_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 dragon kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_blood_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_dragon_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_herald_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_tower_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "gold_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 total gold",
+          "dtype": "number",
+          "nullable": true
+        },
+        "herald_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 Rift Herald kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "jungle_cs_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 jungle CS",
+          "dtype": "number",
+          "nullable": true
+        },
+        "kill_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 champion kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "level_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 summed levels",
+          "dtype": "number",
+          "nullable": true
+        },
+        "tower_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 tower kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "xp_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 experience",
+          "dtype": "number",
+          "nullable": true
+        }
+      },
+      "horizon_minutes": 10,
+      "required_features": [
+        "gold_diff_10",
+        "xp_diff_10",
+        "cs_diff_10",
+        "jungle_cs_diff_10",
+        "level_diff_10",
+        "kill_diff_10",
+        "tower_diff_10",
+        "dragon_diff_10",
+        "herald_diff_10",
+        "baron_diff_10",
+        "first_blood_side_10",
+        "first_dragon_side_10",
+        "first_tower_side_10",
+        "first_herald_side_10"
+      ],
+      "rules": {
+        "all_missing_feature": "reject_unless_source_exception_is_declared",
+        "infinite_values": "reject",
+        "non_numeric_values": "reject",
+        "partial_missing_values": "allow_training_fitted_imputer",
+        "registered_features_from_other_horizons": "reject",
+        "side_indicator_allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "unregistered_columns_except_declared_metadata": "reject"
+      }
+    },
+    "mid_20m": {
+      "features": {
+        "baron_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 Baron kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "baron_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 Baron kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "cs_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 lane plus jungle CS",
+          "dtype": "number",
+          "nullable": true
+        },
+        "cs_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 lane plus jungle CS",
+          "dtype": "number",
+          "nullable": true
+        },
+        "dragon_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 dragon kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "dragon_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 dragon kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_blood_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_blood_side_20": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 1200000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_dragon_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_dragon_side_20": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 1200000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_herald_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_herald_side_20": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 1200000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_tower_side_10": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 600000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "first_tower_side_20": {
+          "allowed_values": [
+            -1,
+            0,
+            1
+          ],
+          "available_at_ms": 1200000,
+          "description": "1 Team 100, -1 Team 200, 0 not observed",
+          "dtype": "number",
+          "nullable": true
+        },
+        "gold_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 total gold",
+          "dtype": "number",
+          "nullable": true
+        },
+        "gold_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 total gold",
+          "dtype": "number",
+          "nullable": true
+        },
+        "herald_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 Rift Herald kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "herald_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 Rift Herald kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "jungle_cs_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 jungle CS",
+          "dtype": "number",
+          "nullable": true
+        },
+        "jungle_cs_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 jungle CS",
+          "dtype": "number",
+          "nullable": true
+        },
+        "kill_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 champion kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "kill_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 champion kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "level_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 summed levels",
+          "dtype": "number",
+          "nullable": true
+        },
+        "level_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 summed levels",
+          "dtype": "number",
+          "nullable": true
+        },
+        "tower_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 tower kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "tower_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 tower kills",
+          "dtype": "number",
+          "nullable": true
+        },
+        "xp_diff_10": {
+          "available_at_ms": 600000,
+          "description": "Team 100 minus Team 200 experience",
+          "dtype": "number",
+          "nullable": true
+        },
+        "xp_diff_20": {
+          "available_at_ms": 1200000,
+          "description": "Team 100 minus Team 200 experience",
+          "dtype": "number",
+          "nullable": true
+        }
+      },
+      "horizon_minutes": 20,
+      "required_features": [
+        "gold_diff_10",
+        "xp_diff_10",
+        "cs_diff_10",
+        "jungle_cs_diff_10",
+        "level_diff_10",
+        "kill_diff_10",
+        "tower_diff_10",
+        "dragon_diff_10",
+        "herald_diff_10",
+        "baron_diff_10",
+        "first_blood_side_10",
+        "first_dragon_side_10",
+        "first_tower_side_10",
+        "first_herald_side_10",
+        "gold_diff_20",
+        "xp_diff_20",
+        "cs_diff_20",
+        "jungle_cs_diff_20",
+        "level_diff_20",
+        "kill_diff_20",
+        "tower_diff_20",
+        "dragon_diff_20",
+        "herald_diff_20",
+        "baron_diff_20",
+        "first_blood_side_20",
+        "first_dragon_side_20",
+        "first_tower_side_20",
+        "first_herald_side_20"
+      ],
+      "rules": {
+        "all_missing_feature": "reject_unless_source_exception_is_declared",
+        "infinite_values": "reject",
+        "non_numeric_values": "reject",
+        "partial_missing_values": "allow_training_fitted_imputer",
+        "registered_features_from_other_horizons": "reject",
+        "side_indicator_allowed_values": [
+          -1,
+          0,
+          1
+        ],
+        "unregistered_columns_except_declared_metadata": "reject"
+      }
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,27 @@
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Full source data and transient build outputs are reproducible, not versioned.
+data/raw/
+build/
+.smoke-report/
+Image/
+
+# Local configuration and credentials.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials*.json
+
+# Notebook/editor caches.
+.ipynb_checkpoints/
+.idea/
+.vscode/
+

@@ -1,0 +1,32 @@
+{
+  "dataset": {
+    "api_url": "https://www.kaggle.com/api/v1/datasets/view/bobbyscience/league-of-legends-diamond-ranked-games-10-min",
+    "download_url": "https://www.kaggle.com/api/v1/datasets/download/bobbyscience/league-of-legends-diamond-ranked-games-10-min",
+    "last_updated_utc": "2020-04-13T13:53:02.740000+00:00",
+    "license": "CC0: Public Domain",
+    "match_timestamp_available": false,
+    "patch_or_season_available": false,
+    "rank_scope": "Diamond I to Master solo queue",
+    "ref": "bobbyscience/league-of-legends-diamond-ranked-games-10-min",
+    "snapshot_horizon_minutes": 10,
+    "title": "League of Legends Diamond Ranked Games (10 min)",
+    "url": "https://www.kaggle.com/datasets/bobbyscience/league-of-legends-diamond-ranked-games-10-min"
+  },
+  "file": {
+    "bytes": 1446502,
+    "columns": 40,
+    "path": "data/raw/high-diamond-10m/high_diamond_ranked_10min.csv",
+    "rows": 9879,
+    "sha256": "82b2e23279097c2dac616e966eb2911711c428d41b6382b4cdb15da4892f9ca6"
+  },
+  "quality": {
+    "adapted_rows": 9879,
+    "schema_and_redundancy_checks_passed": true,
+    "target_distribution": {
+      "0": 4949,
+      "1": 4930
+    },
+    "unique_game_ids": true
+  },
+  "schema_version": 1
+}

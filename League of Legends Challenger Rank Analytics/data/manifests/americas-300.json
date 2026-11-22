@@ -1,0 +1,108 @@
+{
+  "critical_column_missing_fraction": {
+    "eventId": 0.0,
+    "gameStartTimestamp": 0.0,
+    "gameVersion": 0.0,
+    "matchId": 0.0,
+    "platformId": 0.0,
+    "region": 0.0,
+    "timestamp": 0.0,
+    "type": 0.0,
+    "winningTeam": 0.9990361941233543
+  },
+  "duplicate_event_ids": 0,
+  "event_types": {
+    "BUILDING_KILL": 3719,
+    "CHAMPION_KILL": 15275,
+    "CHAMPION_SPECIAL_KILL": 2142,
+    "CHAMPION_TRANSFORM": 39,
+    "DRAGON_SOUL_GIVEN": 364,
+    "ELITE_MONSTER_KILL": 3581,
+    "FEAT_UPDATE": 3135,
+    "GAME_END": 300,
+    "ITEM_DESTROYED": 50191,
+    "ITEM_PURCHASED": 62685,
+    "ITEM_SOLD": 2414,
+    "ITEM_UNDO": 2309,
+    "LEVEL_UP": 40162,
+    "OBJECTIVE_BOUNTY_FINISH": 71,
+    "OBJECTIVE_BOUNTY_PRESTART": 282,
+    "PAUSE_END": 300,
+    "SKILL_LEVEL_UP": 43333,
+    "TURRET_PLATE_DESTROYED": 3338,
+    "WARD_KILL": 11340,
+    "WARD_PLACED": 66286
+  },
+  "file": {
+    "bytes": 3607020,
+    "path": "data/raw/events_americas_300.parquet",
+    "sha256": "9e942cb1c4b538e7c8d29590a87f144cdcf0a591e4156252c41a53445155e9a8"
+  },
+  "gates": {
+    "exactly_one_game_end_per_match": true,
+    "expected_match_count": true,
+    "one_winner_per_match": true,
+    "ten_minute_snapshot_for_all_survivors": true,
+    "twenty_minute_snapshot_for_all_survivors": true,
+    "unique_event_id_per_match": true,
+    "valid_winner_values": true
+  },
+  "generated_at_utc": "2026-11-20T12:56:55.473545+00:00",
+  "horizon_coverage": {
+    "10m": {
+      "coverage_of_matches_reaching_horizon": 1.0,
+      "cutoff_ms": 600000,
+      "eligible_matches": 299,
+      "matches_reaching_horizon": 299,
+      "matches_with_snapshot_at_or_before": 300,
+      "snapshot_lag_ms": {
+        "max": 13834,
+        "median": 1381,
+        "p95": 7578
+      }
+    },
+    "20m": {
+      "coverage_of_matches_reaching_horizon": 1.0,
+      "cutoff_ms": 1200000,
+      "eligible_matches": 259,
+      "matches_reaching_horizon": 259,
+      "matches_with_snapshot_at_or_before": 300,
+      "snapshot_lag_ms": {
+        "max": 13176,
+        "median": 1354,
+        "p95": 6711
+      }
+    }
+  },
+  "issues": [],
+  "matches": 300,
+  "passed": true,
+  "patch_distribution": {
+    "15.6": 27,
+    "15.7": 214,
+    "15.8": 59
+  },
+  "platform_distribution": {
+    "BR1": 8,
+    "LA1": 222,
+    "NA1": 70
+  },
+  "region_distribution": {
+    "americas": 300
+  },
+  "rows": 311266,
+  "source": {
+    "config": "events",
+    "dataset": "gptilt/lol-ultimate-events-challenger-10m",
+    "requested_matches": 300,
+    "split": "train_region_americas"
+  },
+  "time_range_utc": {
+    "end": "2025-04-19T15:38:06.602000+00:00",
+    "start": "2025-04-01T01:33:29.574000+00:00"
+  },
+  "winner_distribution": {
+    "100": 160,
+    "200": 140
+  }
+}

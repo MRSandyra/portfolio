@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools==75.6.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flight-offer-analysis"
+version = "1.0.0"
+description = "Reproducible cleaning, quality checks, analysis, and reporting for flight offer listings."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "matplotlib>=3.9,<4",
+  "numpy>=2.1,<3",
+  "pandas>=2.2,<3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3,<9"]
+
+[project.scripts]
+flight-analysis = "flight_analysis.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers"
+pythonpath = ["src"]
+testpaths = ["tests"]
+

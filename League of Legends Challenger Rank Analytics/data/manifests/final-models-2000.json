@@ -1,0 +1,190 @@
+{
+  "created_at_utc": "2026-11-21T04:21:18.063428+00:00",
+  "evaluation_policy": {
+    "frozen_future_holdout_accessed": false,
+    "frozen_future_holdout_scored": false,
+    "in_sample_performance_computed": false,
+    "release_condition": "A separate explicit holdout-release command and authorization."
+  },
+  "models": {
+    "early_10m": {
+      "artifact": {
+        "bytes": 1741,
+        "path": "artifacts/final-models-2000/final_model_10m.joblib",
+        "sha256": "2c7b45ece544f9a96966204781eaae700a9bec9b10cb06c89ee239786167623c"
+      },
+      "eligible_training_matches": 1994,
+      "excluded_before_horizon": 6,
+      "features": [
+        "gold_diff_10",
+        "xp_diff_10",
+        "cs_diff_10",
+        "jungle_cs_diff_10",
+        "level_diff_10",
+        "kill_diff_10",
+        "tower_diff_10",
+        "dragon_diff_10",
+        "herald_diff_10",
+        "baron_diff_10",
+        "first_blood_side_10",
+        "first_dragon_side_10",
+        "first_tower_side_10",
+        "first_herald_side_10"
+      ],
+      "horizon_minutes": 10,
+      "leakage_audit": {
+        "cutoff_ms": 600000,
+        "forbidden_columns": [],
+        "future_features": [],
+        "passed": true,
+        "requested_features": [
+          "gold_diff_10",
+          "xp_diff_10",
+          "cs_diff_10",
+          "jungle_cs_diff_10",
+          "level_diff_10",
+          "kill_diff_10",
+          "tower_diff_10",
+          "dragon_diff_10",
+          "herald_diff_10",
+          "baron_diff_10",
+          "first_blood_side_10",
+          "first_dragon_side_10",
+          "first_tower_side_10",
+          "first_herald_side_10"
+        ],
+        "unknown_features": []
+      },
+      "selected_regularization_c": 0.01,
+      "selection_counts": {
+        "0.01": 10,
+        "0.1": 1,
+        "1.0": 3,
+        "10.0": 1
+      },
+      "selection_decisions": 15,
+      "training_time_range_utc": {
+        "end": "2025-04-19T16:31:07.974000+00:00",
+        "start": "2025-04-01T00:01:34.202000+00:00"
+      }
+    },
+    "mid_20m": {
+      "artifact": {
+        "bytes": 2257,
+        "path": "artifacts/final-models-2000/final_model_20m.joblib",
+        "sha256": "a55de97ab86716fdd68c9544d3138d30173e66fabcf720487f119bee6c92e088"
+      },
+      "eligible_training_matches": 1692,
+      "excluded_before_horizon": 308,
+      "features": [
+        "gold_diff_10",
+        "xp_diff_10",
+        "cs_diff_10",
+        "jungle_cs_diff_10",
+        "level_diff_10",
+        "kill_diff_10",
+        "tower_diff_10",
+        "dragon_diff_10",
+        "herald_diff_10",
+        "baron_diff_10",
+        "first_blood_side_10",
+        "first_dragon_side_10",
+        "first_tower_side_10",
+        "first_herald_side_10",
+        "gold_diff_20",
+        "xp_diff_20",
+        "cs_diff_20",
+        "jungle_cs_diff_20",
+        "level_diff_20",
+        "kill_diff_20",
+        "tower_diff_20",
+        "dragon_diff_20",
+        "herald_diff_20",
+        "baron_diff_20",
+        "first_blood_side_20",
+        "first_dragon_side_20",
+        "first_tower_side_20",
+        "first_herald_side_20"
+      ],
+      "horizon_minutes": 20,
+      "leakage_audit": {
+        "cutoff_ms": 1200000,
+        "forbidden_columns": [],
+        "future_features": [],
+        "passed": true,
+        "requested_features": [
+          "gold_diff_10",
+          "xp_diff_10",
+          "cs_diff_10",
+          "jungle_cs_diff_10",
+          "level_diff_10",
+          "kill_diff_10",
+          "tower_diff_10",
+          "dragon_diff_10",
+          "herald_diff_10",
+          "baron_diff_10",
+          "first_blood_side_10",
+          "first_dragon_side_10",
+          "first_tower_side_10",
+          "first_herald_side_10",
+          "gold_diff_20",
+          "xp_diff_20",
+          "cs_diff_20",
+          "jungle_cs_diff_20",
+          "level_diff_20",
+          "kill_diff_20",
+          "tower_diff_20",
+          "dragon_diff_20",
+          "herald_diff_20",
+          "baron_diff_20",
+          "first_blood_side_20",
+          "first_dragon_side_20",
+          "first_tower_side_20",
+          "first_herald_side_20"
+        ],
+        "unknown_features": []
+      },
+      "selected_regularization_c": 0.1,
+      "selection_counts": {
+        "0.1": 14,
+        "10.0": 1
+      },
+      "selection_decisions": 15,
+      "training_time_range_utc": {
+        "end": "2025-04-19T16:31:07.974000+00:00",
+        "start": "2025-04-01T00:01:34.202000+00:00"
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection_evidence": {
+    "file": {
+      "bytes": 174741,
+      "path": "artifacts/robustness-validation-2000/robustness_validation.json",
+      "sha256": "961f9e6db3b21f839056ff0206024d4af87e8cd54e48958028717fc671fe8c39"
+    },
+    "inner_splits": 2,
+    "outer_splits": 3,
+    "repeats": 5,
+    "validation_design": "repeated_nested_temporal_with_block_bootstrap_refitting"
+  },
+  "selection_policy": {
+    "future_holdout_used_for_selection": false,
+    "name": "modal_repeated_nested_outer_fold_choice",
+    "rule": "Choose the most frequent C across repeated nested outer folds.",
+    "tie_breaker": "Choose the smaller C."
+  },
+  "status": "final_models_fitted_unreleased",
+  "training": {
+    "file": {
+      "bytes": 20867641,
+      "path": "data/raw/events_americas_2000.parquet",
+      "sha256": "4fbbac26cac22a3fd84e318dab6eb040b577c856720d198b0bd57bba9608d7af"
+    },
+    "matches": 2000,
+    "time_range_utc": {
+      "end": "2025-04-19T16:31:07.974000+00:00",
+      "start": "2025-04-01T00:01:34.202000+00:00"
+    }
+  }
+}

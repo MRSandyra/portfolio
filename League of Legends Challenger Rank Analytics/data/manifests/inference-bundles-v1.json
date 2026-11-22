@@ -1,0 +1,114 @@
+{
+  "bundles": {
+    "early_10m": {
+      "artifact": {
+        "bytes": 2462,
+        "path": "artifacts/inference-bundles-v1/inference_bundle_10m.joblib",
+        "sha256": "0efe58d20f63471e79e4eb9c7033addb75d12eb17452da52fe9a08dc23fb1147"
+      },
+      "features": [
+        "gold_diff_10",
+        "xp_diff_10",
+        "cs_diff_10",
+        "jungle_cs_diff_10",
+        "level_diff_10",
+        "kill_diff_10",
+        "tower_diff_10",
+        "dragon_diff_10",
+        "herald_diff_10",
+        "baron_diff_10",
+        "first_blood_side_10",
+        "first_dragon_side_10",
+        "first_tower_side_10",
+        "first_herald_side_10"
+      ],
+      "horizon_minutes": 10,
+      "probability_transform": {
+        "calibration_applied": false,
+        "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+        "decision": "rejected_keep_base_probability",
+        "kind": "identity_keep_base_probability",
+        "reason": "Temporal cross-fitted Platt scaling failed the non-worsening rule."
+      },
+      "source_model_artifact": {
+        "path": "artifacts/final-models-2000/final_model_10m.joblib",
+        "sha256": "2c7b45ece544f9a96966204781eaae700a9bec9b10cb06c89ee239786167623c"
+      }
+    },
+    "mid_20m": {
+      "artifact": {
+        "bytes": 3125,
+        "path": "artifacts/inference-bundles-v1/inference_bundle_20m.joblib",
+        "sha256": "a0218a3b98e04002006b062d463b7e7ea8dec6ecb4b6cde5489e316f1475b555"
+      },
+      "features": [
+        "gold_diff_10",
+        "xp_diff_10",
+        "cs_diff_10",
+        "jungle_cs_diff_10",
+        "level_diff_10",
+        "kill_diff_10",
+        "tower_diff_10",
+        "dragon_diff_10",
+        "herald_diff_10",
+        "baron_diff_10",
+        "first_blood_side_10",
+        "first_dragon_side_10",
+        "first_tower_side_10",
+        "first_herald_side_10",
+        "gold_diff_20",
+        "xp_diff_20",
+        "cs_diff_20",
+        "jungle_cs_diff_20",
+        "level_diff_20",
+        "kill_diff_20",
+        "tower_diff_20",
+        "dragon_diff_20",
+        "herald_diff_20",
+        "baron_diff_20",
+        "first_blood_side_20",
+        "first_dragon_side_20",
+        "first_tower_side_20",
+        "first_herald_side_20"
+      ],
+      "horizon_minutes": 20,
+      "probability_transform": {
+        "calibration_applied": false,
+        "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+        "decision": "rejected_keep_base_probability",
+        "kind": "identity_keep_base_probability",
+        "reason": "Temporal cross-fitted Platt scaling failed the non-worsening rule."
+      },
+      "source_model_artifact": {
+        "path": "artifacts/final-models-2000/final_model_20m.joblib",
+        "sha256": "a55de97ab86716fdd68c9544d3138d30173e66fabcf720487f119bee6c92e088"
+      }
+    }
+  },
+  "development_cohort_key": "development_americas_2000",
+  "evaluation_guards": {
+    "calibrator_refit": false,
+    "external_diagnostic_cohort_read": false,
+    "future_holdout_accessed": false,
+    "future_holdout_scored": false,
+    "model_refit": false
+  },
+  "evidence": {
+    "calibration_manifest_sha256": "b9c0e8d407bd7f5fde9f93eb1ef6a6cd1645f598973902df84c3993658aee2c8",
+    "cohort_policy_sha256": "5a2855bde8ad7db2697cb181ea4d8c1bb368d6c1007bea80fc1f2af993471598",
+    "final_model_manifest_sha256": "8b83604550d420ef19122550146c5a754cf10aded4257026d1d38dc719fdd49d",
+    "runtime_contract_sha256": "3d19206ca31ab18d0a6a9040ed4f739b84cd90142f75f2555c0e39b302cc93db"
+  },
+  "prediction_api": {
+    "outputs": [
+      "raw_probability",
+      "served_probability",
+      "calibration_applied",
+      "horizon_minutes",
+      "probability_transform"
+    ],
+    "served_probability_policy": "Use the accepted calibration transform when present; otherwise preserve the base probability exactly."
+  },
+  "schema_version": 1,
+  "status": "inference_bundles_base_probability_unreleased"
+}

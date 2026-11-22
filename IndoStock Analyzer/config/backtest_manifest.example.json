@@ -1,0 +1,25 @@
+{
+  "name": "replace-with-point-in-time-dataset-name",
+  "version": "replace-with-immutable-version",
+  "license": "replace-with-permitted-license",
+  "source_url": "https://replace-with-provenance-url.example",
+  "content_sha256": "replace-with-sha256-of-observations-jsonl",
+  "indicator_version": "replace-with-frozen-indicator-version",
+  "benchmark_id": "replace-with-total-return-benchmark",
+  "split_strategy": "temporal_holdout_with_embargo",
+  "calibration_end_at": "2024-12-31T23:59:59+07:00",
+  "holdout_start_at": "2025-02-01T00:00:00+07:00",
+  "point_in_time_universe": true,
+  "includes_inactive_symbols": true,
+  "corporate_action_adjusted": true,
+  "return_type": "total_return",
+  "periods_per_year": 12,
+  "top_fraction": 0.2,
+  "variants_tried": 1,
+  "costs_bps": {
+    "commission": 0,
+    "slippage": 0,
+    "taxes": 0
+  },
+  "notes": "Replace zero costs with documented assumptions before interpreting net results."
+}

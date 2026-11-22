@@ -31,18 +31,18 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 | Project | What It Does | Main Tools |
 |---|---|---|
-| [NusaLens](#-nusalens-ai-assistant-for-indonesian-public-data) | Helps public-policy analysts prepare evidence-backed Indonesia briefs | Python, PostgreSQL, Ollama, FastAPI |
+| [NusaLens](#-nusalens-ai-assistant-for-indonesian-public-data) | Prepares evidence-backed Indonesia briefs with an explicit production-readiness gate | Python, PostgreSQL, pgvector, Ollama |
 | [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | Audits when match predictions become reliable and explains the drivers | Python, XGBoost, SHAP |
 | [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Combines chest X-rays and symptoms across 11 lung conditions | TensorFlow, Laravel, Flask |
 | [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | Finds positive and negative opinions in customer reviews | Python, scikit-learn |
 | [Anime Recommender](#-anime-recommender) | Suggests anime based on user preferences | Python |
 | [IndoStock Analyzer](#-indostock-analyzer-personal-stock-analysis-tool) | Brings together stock news, financial data, and market trends | Python, Selenium, yfinance |
-| [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection-system) | Flags suspicious activity in website access logs | Python, PHP, MySQL |
+| [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection) | Provides security-hardened triage for suspicious web-server requests | PHP, Python, MySQL |
 | [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares inequality and simulates redistribution scenarios | Python, Plotly, scikit-learn |
 | [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
-| [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Reconciles one delivery-SLA definition locally and in AWS | Python, DuckDB, AWS, Terraform |
+| [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Reconciles one delivery-SLA definition locally and in AWS with gated evidence | Python, DuckDB, AWS, Terraform |
 | [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Governs food-price data and proves a Databricks migration against its legacy baseline | Databricks, PySpark, Delta Lake |
-| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Demonstrates dual-path fraud monitoring and investigates misleading risk signals | Kafka, Spark, dbt, Superset |
+| [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Demonstrates contract-validated streaming and batch fraud monitoring | Kafka, Spark, dbt, Superset |
 | [Jakarta Air Quality Pipeline](#-jakarta-air-quality-pipeline) | Identifies which Jakarta sensors can support maintenance and public-health decisions | Airflow, dbt, PostgreSQL, Metabase |
 | [Wikipedia Edit Stream Analytics](#-wikipedia-edit-stream-analytics) | Turns a global edit stream into an explainable moderation queue | Redpanda, DuckDB, Streamlit |
 
@@ -56,11 +56,11 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 **Helping Indonesian public-policy analysts prepare evidence-backed country briefs.** NusaLens answers questions in Indonesian that combine World Bank indicators with indexed Wikipedia context. It exposes citations and generated SQL, and abstains when the available evidence is insufficient.
 
-- The production retrieval pipeline improved nDCG@10 from **0.390 to 0.630 (+61.5%)**; text-to-SQL execution reached **35/35**, routing reached **119/120**, and abstain recall reached **15/15**.
-- Runs locally without paid AI APIs, using a rule-first router, PostgreSQL/pgvector retrieval, and local Ollama models.
-- **Deployment decision:** it is not ready for real policy queries because answer fact coverage is **68.6%**, below the 80% target. The synthesis step should be replaced or constrained and revalidated without reducing abstain recall.
+- Checked-in evaluation artifacts record an nDCG@10 improvement from **0.390 to 0.630 (+61.5%)**, text-to-SQL execution of **35/35**, routing accuracy of **119/120**, and abstain recall of **15/15**.
+- Runs locally without paid AI APIs, using a rule-first router, PostgreSQL/pgvector retrieval, and local Ollama models. Its verification command reports the stored evidence and production gate without silently rerunning or changing the benchmark.
+- **Deployment decision:** the production gate remains **NOT_MET** because answer fact coverage is **68.6%**, below the 80% target. Real policy use requires independent citation checks until the synthesis step is replaced or constrained and revalidated without reducing abstain recall.
 
-**Built with:** Python · PostgreSQL · Ollama · FastAPI · Streamlit · Docker
+**Built with:** Python · PostgreSQL · pgvector · Ollama · FastAPI · Streamlit · Docker
 
 ---
 
@@ -130,16 +130,18 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ---
 
-### 🛡️ Cybersecurity: Anomaly Detection System
+### 🛡️ Cybersecurity Anomaly Detection
 
 > [`/Cybersecurity Anomali Detection`](./Cybersecurity%20Anomali%20Detection)
 
-**Making suspicious website activity easier to spot.** This web application checks website access records and flags patterns associated with **11 types of potential cyberattacks**, including repeated login attempts and unusually high request volumes.
+**Providing security-hardened triage for suspicious website activity.** This PHP and Python application analyses Apache/Nginx Combined Log Format files and flags **11 attack or anomaly patterns**, including injection attempts, path traversal, unauthorized-path probing, repeated logins, and high-volume requests.
 
-- Presents findings in a dashboard and lets users export the results for further review.
-- Designed to support security monitoring by highlighting records that may need investigation.
+- Uploads are limited to 5 MB and checked by extension, MIME type, NUL bytes, and log format before each analysis runs in a random private workspace outside the web root.
+- Password-reset tokens are random, stored only as SHA-256 digests, expire after one hour, and are consumed atomically; generic responses reduce account enumeration.
+- The analyzer bypasses shell command construction, isolates concurrent jobs, restricts CSV downloads to the originating session, and includes PHP security tests plus a Python concurrency integration test.
+- Detection remains intentionally regex-based and may miss novel or off-path attacks. It is a **triage tool, not an IDS decision engine**.
 
-**Built with:** Python · PHP · MySQL
+**Built with:** PHP · Python · MySQL/MariaDB
 
 ---
 
@@ -181,6 +183,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 - The completed AWS replay reconciled **98,665 unique orders**, **96,384 eligible deliveries**, and **6,466 late deliveries** exactly to the frozen local reference: a **6.7086%** late-delivery rate.
 - Deterministic, content-addressed batches make retries safe; all **987 placement** and **964 outcome** batches completed with zero full-run quarantine objects and passed duplicate-retry probes.
+- A checked-in synthetic quickstart and local CI tiers verify the core contracts without AWS credentials, Olist downloads, or a cloud account; credentialed cloud reconciliation is explicitly gated and uses a read-only Athena query.
 - A checkout-only model is reported honestly as a historical baseline (**ROC-AUC 0.6815**), while the browser receives aggregate data only.
 - **Operational recommendation:** use 6.7% as the verified baseline, then prioritize customer regions that combine high order volume with a high late-delivery rate for investigation.
 
@@ -194,7 +197,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 **Proving whether a provincial food-price comparison deserves to be trusted.** PanganWatch preserves public food-price and weather responses as evidence, applies reference mapping and data-quality gates, and publishes a batch-focused Databricks Lakehouse from immutable source snapshots.
 
-- The Databricks path uses Bronze, Silver, Gold, and governance Delta tables; its nine-task job completed successfully and feeds a four-page published dashboard.
+- The Databricks path uses Bronze, Silver, Gold, and governance Delta tables; its nine-task job completed successfully and feeds a four-page published dashboard. The local Docker/Airflow path and Databricks path retain separate, reviewable verification evidence.
 - Source replay matched **164,750 price** and **269,496 weather** records with zero missing or unexpected rows; recovered legacy replay also had zero missing keys and zero value mismatches.
 - The analysis found major coverage limits: prices cover **34 of 38 provinces**, only **8 of 14 reference commodities**, and January 2026 is nearly empty. Weather-price patterns are reported as correlations, not causation.
 - **Policy recommendation:** onboard and validate feeds for the four missing Papua provinces before using provincial rankings for nationwide allocation or intervention decisions; until then, visibly flag and exclude incomplete provinces from nationally comparable rankings.
@@ -207,9 +210,11 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/fraud-transaction-risk-pipeline`](https://github.com/MRSandyra/fraud-transaction-risk-pipeline)
 
-**Demonstrating the platform work behind fraud monitoring when bank-grade logs are unavailable.** The well-known public PaySim dataset is used as a stand-in for sensitive real transaction logs; the original work is the dual-path architecture, tested analytical layers, and incident investigation rather than the dataset itself.
+**Demonstrating the platform work behind fraud monitoring when bank-grade logs are unavailable.** The well-known public PaySim dataset is used as a stand-in for sensitive real transaction logs; the original work is the dual-path architecture, tested analytical layers, and incident investigation rather than the dataset itself. It is a demonstration platform, not a production fraud model or banking reference architecture.
 
-- Kafka and Spark Structured Streaming power the live path, while Airflow runs a separate batch path through a MinIO Bronze/Silver/Gold lake; ClickHouse, dbt, and Superset provide tested serving layers.
+- Kafka and Spark Structured Streaming validate versioned events, quarantine invalid records, and power the live path, while Airflow runs a separate batch path through a MinIO Bronze/Silver/Gold lake; ClickHouse, dbt, and Superset provide tested serving layers.
+- A tracked 10-row demo fixture lets reviewers verify contracts, quarantine, dbt marts, and serving without downloading the 6.36-million-row PaySim dataset. CI checks producer contracts, Spark transformations, dbt mart contracts, and anomaly investigations without starting the Docker stack.
+- Streaming telemetry records invalid and duplicate events, freshness, accepted volume, Kafka lag, and pipeline task failures for operational review.
 - The analysis showed that a fraud-rate spike came from a collapse in legitimate transaction volume, not a surge in fraud count, and that a 100%-risk “merchant” was actually a grouped NULL bucket.
 - **Fraud-ops recommendation:** enforce a non-null merchant identifier upstream and quarantine unmatched records before they enter any merchant risk leaderboard.
 
@@ -239,7 +244,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 - Gives each non-bot edit a **0-100 suspicion score** using six deterministic rules, stores Bronze/Silver/Gold data, and refreshes dashboard summaries every 60 seconds.
 - Runs locally with Docker Compose, Redpanda, DuckDB, and Streamlit; no cloud account, API key, or downloaded dataset is required.
-- **Moderation recommendation:** queue scores **50-69** for review and immediately escalate scores **70+** to a human moderator. Do not auto-revert because the heuristic has not been precision/recall calibrated.
+- **Moderation recommendation:** send scores **50-69** to the automatic review queue and escalate scores **70+** to a human moderator. Do not auto-revert because the heuristic has not been precision/recall calibrated.
 
 **Built with:** Python · Redpanda · DuckDB · Streamlit · Plotly · Docker
 

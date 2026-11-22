@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install locked dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+      - name: Unit tests
+        run: python -m pytest
+      - name: CLI smoke test
+        run: >-
+          python -m flight_analysis run
+          --input tests/fixtures/flight_sample.csv
+          --output-dir "${{ runner.temp }}/flight-analysis-smoke"
+          --clean-output

@@ -1,0 +1,12 @@
+{
+  "name": "replace-with-dataset-name",
+  "version": "replace-with-immutable-version",
+  "license": "replace-with-permitted-license",
+  "source_url": "https://replace-with-provenance-url.example",
+  "content_sha256": "replace-with-sha256-of-frozen-annotation-jsonl",
+  "domain": "indonesian_financial_headlines",
+  "split_strategy": "temporal_holdout",
+  "target_aware": true,
+  "cutoff_date": "YYYY-MM-DD",
+  "notes": "Use only legally permitted headlines; document collection and deduplication."
+}
