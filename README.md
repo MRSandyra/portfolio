@@ -32,14 +32,14 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 | Project | What It Does | Main Tools |
 |---|---|---|
 | [NusaLens](#-nusalens-ai-assistant-for-indonesian-public-data) | Prepares evidence-backed Indonesia briefs with an explicit production-readiness gate | Python, PostgreSQL, pgvector, Ollama |
-| [League of Legends Analytics](#-league-of-legends-challenger-match-analytics--win-prediction) | Audits when match predictions become reliable and explains the drivers | Python, XGBoost, SHAP |
+| [League of Legends Analytics](#-league-of-legends-challenger-rank-analytics) | Freezes time-aware 10- and 20-minute models behind one-time holdout governance | Python, scikit-learn, PyArrow |
 | [Lung Disease Detection](#-lung-disease-detection-deep-learning) | Combines chest X-rays and symptoms across 11 lung conditions | TensorFlow, Laravel, Flask |
-| [Sentiment Analysis (Tokopedia)](#-sentiment-analysis-tokopedia-reviews) | Finds positive and negative opinions in customer reviews | Python, scikit-learn |
+| [Tokopedia Sentiment Analysis](#-tokopedia-sentiment-analysis-reproducible-ml-case-study) | Evaluates three-class review triage under extreme class imbalance | Python, scikit-learn, TF-IDF |
 | [Anime Recommender](#-anime-recommender) | Suggests anime based on user preferences | Python |
-| [IndoStock Analyzer](#-indostock-analyzer-personal-stock-analysis-tool) | Brings together stock news, financial data, and market trends | Python, Selenium, yfinance |
+| [IndoStock Analyzer](#-indostock-analyzer-exploratory-research-tool) | Produces governed exploratory indicators without investment recommendations | Python, Selenium, yfinance |
 | [Cybersecurity Anomaly Detection](#-cybersecurity-anomaly-detection) | Provides security-hardened triage for suspicious web-server requests | PHP, Python, MySQL |
-| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Compares inequality and simulates redistribution scenarios | Python, Plotly, scikit-learn |
-| [Capstone: Flight Sales Analysis](#-capstone-flight-ticket-sales-analysis) | Examines flight sales and airline trends | Python, Pandas |
+| [Global Income Inequality](#-global-income-inequality-lorenz-curves--gini-coefficients) | Reproduces grouped-data Gini analysis and illustrative scenarios | Python, Pandas, Matplotlib |
+| [Capstone: Flight Offer Analysis](#-flight-offer-analysis-capstone) | Audits flight listings for pricing and assortment analysis | Python, Pandas, Matplotlib |
 | [FulfillIQ Cloud](#-fulfilliq-cloud-delivery-performance-dashboard) | Reconciles one delivery-SLA definition locally and in AWS with gated evidence | Python, DuckDB, AWS, Terraform |
 | [PanganWatch](#-panganwatch-governed-food-price-intelligence) | Governs food-price data and proves a Databricks migration against its legacy baseline | Databricks, PySpark, Delta Lake |
 | [Fraud & Transaction Risk Monitoring Pipeline](#-fraud--transaction-risk-monitoring-pipeline) | Demonstrates contract-validated streaming and batch fraud monitoring | Kafka, Spark, dbt, Superset |
@@ -64,16 +64,18 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ---
 
-### 🎮 League of Legends: Challenger Match Analytics & Win Prediction
+### 🎮 League of Legends Challenger Rank Analytics
 
 > [`/League of Legends Challenger Rank Analytics`](./League%20of%20Legends%20Challenger%20Rank%20Analytics)
 
-**Understanding when a competitive-match prediction becomes trustworthy.** I analysed **300 Challenger-tier League of Legends matches** and **311,266 in-game events** to study objectives, player archetypes, anomalies, and champion combinations.
+**Building an auditable prediction system instead of optimizing a better-looking score.** This project predicts whether Team 100 will win using only information available at a declared 10- or 20-minute decision point. Development uses an audited **2,000-match Americas cohort**, followed by a strictly later **500-match Europe holdout**.
 
-- The full XGBoost model reached **0.901 ROC-AUC**, but a leakage audit showed that a 10-minute-only model reached just **0.68**; the stronger result is therefore a mid-game predictor, not an early-game claim.
-- First Tower and First Herald were the strongest observed early objectives, while SHAP, permutation importance, and feature ablation were cross-checked to explain the model.
+- The one-time future holdout recorded **0.7844 ROC-AUC** at 10 minutes across 498 eligible matches and **0.8667** at 20 minutes across 404 matches, with bootstrap intervals reported for both.
+- On the same 404 matches, performance rose from **0.7218 at 10 minutes to 0.8667 at 20 minutes**: a paired difference of **+0.1449** with a 95% interval of **[+0.0985, +0.1903]**.
+- Feature-availability contracts, absolute-time validation, checksum-bound cohort roles, and a one-time release ledger prevent future information and post-holdout tuning. The final results are frozen and guarded by **105 passing tests** plus manifest and artifact audits.
+- The final holdout changes time, patch, and region together, so the result supports that specific transfer setting rather than universal generalization.
 
-**Built with:** Python · scikit-learn · XGBoost · SHAP · Plotly · NetworkX
+**Built with:** Python · Pandas · scikit-learn · PyArrow · joblib · uv · pytest · Jupyter · GitHub Actions
 
 ---
 
@@ -92,16 +94,18 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ---
 
-### 💬 Sentiment Analysis: Tokopedia Reviews
+### 💬 Tokopedia Sentiment Analysis: Reproducible ML Case Study
 
 > [`/Sentiment Analysis Tokopedia`](./Sentiment%20Analysis%20Tokopedia)
 
-**Understanding customer opinions from online reviews.** This project analyses Tokopedia food and beverage reviews and identifies whether the feedback is **positive or negative**.
+**Evaluating Indonesian review triage under realistic imbalance and time shift.** This project uses **65,543 Tokopedia reviews** to compare three-class positive, neutral, and negative sentiment models with temporal, product-disjoint, slice, drift, calibration, and uncertainty checks.
 
-- Cleans and organises review text so it can be analysed consistently.
-- Achieved **approximately 83% accuracy** on a balanced evaluation dataset, showing how review analysis can help reveal customer sentiment.
+- The selected two-stage balanced Logistic Regression with word and character TF-IDF reached **81.68% accuracy** but only **44.91% macro-F1**, showing why headline accuracy is insufficient on a dataset that is 97.6% positive.
+- Negative recall reached **71.43% at 20.24% precision**, while neutral recall reached **69.84% at 7.24% precision**. The recommended precision-constrained triage policy routes only **440 of 8,374** test reviews to candidate queues instead of forcing every prediction into an operational label.
+- The older **82.79% binary accuracy** came from global downsampling and vocabulary fitting before splitting; it remains historical exploration and is not comparable with the leakage-aware package benchmark.
+- This remains an offline research baseline: labels are rating proxies, rare-class precision is low, and no independently human-labelled gold set exists yet.
 
-**Built with:** Python · scikit-learn · Naive Bayes · CountVectorizer
+**Built with:** Python · Pandas · scikit-learn · TF-IDF · Logistic Regression · uv · pytest
 
 ---
 
@@ -117,16 +121,18 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 ## 🛠️ Applied Systems & Tools
 
-### 📈 IndoStock Analyzer: Personal Stock Analysis Tool
+### 📈 IndoStock Analyzer: Exploratory Research Tool
 
 > [`/IndoStock Analyzer`](./IndoStock%20Analyzer)
 
-**Making stock research easier to review in one place.** IndoStock Analyzer brings together news sentiment, company financial information, and price trends for stocks listed on the Indonesia Stock Exchange.
+**Making exploratory market research traceable without presenting it as investment advice.** IndoStock Analyzer collects attributed news and market data for Indonesian equities and produces bounded **1-5 exploratory indicators**. It explicitly does not issue Buy, Sell, Strong Buy, or Strong Sell recommendations.
 
-- Combines different signals into an overall assessment ranging from **Strong Buy to Strong Sell**.
-- Helps users compare information that would otherwise require checking several sources separately.
+- Reports include source URLs, retrieval times, failures, component coverage, data-quality status, and a disclaimer. Stale or invalid components are excluded instead of silently scored as current data.
+- The bundled ticker universe is a disclosed **43-symbol curated subset**, not complete IDX coverage. Indonesian-language sentiment remains `UNASSESSED` by default because the original TextBlob analyzer uses an English lexicon.
+- Sentiment activation fails closed behind dataset/model provenance, evaluation thresholds, exact artifact hashes, signed multi-reviewer approval, and revocation controls.
+- A point-in-time backtest and evidence-audit framework is included, but no licensed historical observation dataset or completed holdout report is bundled, so the project makes **no predictive-performance claim**.
 
-**Built with:** Python · Selenium · TextBlob · yfinance · Pandas
+**Built with:** Python · Selenium · yfinance · Pandas · TextBlob · cryptography · pytest
 
 ---
 
@@ -139,6 +145,7 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 - Uploads are limited to 5 MB and checked by extension, MIME type, NUL bytes, and log format before each analysis runs in a random private workspace outside the web root.
 - Password-reset tokens are random, stored only as SHA-256 digests, expire after one hour, and are consumed atomically; generic responses reduce account enumeration.
 - The analyzer bypasses shell command construction, isolates concurrent jobs, restricts CSV downloads to the originating session, and includes PHP security tests plus a Python concurrency integration test.
+- Only `public/` is intended as the HTTP document root; analyzer code, database configuration, migrations, tests, and generated files remain outside direct web access.
 - Detection remains intentionally regex-based and may miss novel or off-path attacks. It is a **triage tool, not an IDS decision engine**.
 
 **Built with:** PHP · Python · MySQL/MariaDB
@@ -151,25 +158,27 @@ Explore a project below for a quick overview of **what it does, why it matters, 
 
 > [`/Global Income Inequality`](./Global%20Income%20Inequality%20-%20Visualizing%20Lorenz%20Curves%20%26%20Gini%20Coefficients)
 
-**Comparing income inequality and possible redistribution scenarios.** This project uses **2,456 country-year distributions** from the World Bank Poverty and Inequality Platform to study Gini trends and Lorenz curves.
+**Reproducing grouped-data inequality analysis with explicit comparability limits.** This project builds Lorenz curves and grouped Gini coefficients from the World Bank Poverty and Inequality Platform. Tested Python modules generate a deterministic report from a committed **1,600-row sample**, while a separate command refreshes data from a pinned, checksum-verified official source version.
 
-- Creates interactive trends and a global map, including an Indonesia 2019 baseline Gini of **0.3728**.
-- Simulates targeted subsidy and progressive-tax scenarios as analytical illustrations, not policy forecasts.
+- National distributions must contain exactly 100 percentile rows; incomplete analytical bins are rejected rather than imputed or silently dropped.
+- The report distinguishes income from consumption as welfare and avoids implying that mixed welfare definitions or non-harmonized survey years are directly comparable.
+- Indonesia 2019 examples add 0.5 PPP dollars per person per day to the bottom 50% or redistribute a static 10% top-decile reduction to the bottom 40%. These are arithmetic illustrations, **not policy forecasts or evidence that one policy is superior**.
 
-**Built with:** Python · Plotly · scikit-learn · NumPy
+**Built with:** Python · Pandas · NumPy · Matplotlib · uv · pytest
 
 ---
 
-### ✈️ Capstone: Flight Ticket Sales Analysis
+### ✈️ Flight Offer Analysis Capstone
 
 > [`/Capstone Project - Analisis Data Penerbangan`](./Capstone%20Project%20-%20Analisis%20Data%20Penerbangan)
 
-**Finding useful patterns in flight ticket sales.** This capstone explores airline, ticket price, route, and sales information to better understand customer travel trends.
+**Finding defensible pricing and assortment insights in a snapshot of flight offers.** The source rows are **flight offer listings, not ticket sales**. A reproducible pipeline cleans and validates fares, durations, stop patterns, dates, airlines, and routes before generating business-facing outputs.
 
-- Organises and cleans the data before analysing it.
-- Highlights the **top 10 airlines by ticket sales** and visualises pricing and travel patterns.
+- Outputs include cleaned and rejected-row data, a quality report, KPI/airline/route/stop tables, three charts, and a dataset-derived executive summary.
+- The source and license remain unverified, so the raw dataset is not committed. Arrival-after-departure validation is explicitly not testable without departure dates, years, and time-zone context.
+- The refactor corrects legacy notebook risks, including calling listing frequency “ticket sales,” summing repeated group counts, cross-row backfilling, and accepting unvalidated fares and dates.
 
-**Built with:** Python · Pandas · Matplotlib · Seaborn
+**Built with:** Python · Pandas · NumPy · Matplotlib · pytest · GitHub Actions
 
 ---
 
