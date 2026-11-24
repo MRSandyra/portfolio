@@ -1,6 +1,6 @@
 <div align="center">
 
-# Rizky Sandyra — Data & AI Portfolio
+# Rizky Sandyra: Data & AI Portfolio
 
 **I build reliable data products that turn complex information into decisions people can act on.**
 
@@ -23,14 +23,14 @@ These projects show the range of my work: applied AI, cloud analytics, governed 
         <img src="https://raw.githubusercontent.com/MRSandyra/NusaLens/main/reports/figures/11_ui_sql.png" alt="NusaLens answering an Indonesian public-data question and charting the result" />
       </a>
       <br />
-      <sub><b>NusaLens</b> — an Indonesian-language assistant that shows its sources and generated SQL.</sub>
+      <sub><b>NusaLens</b>: an Indonesian-language assistant that shows its sources and generated SQL.</sub>
     </td>
     <td width="50%">
       <a href="https://github.com/MRSandyra/fulfilliq">
         <img src="https://raw.githubusercontent.com/MRSandyra/fulfilliq/main/docs/assets/dashboard-overview.png" alt="FulfillIQ delivery performance dashboard with order, eligibility, and late-delivery metrics" />
       </a>
       <br />
-      <sub><b>FulfillIQ</b> — a delivery dashboard whose local and AWS results reconcile exactly.</sub>
+      <sub><b>FulfillIQ</b>: a delivery dashboard whose local and AWS results reconcile exactly.</sub>
     </td>
   </tr>
   <tr>
@@ -39,31 +39,31 @@ These projects show the range of my work: applied AI, cloud analytics, governed 
         <img src="./Global%20Income%20Inequality%20-%20Visualizing%20Lorenz%20Curves%20%26%20Gini%20Coefficients/report/assets/lorenz_idn_2019.png" alt="Lorenz curve for Indonesia in 2019" />
       </a>
       <br />
-      <sub><b>Income inequality analysis</b> — reproducible Lorenz curves with clear comparison limits.</sub>
+      <sub><b>Income inequality analysis</b>: reproducible Lorenz curves with clear comparison limits.</sub>
     </td>
     <td width="50%">
       <a href="https://github.com/MRSandyra/fraud-transaction-risk-pipeline">
         <img src="https://raw.githubusercontent.com/MRSandyra/fraud-transaction-risk-pipeline/main/docs/dashboard.png" alt="Fraud monitoring dashboard with fraud rate, alert, and event-volume views" />
       </a>
       <br />
-      <sub><b>Fraud monitoring pipeline</b> — streaming and batch data paths feeding an investigation dashboard.</sub>
+      <sub><b>Fraud monitoring pipeline</b>: streaming and batch data paths feeding an investigation dashboard.</sub>
     </td>
   </tr>
 </table>
 
-### NusaLens — AI assistant for Indonesian public data
+### NusaLens: AI assistant for Indonesian public data
 
 - **Problem:** Public-policy questions often require both structured indicators and supporting documents, while a language model alone can produce plausible but unsupported answers.
 - **Built:** A local assistant that routes Indonesian questions to SQL, document search, or both; every answer can expose its citations, SQL, and confidence.
 - **Evidence:** Search quality improved from **0.390 to 0.630 nDCG@10**, SQL execution passed **35/35** cases, and the router passed **119/120**. The answer-writing layer remains below its release target (**68.6% vs 80% fact coverage**), so the project is presented as evaluated research rather than a production-ready policy tool.
 
-[Source & case study](https://github.com/MRSandyra/NusaLens) · [Demo walkthrough](https://github.com/MRSandyra/NusaLens/blob/main/docs/DEMO.md) · [UI preview](https://github.com/MRSandyra/NusaLens/blob/main/reports/figures/11_ui_sql.png)
+[Source & case study](https://github.com/MRSandyra/NusaLens) · [UI preview](https://github.com/MRSandyra/NusaLens/blob/main/reports/figures/11_ui_sql.png)
 
 **Stack:** Python · PostgreSQL · pgvector · Ollama · FastAPI · Streamlit · Docker
 
 ---
 
-### FulfillIQ — cloud delivery performance dashboard
+### FulfillIQ: cloud delivery performance dashboard
 
 - **Problem:** Delivery metrics become hard to trust when local analysis, cloud processing, and dashboard definitions drift apart.
 - **Built:** A one-row-per-order data model, replay-safe AWS pipeline, independent DuckDB reference, and browser dashboard that receives aggregate data only.
@@ -75,7 +75,7 @@ These projects show the range of my work: applied AI, cloud analytics, governed 
 
 ---
 
-### PanganWatch — governed food-price intelligence
+### PanganWatch: governed food-price intelligence
 
 - **Problem:** Provincial price rankings can mislead decision-makers when source coverage is incomplete or a migration silently changes the numbers.
 - **Built:** A Databricks Lakehouse with Bronze, Silver, Gold, and governance layers, plus a separate local Airflow/dbt implementation for comparison.
@@ -87,7 +87,7 @@ These projects show the range of my work: applied AI, cloud analytics, governed 
 
 ---
 
-### Anime Recommender — hybrid discovery prototype
+### Anime Recommender: hybrid discovery prototype
 
 - **Problem:** Genre filters alone do not capture the story, themes, and tone that make one title feel similar to another.
 - **Built:** A FastAPI and Streamlit prototype that embeds title metadata, retrieves 100 candidates from Qdrant, and reranks them with a **70% content / 30% item-similarity** blend.
@@ -110,7 +110,7 @@ Each entry leads to the implementation and its reproducible evidence. **Preview*
 | [League of Legends Challenger Analytics](./League%20of%20Legends%20Challenger%20Rank%20Analytics) | Time-aware win prediction with a one-time future holdout: **0.784 ROC-AUC at 10 minutes** and **0.867 at 20 minutes**. | [Case study](./League%20of%20Legends%20Challenger%20Rank%20Analytics) |
 | [Lung Disease Detection](https://github.com/MRSandyra/Lung-Diagnosis-Web) | Research web app combining chest X-rays and symptoms across 11 categories; the stored DenseNet-169 artifact reports **0.7586 AUC**. | [Source / local app](https://github.com/MRSandyra/Lung-Diagnosis-Web) |
 | [Tokopedia Sentiment Analysis](./Sentiment%20Analysis%20Tokopedia) | Three-class review triage across **65,543 reviews**; shows why 81.68% accuracy can still mean only **44.91% macro-F1** under heavy imbalance. | [Case study](./Sentiment%20Analysis%20Tokopedia) |
-| [IndoStock Analyzer](./IndoStock%20Analyzer) | Traceable exploratory indicators with source, freshness, failure, and coverage reporting—without presenting investment recommendations. | [Case study](./IndoStock%20Analyzer) |
+| [IndoStock Analyzer](./IndoStock%20Analyzer) | Traceable exploratory indicators with source, freshness, failure, and coverage reporting, without presenting investment recommendations. | [Case study](./IndoStock%20Analyzer) |
 
 ### Analytics & decision support
 
